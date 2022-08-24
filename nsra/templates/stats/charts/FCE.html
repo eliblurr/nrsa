@@ -1,0 +1,10 @@
+{%extends 'stats/charts/index.html'%}
+ {% load static %}
+ {%block content%}
+<div class="urban1 ntf">
+  <h5>Changes in National Traffic Fatality Indices</h5>
+  <canvas id="FCE" height="120vh"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/FCE.js' %}"></script>
+{%endblock%}

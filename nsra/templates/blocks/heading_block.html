@@ -1,0 +1,25 @@
+{% load wagtailcore_tags %}
+{% comment %}
+    Content is coming from the StandardBlock StreamField
+    class within `blocks.py`
+{% endcomment %}
+
+{% if self.size == 'h1' %}
+    <h1 class="spacing_btm_s" style="color: {{self.color}};">{{ self.heading_text }}</h1>
+
+{% elif self.size == 'h2' %}
+    <h2 class="spacing_btm_s" style="color: {{self.color}};">{{ self.heading_text }}</h2>
+
+{% elif self.size == 'h3' %}
+    <h3 class="spacing_btm_s" style="color: {{self.color}};">{{ self.heading_text }}</h3>
+
+{% elif self.size == 'h4' %}
+    <h4 class="spacing_btm_s" style="color: {{self.color}};">{{ self.heading_text }}</h4>
+
+{% elif self.size == 'h5' %}
+    <h5 class="spacing_btm_s" style="color: {{self.color}};">{{ self.heading_text }}</h5>
+
+{% elif self.size == 'h6' %}
+    <h6 class="spacing_btm_s" style="color: {{self.color}};">{{ self.heading_text }}</h6>
+
+{% endif %}

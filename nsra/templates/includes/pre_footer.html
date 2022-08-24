@@ -1,0 +1,50 @@
+{% load static wagtailcore_tags wagtailuserbar wagtailsettings_tags wagtailimages_tags global_tags %} 
+{% get_settings as settings %} 
+
+{% if settings.base.Settings.footer %}
+      <div class="footer_section section_dark">
+        <div class="function_section spacing_btm_l">
+          
+          <div class="column_one">
+            {% image settings.base.Settings.logo original class="logo spacing_btm_m"  %}
+            <div class="spacing_btm_s">
+              {{ settings.base.Settings.footer.text|richtext}}
+            </div>
+          </div>
+
+          <div class="column_two vertical_flex">
+            {% if settings.base.Settings.contact %}   
+              <div>
+                <h4 class="spacing_btm_m">Contact Us</h4>
+                <div class="spacing_btm_s" style="color: #95a5a6;">
+                  {{ settings.base.Settings.contact.body|richtext}}
+                </div>
+              </div>
+              
+              <div >
+                {% if settings.base.Settings.contact.phone %}
+                  <p class="spacing_btm_s">PHONE: <a href="tel:{{ settings.base.Settings.contact.phone}}" style="color: #2980b9;">{{ settings.base.Settings.contact.phone |richtext}}</a></p>
+                {% endif %}   
+                {% if settings.base.Settings.contact.email %}  
+                  <p class="spacing_btm_s">EMAIL: <a href="mailto:{{ settings.base.Settings.contact.email }}" style="color: #2980b9;"> {{ settings.base.Settings.contact.email|richtext }} </a></p>
+                {% endif %}     
+                {% if settings.base.Settings.contact.ghana_post %}
+                  <p class="spacing_btm_s">GPS: {{ settings.base.Settings.contact.ghana_post|richtext }}</p> 
+                {% endif %}   
+              </div>  
+            {% endif %}
+          </div>
+
+          <div class="column_three vertical_flex">
+            <h4 class="spacing_btm_m">Quick Links</h4>
+            
+            <div class="grid-container quick_links">
+              {% for link in settings.base.Settings.footer.links.all %}
+                <li><a href="{{ link.link }}">{{ link.title }}</a></li>
+              {% endfor %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    {% endif %}

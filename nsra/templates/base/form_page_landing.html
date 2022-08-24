@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags global_tags wagtailimages_tags %}
+
+<!-- Banner section -->
+{% block navigation %}
+    {% include "includes/nav-solid.html"  %}
+{% endblock %} 
+
+{% block content %}
+    <!-- Title & Breadcrumb section -->
+    {% image page.hero_image original as bgimage %}
+    <div class="title_section_pr" style="background-image: url({{bgimage.url}}); ">
+        <div class="title_content_pr">
+            <h4 class="title_heading" style="color: #ffffff ;">{{page.title}}</h4>
+            <p>{% breadcrumbs %}</p>
+        </div>
+    </div>
+
+    <div class="alert alert-success" role="alert" style="text-align: center;">
+        <h4 class="alert-heading">Well done!</h4>
+        <p>{{page.thank_you_text|richtext}}</p>
+        <hr>
+        <p>Your submission will be reviewed</p>
+    </div>
+
+{% endblock %}

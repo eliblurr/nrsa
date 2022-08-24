@@ -1,0 +1,12 @@
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+if os.getenv('ENVIRONMENT', 'dev').lower() in ['prod']:
+    from nsra.settings.production import *  
+else:
+    from nsra.settings.dev import *  
+
+# Override settings here
+

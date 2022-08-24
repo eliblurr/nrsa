@@ -1,0 +1,218 @@
+body {
+  background-color: whitesmoke;
+  margin: 10px 10px 0;
+  padding: 0 0 1px;
+}
+
+.top {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.row {
+  background-color: #0d945e;
+  height: 75px;
+  line-height: 100%;
+}
+
+.col-4 h3 {
+  color: white;
+  text-align: center;
+  margin-top: 15px;
+  font-weight: bold;
+  text-shadow: 0 0 5px black;
+  outline-color: black;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: rgb(211, 110, 110);
+}
+
+.col-4 {
+  margin: auto;
+  height: 50px;
+}
+
+div button {
+  margin-top: 10px;
+}
+
+.flex-box {
+  display: flex;
+}
+
+.col-4 .dropdown {
+  text-align: center;
+}
+
+.dropdown button {
+  margin-left: 40px;
+}
+
+.btn:hover {
+  background-color: #e2dcdc;
+}
+
+.dropdown-menu li {
+  background-color: white;
+  text-align: center;
+}
+
+.dropdown-menu > li > a {
+  color: black;
+}
+
+.col-4 .btn {
+  background-color: white;
+  color: black;
+}
+
+.hr {
+  width: 70%;
+}
+
+div.content {
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+/* Cases recorded Nationwide */
+
+.jumbotron-fluid h3 {
+  color: black;
+  text-align: center;
+  font-size: 25px;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  border-radius: 5px;
+}
+
+.container {
+  background-color: lightgrey;
+  border-radius: 10px;
+}
+
+.row-2 {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.col-sm-4{
+  background-color: lightgray;
+  border-radius: 10px;
+  margin: 2px;
+}
+
+/* collapsible button */
+
+@media screen and (max-width: 700px) {
+  #btn {
+    width: 300px;
+  }
+}
+
+/* Historical data page */
+/* all styles here are for the time series page */
+
+.lineChart {
+  background-color: white;
+  margin-left: 17%;
+}
+
+.lineChart > h4 {
+  text-align: center;
+  box-shadow: 4px 5px 10px rgb(183, 183, 221);
+  border-radius: 5px;
+}
+
+.urban1 > h5 {
+  text-align: center;
+  text-decoration: underline;
+}
+
+.urban1 {
+  margin-top: 20px;
+  border-top: none !important;
+  border: 1px solid #0c6340;
+  border-radius: 5px;
+}
+
+/* national traffic fatalities */
+.ntf {
+width: 70vw;
+margin-left: 10%;
+}
+
+.Previous > a > button {
+  text-decoration: none;
+  padding: 5px;
+  margin: auto;
+  margin-top: 5px;
+  border-radius: 10px;
+  background-color: rgb(194, 160, 160);
+}
+.Previous > a > button:hover {
+  background-color: grey;
+  color: blue;
+}
+
+/* sidebar on timeseries */
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 16%;
+  background-color: #0c6340;
+  position: fixed;
+  height: 85%;
+  overflow-y: auto;
+}
+
+.sidebar > h4 {
+  color: white;
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar hr {
+  border: 0.5px dotted white;
+  border-radius: 5px;
+  margin: 0px;
+}
+
+.sidebar a.active {
+  background-color: #04aa6d;
+  color: white;
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: rgb(214, 212, 58);
+  color: black;
+  transition: 0.3s;
+}
+
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+/* STYLES FOR THE GENDER PAGE */
+.container-3 {
+  display: flex;
+  gap: 1px;
+}
+
+.container-3  div {
+  width: 70%;
+  height: auto;
+}
+
+.container-3  canvas {
+  margin-top: 10%;
+}
+

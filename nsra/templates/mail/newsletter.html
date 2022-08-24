@@ -1,0 +1,59 @@
+{% extends "mail/base.html" %}
+
+{% load wagtailimages_tags wagtailcore_tags %}
+
+{% block email_head %}
+    <mj-style>
+        .richtext h3 {
+            font-size: 26px;
+        }
+        .richtext p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </mj-style>
+{% endblock email_head %}
+
+{% csrf_token %}
+
+{% block email_body %}
+    {% image self.header_background original as bg_img %}
+
+    {% if self.header_background %}
+        
+        <mj-hero mode="fluid-height" background-width="600px" background-height="400px" background-url="{{ bg_img.url }}" padding="100px 0px">
+            <mj-text align="center" font-size="32px" color="orange">
+                {% if self.headline %}{{ self.headline }}{% endif %}
+            </mj-text>
+        </mj-hero>
+        
+    {% endif %}
+
+    <mj-section css-class="richtext">
+        <mj-column>
+            <mj-text font-size="18px">
+                Hello{% if contact.email%} {{ contact.email }}{% endif %},
+            </mj-text>
+            {% if self.body %}
+                
+                {% for b in self.body %}
+                    {{ b }}
+                {% endfor %}
+
+            {% endif %}
+            
+            {% if contact.id %}
+            
+                <mj-text >
+                    Click <a href="{{ site.full_url }}{% url 'birdsong:unsubscribe' contact.id %}" target=”_blank”>here</a> {{site.full_url}} to unsubscribe.
+                </mj-text> 
+            
+            {% endif %}           
+
+        </mj-column>    
+        
+         
+    </mj-section>
+   
+{% endblock email_body %}
+

@@ -1,0 +1,18 @@
+{%extends 'stats/charts/index.html'%}
+{% load static %}
+{%block content%}
+<h5 style="text-align: center;">Fatalities (Urban & Non-Urban</h5>
+<div class="container-3">
+  <div class="urban1">
+    <h5>Urban</h5>
+    <canvas id="urbanFatalities"></canvas>
+  </div>
+  <div class="urban1">
+    <h5>Non-Urban</h5>
+    <canvas id="nonUrbanFatal"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/UNF.js' %}"></script>
+{%endblock%}

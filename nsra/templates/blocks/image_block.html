@@ -1,0 +1,10 @@
+{% load wagtailimages_tags %}
+
+<figure class="image_space spacing_btm_s" style="align-self: center; display: flex; flex-direction: column;">
+    {% image self.image width-400 as hldr %}
+    <img style="width: 100%; height: auto; margin-right: auto;margin-right: left;" src="{{hldr.url}}" alt="">
+    <figcaption class="img_desc" style="width: 100%; bottom: -10px; z-index: 1; padding-top: 5px;padding-bottom: 5px;">
+        <h5>{{ self.caption }}</h5>
+        <p>{{ self.attribution }}</p>
+    </figcaption>
+</figure>

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailcore_tags %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+/>
+<link rel="stylesheet" href="{% static 'css/charts.css' %}" />
+
+{% endblock  %}
+
+{%block content%}
+
+<section>
+<!-- main page -->
+<!-- <div class="main-page">
+  <div class="top">
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col-4">
+        <div class="flex-box">
+          <a href="{% url 'stats:index' %}">
+            <button class="btn" type="button">Geo view</button>
+          </a>
+           <a href="{% url 'stats:chart' %}">
+            <button class="btn Bar" type="button">Geo BarChart</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="sidebar">
+<h4 style="padding: 5px 0; text-decoration: underline; text-align:center; font-family: serif;">Annual Distributions</h4>
+<a class="active" href="{% url 'stats:NTF' %}">Changes in National Traffic Fatality Indices</a><hr>
+ <a href="{% url 'stats:NTCC' %}">National Trends in Traffic Casualties & Crashes</a><hr>
+<a href="{% url 'stats:age_group'%}">Fatalities & Casualties (Age groups)</a><hr>
+<a href="{% url 'stats:FCE' %}">Fatalities & Casualties (Environment)</a><hr>
+<a href="{% url 'stats:gender' %}">Fatalities & Casualties (sex)</a><hr>
+<a href="{% url 'stats:UNF' %}">Urban and nonUrban Fatalities</a><hr>
+<a href="{% url 'stats:UNC' %}">Urban and nonUrban Casualties</a><hr>
+<a href="{% url 'stats:vehicles' %}"> Vehicles Involved in Crashes</a><hr>
+
+  {% comment %} <a href="#">Casualties by Road User Class</a><hr>
+<a href="#">Casualties by Road User Class</a><hr> {% endcomment %}
+</div> -->
+
+<!-- 
+<div class="lineChart">
+  <h4>CRASHES AND FATALITIES FROM 1991-2020</h4>
+  {% comment %} <div class="row2"> {% endcomment %}
+    {%block chart_content%}
+    {%endblock%}
+ <div class="Previous">
+  <a href="{% url 'stats:chart' %}"><button>Go to Bar Charts</button></a>
+</div>
+</div> -->
+
+</section>
+ <script>
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock%}

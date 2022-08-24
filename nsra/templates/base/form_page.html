@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags global_tags wagtailimages_tags %}
+
+<!-- Banner section -->
+{% block navigation %}
+    {% include "includes/nav-solid.html"  %}
+{% endblock navigation %} 
+
+{% block extra_css %}
+<style>
+    @media screen and (max-width: 900px) {
+        img {
+           max-height: 200px;
+        }
+
+        .side_image {
+            height:  200px;
+        }
+    }
+</style>
+{% endblock extra_css %} 
+
+{% block content %}
+    <!-- Title & Breadcrumb section -->
+    <div class="title_section_pr" style="background-color: #2d3436;">
+        <div class="title_content_pr">
+            <h4 class="title_heading" style="color: #fff ;">{{page.title}}</h4>
+            <p>{% breadcrumbs %}</p>
+        </div>
+    </div>
+
+    <!-- Profile Section -->
+    <section class="section">
+        <div class="body_width" style="column-gap: 70px; row-gap: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr)); padding-bottom: 20px;align-items:flex-start;">
+            
+            <div style="width: 100%;">
+                <div class="side_image" style="width: 100%;">
+                    {% image page.image original as bgimage %}
+                    <img {{ bgimage.attrs }} class="img_bg" alt="executive director">
+                </div>
+            </div>
+
+            <div style="width: 100%;"> 
+                <h3 class="spacing_btm_s">{{page.title}}</h3>
+                <p class="spacing_btm_m">{{page.body}}</p>
+                <hr class="spacing_btm_l">
+                <h6 class="spacing_btm_s">Contact Form</h6>
+
+                <!-- <form action="{% pageurl page %}" method="POST" class="form-group">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit">
+                </form> -->
+
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {% include 'includes/form.html' with form=form %}
+                    <hr>
+                    <button type="submit" class="btn btn-danger">Submit</button>
+                </form>
+                
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}

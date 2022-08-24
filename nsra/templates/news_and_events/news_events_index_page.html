@@ -1,0 +1,408 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags global_tags wagtailimages_tags static %}
+{% block body_class %}template-newseventsindexpage{% endblock %}
+
+<!-- Banner section -->
+{% block navigation %}
+    {% include "includes/nav-solid.html"  %}
+{% endblock navigation %} 
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tooltip.css' %}" />
+    <style>
+        .carousel_padding {
+            padding: 0px 80px 0px;
+        }
+        /* if screen is lesser than */
+        @media screen and (max-width: 900px) {
+            .carousel_padding {
+                padding: 0px 30px 0px;
+            }
+        }
+    </style>
+{% endblock extra_css %}
+
+{% block content %}
+    {% include "includes/back_to_top.html" %}
+    <!-- Title & Breadcrumb section -->
+    {% image page.hero_image original as bgimage %}
+    <div class="title_section_pr" style="background-image: url({{bgimage.url}}); ">
+        <div class="title_content_pr">
+            <h4 class="title_heading" style="color: #ffffff ;">{{page.title}}</h4>
+            <p>{% breadcrumbs %}</p>
+        </div>
+    </div>
+
+    <!-- About Section --> 
+    {% for block in page.body %}
+    <section class="section">
+        <div class="section_one_grid" >
+            {% if block.block_type == 'grid' %}
+                <div style="grid-template-columns: auto auto; display:grid">
+                    {% for block in block.value %}
+                        <section class="block-{{ block.block_type }}" style="width: 100%;" >
+                            {% include_block block %}
+                        </section>
+                    {% endfor %}
+                </div>
+                
+                
+            {% else %}
+                {% for block in block.value %}
+                    <section class="block-{{ block.block_type }}">
+                        {% include_block block %}
+                    </section>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+    {% endfor %}
+
+    <!-- Main Section -->
+    <!-- latest news -->
+    {% if latest_news.paginator.count %}
+    <section class="section" style="flex-direction: column; background-color: #f1f2f6;">
+        <div id="carouselExampleControls" class="carousel slide carousel_padding" data-bs-ride="carousel">
+            <div class="spacing_btm_m">
+                <div class="title">
+                    <h4>Latest News</h4>
+                </div>
+            </div>
+            <div class="carousel-inner">    
+                {% for pg in latest_news.paginator %}
+                    <div class="carousel-item {% if pg.number == latest_news.number %} active {% endif %}" data-bs-interval="5000">
+                        <div id="slide-{{pg.number}}" style="column-gap: calc(25% - 300px); row-gap: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); grid-auto-flow: column;overflow-x: auto;" >
+                            {% for item in pg.object_list %}
+                                <div class="container">
+                                    <div class="card_n" >
+                                        <div class="card_head">
+                                            {% image item.main_image original as hldr %}
+                                            <img {{ hldr.attrs }} alt="">      
+                                            <h6 class="info" style="font-style: italic; font-size: x-small;">date: {{item.date}}</h6>                                  
+                                        </div>
+                                        <div class="card_body text-box" data-title='{{item.headline}}'>
+                                            <h5 class="title spacing_btm_s text-box">{{item.headline}}</h5>
+                                            <a href="{{item.url}}" class="green_button_card">Read More</a>
+                                        </div>
+                                    </div>
+                                </div> 
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev" style="background-color: #0099339a; margin: auto 0 auto 0; height:30px ; width:30px;" >
+                        <i class="fa fa-angle-left fa-lg"></i>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next" style="background-color: #0099339a; margin: auto 0 auto 0; height:30px ; width:30px;" >
+                        <i class="fa fa-angle-right fa-lg"></i>
+                    </button>
+                {% endfor %} 
+            </div>         
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- all news -->
+    {% if news.paginator.count %}
+    <section class="section" id="news" data-url="{% url 'get_news' parent=page.id page=1 sort='descending'%}" data-page=1 data-pages="{{news.paginator.num_pages}}">
+        <div class="body_width" style="width: 85%;">
+            <div class="latest_news spacing_btm_l">
+                <div style="display: flex; flex-direction:row">
+                    <h4>News </h4>
+                    <h6 id="news-counter"></h6>
+                </div>
+                
+                <div class="btn-group" id="news-sort" data-sort="['descending', 'newer to older ']">
+                    <button id="news-sort-text" class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="javascript:sort(['ascending', 'older to newer '], 'news')">older to newer</a></li>
+                        <li><a class="dropdown-item" href="javascript:sort(['descending', 'newer to older '], 'news')">newer to older</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="activities spacing_btm_xl">
+                <div id="news-container" style="row-gap: 50px; display: grid; grid-template-columns: repeat( auto-fill, minmax(50%, 1fr) ); width: 100%;">
+                </div>
+            </div>
+
+            <nav class="paginator">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <h5> 
+                            <a id="news-prev" class="page-link" href="javascript:prev('news')" id="btn_prev" style="border-width: 0px 2px 0px 0px; color: #2f3640; border-color: #2f3640;">
+                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                Prev 
+                            </a>
+                        </h5> 
+                    </li>
+                    <li class="page-item">
+                        <h5> 
+                            <a id="news-next" class="page-link" href="javascript:next('news')" id="btn_next" style="border-width: 0px 0px 0px 2px; color: #2f3640; border-color: #2f3640;">
+                                Next
+                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            </a>
+                        </h5>
+                    </li>
+                </ul>
+            </nav>
+            
+        </div>
+    </section>
+    {% endif %}
+    
+    <!-- upcoming events -->
+    {% if upcoming_events.paginator.count %}
+     <section class="section" style="flex-direction: column; background-color: #f1f2f6;">
+        <div id="upcomingEventsCarouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="padding: 0px 80px 0px;" >
+            <div class="spacing_btm_m">
+                <div class="title">
+                    <h4>Upcoming Events</h4>
+                </div>
+            </div>
+            <div class="carousel-inner">    
+                {% for pg in upcoming_events.paginator %}
+                    <div class="carousel-item {% if pg.number == upcoming_events.number %} active {% endif %}" data-bs-interval="5000">
+                        <div id="slide-{{pg.number}}" style="column-gap: calc(25% - 300px); row-gap: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));" >
+                            {% for item in pg.object_list %}
+                                <div class="container">
+                                    <div class="card_n" >
+                                        <div class="card_head">
+                                            {% image item.main_image original as hldr %}
+                                            <img {{ hldr.attrs }} alt="">
+                                            <h6 class="info" style="font-style: italic; font-size: x-small;">date: {{item.date}}</h6>  
+                                        </div>
+                                        <div class="card_body text-box" data-title='{{item.headline}}'>
+                                            <h5 class="title spacing_btm_s text-box">{{item.headline}}</h5>
+                                            <a href="{{item.url}}" class="green_button_card">Read More</a>
+                                        </div>
+                                    </div>
+                                </div> 
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#upcomingEventsCarouselExampleControls" data-bs-slide="prev" style="background-color: #0099339a; margin: auto 0 auto 0; height:30px ; width:30px;" >
+                        <i class="fa fa-angle-left fa-lg"></i>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#upcomingEventsCarouselExampleControls" data-bs-slide="next" style="background-color: #0099339a; margin: auto 0 auto 0; height:30px ; width:30px;" >
+                        <i class="fa fa-angle-right fa-lg"></i>
+                    </button>
+                {% endfor %} 
+            </div>         
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- past events -->
+    {% if past_events.paginator.count %}
+    <section class="section" id="events" data-url="{% url 'past_events' parent=page.id page=1 sort='descending'%}" data-page=1 data-pages="{{past_events.paginator.num_pages}}">
+        <div class="body_width" style="width: 85%;">
+            <div class="latest_news spacing_btm_l">
+                <div style="display: flex; flex-direction:row">
+                    <h4>Past Events </h4>
+                    <h6 id="events-counter"></h6>
+                </div>
+                <div class="btn-group" id="events-sort" data-sort="['descending', 'newer to older ']">
+                    <button id="events-sort-text" class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="javascript:sort(['ascending', 'older to newer '], 'events')">older to newer</a></li>
+                        <li><a class="dropdown-item" href="javascript:sort(['descending', 'newer to older '], 'events')">newer to older</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="activities spacing_btm_xl">
+                <div id="events-container" style="row-gap: 50px; display: grid; grid-template-columns: repeat( auto-fill, minmax(50%, 1fr) ); width: 100%;">
+                </div>
+            </div>
+
+            <nav class="paginator">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <h5> 
+                            <a id="events-prev" class="page-link" href="javascript:prev('events')" id="btn_prev" style="border-width: 0px 2px 0px 0px; color: #2f3640; border-color: #2f3640;">
+                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                Prev 
+                            </a>
+                        </h5> 
+                    </li>
+                    <li class="page-item">
+                        <h5> 
+                            <a id="events-next" class="page-link" href="javascript:next('events')" id="btn_next" style="border-width: 0px 0px 0px 2px; color: #2f3640; border-color: #2f3640;">
+                                Next
+                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            </a>
+                        </h5>
+                    </li>
+                </ul>
+            </nav>
+            
+        </div>
+    </section>
+    {% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+
+    function delay(delayInms) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+            resolve(2);
+            }, delayInms);
+        });
+    }
+
+    async function fetchdata(url, id){
+        await delay(1000)
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(res){
+                loaddata(res.data, id)
+            }
+        })
+    }
+
+    function loaddata(data, id){
+
+        let elem = document.getElementById(`${id}`);
+        let div = document.getElementById(`${id}-container`);
+        let counter = document.getElementById(`${id}-counter`);
+        counter.innerHTML = `&nbsp&nbsp(${$(elem).data('page')}/${$(elem).data('pages')})`
+        div.innerHTML = ""
+
+        for (const idx in data.objects){
+            let obj = data.objects[idx]
+            console.log(obj)
+            div.innerHTML += `
+                <div class="card mb-3" style="max-width: 90%; border-width:0px;">
+                    <div class="row g-0">
+                        <div class="col-md-4" style="max-width: 100%;  border-radius: 5px; overflow:hidden">
+                            {% image item.activity.main_image original as temp %}
+                            <img src="${obj.image}" width=100% height=150px alt="" srcset="">
+                        </div>
+                        <div class="col-md-8" style="display:flex; align-content:center; flex-direction:column; padding: auto; min-width: none;">
+                            <div class="activity_body text-box" style="height: 60%;" data-title='${obj.headline}'>
+                                <h5 class="spacing_btm_s">${obj.headline}</h5>
+                            </div>
+                            <div class="activity_body" style="height: 20%; ">
+                                <h6 style="font-style: italic; font-size: x-small;">${obj.date? 'date: '+obj.date:''}</h6>
+                                <a href="${obj.url}" style="cursor: pointer; text-decoration:none;color: inherit;">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `
+            // <div class="container">
+            //         <div class="lg_image"">
+            //             <img src="${obj.image}" alt="" srcset="">
+            //         </div>
+            //         <div class="activity_body" style="display:block">
+            //             <h5 class="spacing_btm_s text-box" data-title='${obj.headline}'>${obj.headline}</h5>
+            //             <a href="${obj.url}" style="text-decoration: none;"><p>Read More</p></a>
+            //         </div>
+            //     </div>
+
+            // <div class="card mb-3" style="max-width: 600px; border-radius: 10px; overflow: hidden; min-width: 150px;">
+            //         <div class="row g-0">
+            //             <div class="col-md-4" style="max-width: 100%;">
+            //                 {% image item.activity.main_image original as temp %}
+            //                 <img src="${obj.image}" width=100% alt="" srcset="">
+            //             </div>
+            //             <div class="col-md-8" style="align-items:center; display:flex; flex-direction:column; padding: auto; min-width: none;">
+            //                 <div class="activity_body text-box" style="height: 70%;" data-title='${obj.headline}'>
+            //                     <h5 class="spacing_btm_s">${obj.headline}</h5>
+            //                 </div>
+            //                 <div class="activity_body" style="height: 20%; ">
+            //                     <a href="${obj.url}" style="cursor: pointer; text-decoration:none;color: inherit;">Read More</a>
+            //                 </div>
+            //             </div>
+            //         </div>
+            //     </div>
+
+            
+        }
+    }
+
+    async function prev(id){
+        let elem = document.getElementById(`${id}`);
+        let sort_elem = document.getElementById(`${id}-sort`);
+        let button = document.getElementById(`${id}-prev`);
+        var url = $(elem).data('url') 
+       
+        var button_state = button.innerHTML
+        button.innerHTML = `<div class="spinner-grow spinner-grow-sm text-danger" role="status" style="margin-right:10px; size:5px"></div>`
+        
+        if ($(elem).data('page') > 1){
+            $(elem).data('page', $(elem).data('page')-1)
+            var ls = url.split('/')
+            var next_url = `/${ls[1]}/${ls[2]}/${$(elem).data('page')}/${ $(sort_elem).data('sort')[0]}`
+            await fetchdata(next_url, id)
+             window.scrollTo(0, $(sort_elem).offset().top)
+        }
+        button.innerHTML = button_state        
+    }
+
+    async function next(id){
+        let elem = document.getElementById(`${id}`);
+        let sort_elem = document.getElementById(`${id}-sort`);
+        let button = document.getElementById(`${id}-next`);
+        var url = $(elem).data('url') 
+       
+        var button_state = button.innerHTML
+        button.innerHTML = `<div class="spinner-grow spinner-grow-sm text-success" role="status" style="margin-left:10px"></div>`
+
+        if ($(elem).data('page') < $(elem).data('pages')){
+            $(elem).data('page', $(elem).data('page')+1)
+            var ls = url.split('/')
+            var next_url = `/${ls[1]}/${ls[2]}/${$(elem).data('page')}/${ $(sort_elem).data('sort')[0]}`
+            await fetchdata(next_url, id)
+            window.scrollTo(0, $(sort_elem).offset().top)
+        }
+
+        button.innerHTML = button_state
+    }
+
+    async function sort(order, id){
+                
+        let elem = document.getElementById(id);
+        let sort_elem = document.getElementById(`${id}-sort`);
+        let sort_text = document.getElementById(`${id}-sort-text`);
+        
+        $(sort_elem).data('sort', order)
+        sort_text.innerHTML = `${order[1]}`
+
+        var url = $(elem).data('url')
+        var ls = url.split('/')
+        var next_url = `/${ls[1]}/${ls[2]}/${ls[3]}/${ $(sort_elem).data('sort')[0]}`
+
+        await fetchdata(next_url, id)
+    }
+
+    async function start(){
+        let news = document.getElementById(`news`);
+        if(news){
+            let elem = document.getElementById(`news-sort`);
+            let order = JSON.parse($(elem).data('sort').replace(/'/g, '"'))
+            await sort(order, 'news')
+        }
+
+        let past_events = document.getElementById(`events`);
+        if(past_events){
+            let elem = document.getElementById(`events-sort`);
+            let order = JSON.parse($(elem).data('sort').replace(/'/g, '"'))
+            await sort(order, 'events')
+        }
+    }
+
+    window.onload = function () {
+        start()
+    };
+
+</script>
+{% endblock %}

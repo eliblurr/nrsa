@@ -1,0 +1,60 @@
+{% load static wagtailcore_tags wagtailuserbar wagtailsettings_tags wagtailimages_tags global_tags %} 
+
+{% block extra_css %}
+    <style>
+        /* if screen is lesser than */
+        @media screen and (max-width: 900px) {
+    
+            .newsletter_section {
+                display: flex;
+                /* grid-template-columns: 70% 30%; */
+                flex-direction: column;
+                /* padding-: 40px; */
+            }
+
+            .right_side {
+                width: 100%;
+            }
+        }
+    </style>
+{% endblock extra_css %}
+
+<div class="footer_section grey_section">
+    <div class="newsletter_section">
+        <div class="left_side">
+            <h3 class="spacing_btm_s">Newsletter Subscription</h3>
+            <p class="spacing_btm_s">SUBSCRIBE TO OUR NEWSLETTER AND GET  UPDATED
+                ON NEWS, EVENTS, CAMPAIGNS.</p>
+        </div>
+        <div class="right_side">
+            <form class="form-inline"  method="POST" id="newsletter-signup-form" action="{% url 'newsletter-subscribe' %}" onsubmit="addSub()">
+                <input type="email" id="email" placeholder="Enter email" name="email">
+                <button type="submit">SUBSCRIBE</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("newsletter-signup-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = e.target.elements[0].value;
+        if (email && email.includes("@")) {
+            fetch(e.target.action, {
+                method: e.target.method,
+                body: JSON.stringify({email: email})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("All signed up! Thank you for joining the newsletter!")
+                }
+                e.target.reset();
+            })
+            .catch(err => {
+                alert("Looks like we're having an error. Please try again in a moment.")
+                e.target.reset();
+            });
+        }
+    });
+</script>

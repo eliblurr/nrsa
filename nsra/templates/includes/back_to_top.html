@@ -1,0 +1,54 @@
+{% load static wagtailcore_tags wagtailuserbar wagtailsettings_tags wagtailimages_tags global_tags %} 
+{% get_settings as settings %} 
+
+{% block extra_css %}
+<style>
+.float {
+  position: fixed;
+  bottom: 50px;
+  right: 0;
+  width: auto;
+  padding: 0px 5px 0px 5px;
+  height: 60px;
+  border-radius: 20px 0 0 20px;
+  z-index: 5;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  border: 0px;
+  background-color: #009933;
+}
+
+.float:hover {
+    background-color: #232323;
+}
+
+</style>
+
+{% endblock extra_css %}
+
+<button class="float" onclick="jumpTo()" id="floatingButton">
+
+  <i class="fa fa-arrow-up fa-lg" style="font-size: x-small;"></i>
+  <span style="margin-left: 5px; color: white; font-size: smaller;">back to top</span>
+
+</button>
+
+
+<script>
+    var mybutton = document.getElementById("floatingButton");
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.display = "flex";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    function jumpTo(){
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+</script>

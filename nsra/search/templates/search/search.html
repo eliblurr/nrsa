@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags global_tags wagtailimages_tags static filters %}
+{% block body_class %}template-searchresults{% endblock %}
+
+<!-- Banner section -->
+{% block navigation %}
+    {% include "includes/nav-solid-static.html"  %}
+{% endblock navigation %} 
+
+{% block content %}
+    <section class="section">
+        <div class="body_width" style="width: 85%;">
+            <h1 style="color: #232323;">Showing Search Result for: <span id="query">asdas</span></h1>
+
+            {% if search_results %}
+                <ul class="list-group list-group-flush">
+                    {% for result in search_results %}
+                        <li class="list-group-item">
+                            <h4><a href="{% pageurl result %}" style="text-decoration: underline; color: #009933;">{{ result }}</a></h4>
+                            <h6 style="color: #EB3438;">{{ result.content_type | content_type_name }}</h6>
+                            {% if result.search_description %}
+                                {{ result.search_description }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <nav class="paginator" style="margin-top: 50px;">
+                    <ul class="pagination">
+                        {% if search_results.has_previous %}
+                            <li class="page-item">
+                                <h5> 
+                                    <a id="news-prev" class="page-link" href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}" id="btn_prev" style="border-width: 0px">
+                                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                        Previous
+                                    </a>
+                                </h5> 
+                            </li>         
+                        {% endif %}
+
+                        {% if search_results.has_next %}
+                            <li class="page-item">
+                                <h5> 
+                                    <a id="news-next" class="page-link" href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}" id="btn_next" style="border-width: 0px;">
+                                        Next
+                                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                    </a>
+                                </h5>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                
+            {% elif search_query %}
+                <h6 style="margin: 50px 0px 50px 0px;">No results found</h6>
+            {% endif %}
+
+        </div>
+    </section>
+
+    {% include "includes/back_to_top.html" %}
+    
+{% endblock %}
+
+{% block extra_js %}
+<script>
+   
+    window.onload = function () {
+        
+        var url = new URL(window.location.href);
+        document.getElementById("query").innerHTML = url.searchParams.get("query");
+
+    };
+
+</script>
+{% endblock %}

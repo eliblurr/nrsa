@@ -1,0 +1,18 @@
+{%extends 'stats/charts/index.html'%}
+{% load static %}
+
+{% block content %}
+<div class="container-3">
+  <div class="urban1">
+    <h5>Casualties</h5>
+    <canvas id="nttcc"></canvas>
+  </div>
+  <div class="urban1">
+    <h5>Fatalities</h5>
+    <canvas id="nttcc2"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/nttcc.js' %}"></script>
+{% endblock %}

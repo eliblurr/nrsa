@@ -1,0 +1,24 @@
+.DS_Store
+*.pyc
+*.log
+*.swp
+*.retry
+.env
+.idea
+.vscode
+*~
+/logs
+/data
+.~*
+common/CACHE
+# nsra/settings/local.py
+.sqlite3
+__pycache__
+.vagrant/
+/.vagrant/
+/Vagrantfile.local
+!.gitignore
+/node_modules
+*.sqlite3
+/migrations/
+x64js/

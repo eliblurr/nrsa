@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags global_tags wagtailimages_tags static %}
+{% block body_class %}template-eventpage{% endblock %}
+
+<!-- Banner section -->
+{% block navigation %}
+    {% include "includes/nav-solid.html"  %}
+{% endblock %} 
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tooltip.css' %}" />
+    <style>
+        /* if screen is lesser than */
+        @media screen and (max-width: 900px) {
+    
+            .news_section_grid {
+                display: flex;
+                /* grid-template-columns: 70% 30%; */
+                width: 85%;
+                margin-left: auto;
+                margin-right: auto;
+                /* justify-items: center; */
+                flex-direction: column;
+                /* padding-: 40px; */
+            }
+
+            .right_side {
+                margin-top: 50px;
+            }
+
+            .sidebar {
+                margin-left: 0px;
+            }
+        }
+    </style>
+{% endblock extra_css %}
+
+{% block content %}
+    <!-- Title & Breadcrumb section -->
+    {% image page.hero_image original as bgimage %}
+    <div class="title_section_pr" style="background-image: url({{bgimage.url}}); ">
+        <div class="title_content_pr">
+            <h4 class="title_heading" style="color: #ffffff ;">{{page.title}}</h4>
+            <p>{% breadcrumbs %}</p>
+        </div>
+    </div>
+
+    <!-- Main Section -->
+    <section class="section">
+        <div class="news_section_grid">
+            <div class="left_side content_side">
+                <h3 class="">{{page.headline}}</h3>
+                <h6 style="font-style: italic; font-size: x-small;">published: {{page.last_published_at}}</h6>
+                {% if page.date_time%}<h5>Event date and time: {{page.date_time}}</h5>{%endif%}
+                <p class="spacing_btm_l">{{page.body|richtext}}</p>
+                
+                {% if gallery_images.paginator.num_pages >= 1 %}
+                <br><br><br><br>
+                <hr/>
+                <br><br><br><br>
+                <h3 class="spacing_btm_m">GALLERY</h3>
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for pg in gallery_images.paginator %}
+                            <div class="carousel-item {% if pg.number == gallery_images.number %} active {% endif %}">
+                                {% for item in pg.object_list %}
+                                    {% image item.image original as bgimage %}
+                                    <img {{ bgimage.attrs }} alt="image" class="d-block w-100" style="height: 500px;">
+                                {%endfor%}
+                            </div>
+                        {%endfor%}
+                    </div>
+
+                    <!-- <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a> -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev" style="background-color: #0099339a; margin: auto 0 auto 0; height:30px ; width:30px;" >
+                        <i class="fa fa-angle-left fa-lg"></i>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next" style="background-color: #0099339a; margin: auto 0 auto 0; height:30px ; width:30px;">
+                        <i class="fa fa-angle-right fa-lg"></i>
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+
+            
+            <div class="right_side sidebar">
+                <h5 class="spacing_btm_m">Related Events</h5>
+                {% if related_events.paginator.count %}
+                    <div id="ActivityCarousel" class="carousel slide" data-ride="carousel">
+                        {% for pg in related_events.paginator %}
+                            <div class="activities carousel-item {% if pg.number == related_events.number %} active {% endif %}">
+                                {% for item in pg.object_list %}
+                                    <div class="activity_item">
+                                        <div class="activity_image">
+                                            {% image item.main_image original as bgimage %}
+                                            <img {{ bgimage.attrs }} alt="image">
+                                        </div>
+                                        <div class="activity_body">
+                                            <p class="spacing_btm_s"><strong>{{item.headline}}</strong></p>
+                                            <a href="{{item.url}}"><p>Read More</p></a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>no related events</p>
+                {% endif %}
+                
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}

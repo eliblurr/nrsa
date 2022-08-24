@@ -1,0 +1,133 @@
+version: '3.9'
+
+services:
+  db:
+    restart: always
+    image: postgis/postgis:12-master
+    expose:
+      - "5432"
+    networks: 
+      - nsra-network
+    volumes: 
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_NAME:-nsra}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme} 
+
+  pgadmin:
+    build: ./pgadmin
+    restart: always
+    networks: 
+      - nsra-network
+    expose:
+      - 80
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on: 
+      - db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@admin.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-changeme}
+  
+  redis:
+    restart: always
+    image: redis:3.0
+    expose:
+      - "6379"
+    networks: 
+      - nsra-network
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.2
+    container_name: elasticsearch
+    environment:
+      - node.name=es02
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    restart: always
+    expose:
+      - "9200"
+    networks: 
+      - nsra-network
+
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        DJANGO_SUPERUSER_EMAIL: "${DJANGO_SUPERUSER_EMAIL:-admin@admin.com}"
+        DJANGO_SUPERUSER_USERNAME: "${DJANGO_SUPERUSER_USERNAME:-admin}"
+        DJANGO_SUPERUSER_PASSWORD: "${DJANGO_SUPERUSER_PASSWORD:-changeme}"
+        APP_HOME: /home/app
+    volumes:
+      - upload-data:/var/lib/nsra/web
+      - media-root:/home/app/media
+      - static-root:/home/app}/static
+    links:
+      - db:db
+      # - redis:redis
+      # - elasticsearch:elasticsearch
+    expose:
+      - 80
+    depends_on:
+      - db
+      # - redis
+      # - elasticsearch
+    networks: 
+      - nsra-network
+    environment:
+      SECRET_KEY: ${SECRET_KEY:-$nsra-sdfdfnisdfkklsdfgsdflsdf983ro23lrym8xqu*&NFING*^F$*#I}
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@db/${DB_NAME:-nsra}
+      # CACHE_URL: redis://redis
+      ENVIRONMENT: dev
+      # ELASTICSEARCH_ENDPOINT: ${ELASTICSEARCH_ENDPOINT:-elasticsearch}
+    env_file: 
+      - .env
+
+  nginx:
+    build: 
+      context: ./nginx
+      dockerfile: dockerfile
+      args:
+        APP_HOME: /home/app
+    restart: always
+    networks: 
+      - nsra-network
+    depends_on:
+      - app
+    volumes_from: 
+      - app:rw
+    ports:
+      - ${APP_PORT:-1100}:2100
+      - ${PGADMIN_PORT:-1300}:2300
+      - ${POSTGRES_PORT:-1200}:2200
+      # - ${REDIS_PORT:-6379}:2400
+      # - ${ELASTICSEARCH_PORT:-9200}:2500
+    environment:
+      APP_HOME: /home/app
+
+volumes:
+  upload-data:
+  static-data:
+  pgadmin-data:
+  postgres-data:
+  elasticsearch-data:
+  web-data:
+    driver: local
+  
+  media-root:
+  static-root:
+
+networks:
+  nsra-network:
+    driver: bridge

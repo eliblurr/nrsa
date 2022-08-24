@@ -1,0 +1,116 @@
+{%extends 'stats/charts/index.html'%}
+{% load static %}
+ 
+{%block content%}
+
+    <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;">
+        <h5 >Annual Distributions</h5>
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 100%;">
+            <li><a href="javascript:showChart('NTF')">Changes in National Traffic Fatality Indices</a><hr></li>
+            <li><a href="javascript:showChart('NTCC')">National Trends in Traffic Casualties & Crashes</a><hr></li>
+            <li><a href="javascript:showChart('AGE_GROUP')">Fatalities & Casualties (Age groups)</a><hr></li>
+            <li> <a href="javascript:showChart('FCE')">Fatalities & Casualties (Environment)</a><hr></li>
+            <li> <a href="javascript:showChart('GENDER')">Fatalities & Casualties (gender)</a><hr></li>
+            <li>  <a href="javascript:showChart('UNF')">Urban and nonUrban Fatalities</a><hr></li>
+            <li><a href="javascript:showChart('UNC')">Urban and nonUrban Casualties</a><hr></li>
+            <li><a href="javascript:showChart('VEHICLES')"> Vehicles Involved in Crashes</a><hr></li>
+        </ul>
+        
+        <div id="charts">
+
+            <div id="NTF" class="urban1 ntf" style="width: 100%; height:100%; margin-top: 40px; display: block;">
+                <h5>Changes in National Traffic Fatality Indices</h5>
+                <canvas id="byRoad" height="120vh"></canvas>
+            </div>
+
+            <div id="NTCC" class="container-3" style="display: none;">
+                <div class="urban1" style="margin-top: 40px">
+                    <h5>Casualties</h5>
+                    <canvas id="nttcc"></canvas>
+                </div>
+                <div class="urban1" style="margin-top: 40px">
+                    <h5>Fatalities</h5>
+                    <canvas id="nttcc2"></canvas>
+                </div>
+            </div>
+
+            <div id="AGE_GROUP" class="container-3" style="display: none;">
+                <div class="urban1" style="margin-top: 40px">
+                    <h5>Casualties by age Groups</h5>
+                    <canvas id="ageGroup"></canvas>
+                </div>
+                <div class="urban1" style="margin-top: 40px">
+                    <h5>Fatalities by age Groups</h5>
+                    <canvas id="ageGroup2"></canvas>
+                </div>
+            </div>
+
+            <div id="FCE" class="urban1 ntf" style="display: none; margin-top: 40px;">
+                <h5>Changes in National Traffic Fatality Indices(Environment)</h5>
+                <canvas id="FCE" height="120vh"></canvas>
+            </div>
+
+            <div id="GENDER" class="container-3" style="display: none;">
+                <div class="urban1" style="margin-top: 40px">
+                    <h5>Casualties by gender Groups</h5>
+                    <canvas id="gender"></canvas>
+                </div>
+                <div class="urban1" style="margin-top: 40px">
+                    <h5>Fatalities by gender Groups</h5>
+                    <canvas id="gender2"></canvas>
+                </div>
+            </div>
+
+            <div id="UNF" class="container-3" style="display: none;">
+                <div class="urban1" style="margin-top: 40px">
+                    <h5>Urban Fatalities</h5>
+                    <canvas id="urbanFatalities"></canvas>
+                </div>
+                <div class="urban1" style="margin-top: 40px">
+                    <h5>Non-Urban Fatalities</h5>
+                    <canvas id="nonUrbanFatal"></canvas>
+                </div>
+            </div>
+
+            <div id="UNC" class="container-3" style="display: none;">
+                <div class="urban1" style="margin-top: 40px">
+                    <h5>Urban Casualties</h5>
+                    <canvas id="unc"></canvas>
+                </div>
+                <div class="urban1" style="margin-top: 40px">
+                    <h5>Non-Urban Casualties</h5>
+                    <canvas id="unc2"></canvas>
+                </div>
+            </div>
+
+            <div class="urban1 ntf" style="display: none; margin-top: 40px">
+                <h5>Vehicles involved in the Crashes </h5>
+                <canvas id="Vehicles" height="120vh"></canvas>
+            </div>
+
+        </div>
+        
+        <script src="{% static 'js/age_group.js' %}"></script>
+        <script src="{% static 'js/nttcc.js' %}"></script>
+        <script src="{% static 'js/chartTime.js' %}"></script>
+        <script src="{% static 'js/Vehicle.js' %}"></script>
+        <script src="{% static 'js/FCE.js' %}"></script>
+        <script src="{% static 'js/gender.js' %}"></script>
+        <script src="{% static 'js/UNF.js' %}"></script>
+        <script src="{% static 'js/UNC.js' %}"></script>
+
+    </div>  
+
+{%endblock%}
+
+{% block extra_js %}
+<script>
+    function showChart(target){
+        $("#charts > div").css("display", "none");
+        $(`#${target}`).css("display", "block");
+    }
+</script>
+{%endblock%}

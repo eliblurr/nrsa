@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags global_tags wagtailimages_tags %}
+
+<!-- Banner section -->
+{% block navigation %}
+{% include "includes/nav-solid.html"  %}
+{% endblock %} 
+
+{% block content %}
+
+  <!-- Title & Breadcrumb section -->
+  {% image page.hero_image original as bgimage %}
+  <div class="title_section_pr" style="background-image: url({{bgimage.url}}); ">
+      <div class="title_content_pr">
+          <h4 class="title_heading" style="color: #ffffff ;">{{page.title}}</h4>
+          <p>{% breadcrumbs %}</p>
+      </div>
+  </div>
+
+  <section>
+    <div class="body_width" style="width: 85%;">
+      
+      <ul id="tabs" class="nav nav-tabs" style="margin-top: 50px;" data-current-tab="geo">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" id="geo" href="#!" style="color: #16a085;">Geo View</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="charts" href="#!" style="color: #079992">Charts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="time" href="#!" style="color: #16a085;">Time Series</a>
+        </li>
+        <li style="display: flex; align-items:center; justify-content:center;">
+          <span style="font-size: 10px; font-style: italic; font-weight: 900; margin-left: 10px; color: #b2bec3;">refresh tab if view is unresponsive</span>    
+        </li>        
+      </ul>
+
+      <div style="height:inherit; width:100%; display: block;text-align: center; padding-top: 25px;  padding-bottom: 25px;">
+
+        <!-- spinners -->
+        <div id="spinners" style="margin-top: 30px; margin-bottom: 30px; display: none;">
+          <div class="spinner-grow text-danger" role="status"></div>
+          <div class="spinner-grow text-warning" role="status"></div>   
+          <div class="spinner-grow text-success" role="status"></div> 
+          <div class="spinner-grow text-dark" role="status"></div>
+        </div>
+
+        <div id="error" class="alert alert-danger" role="alert" style="margin-top: 30px; margin-bottom: 30px; display: none;">
+          <h4 class="alert-heading">Oops! Something went wrong</h4>
+          <p>Looks like something went completely wrong! but don't worry.</p>
+          <p>It can happen to the best of us, and it just happened to you, for the time being check your internet connection</p>
+          <hr>
+          <p class="mb-0">Whenever you need to, feel free to contact us for support.</p>
+        </div>
+
+        <div id="stats-view"></div>
+        
+
+      </div>
+
+    </div>
+  </section>
+
+{% endblock content %}
+
+
+{% block extra_js %}
+<script>
+
+  function switchTab(tab){
+    $("#error").css("display", "none");
+    $("#spinners").css("display", "block");
+    $("#stats-view").css("display", "none");
+    $('#tabs > li > a').removeClass('active');
+    $(`#${tab}`).addClass("active");
+    $("#tabs").data('current-tab', `#${tab}`)
+  }
+
+  function loadData(url){
+    $( "#stats-view" ).load( url, (response, status, xhr) => {
+      if ( status == "error" ){
+        $("#spinners").css("display", "none");
+        $("#error").css("display", "block");
+      } else {
+        $("#spinners").css("display", "none");
+        $("#stats-view").css("display", "block");
+      }
+    })
+  }
+
+  $("#geo").click( async function(){
+    await switchTab('geo')
+    await loadData('accidents/')
+  });
+
+  $("#charts").click(async function(){
+    await switchTab('charts')
+    await loadData('accidents/chart/')
+  });
+
+  $("#time").click(async function(){
+    await switchTab('time')
+    await loadData('accidents/time/series/index/')
+  });
+
+  $( '#stats-view' ).ready( async () => {
+    await switchTab('geo')
+    await loadData('accidents/')
+  })
+
+
+</script>
+{% endblock %}
+
+<!-- http://127.0.0.1:8000/statistics/accidents/chart/
+http://127.0.0.1:8000/statistics/accident/chart/ -->

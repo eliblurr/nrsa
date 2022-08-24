@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags global_tags wagtailimages_tags static %}
+{% block body_class %}template-activityindexpage{% endblock %}
+
+<!-- Banner section -->
+{% block navigation %}
+    {% include "includes/nav-solid.html"  %}
+{% endblock navigation %}
+{% csrf_token %} 
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tooltip.css' %}" />
+{% endblock extra_css %}
+
+{% block content %}
+    {% include "includes/back_to_top.html" %}
+    <!-- Title & Breadcrumb section -->
+    {% image page.hero_image original as bgimage %}
+    <div class="title_section_pr" style="background-image: url({{bgimage.url}}); ">
+        <div class="title_content_pr">
+            <h4 class="title_heading" style="color: #ffffff ;">{{page.title}}</h4>
+            <p>{% breadcrumbs %}</p>
+        </div>
+    </div>
+
+    <!-- About Section --> 
+    {% for block in page.body %}
+        <section class="section section_dark">
+            <div class="section_one_grid">
+                {% if block.block_type == 'grid' %}
+                    <div style="column-gap: 20px; row-gap: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr)); padding-bottom: 20px;align-items:flex-start;">
+                        {% for block in block.value %}
+                            <section class="block-{{ block.block_type }}" style="width: 100%;" >
+                                {% include_block block %}
+                            </section>       
+                        {% endfor %}
+                    </div>
+                    
+                    
+                {% else %}
+                    {% for block in block.value %}
+                        <section class="block-{{ block.block_type }}">
+                            {% include_block block %}
+                        </section>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </section>
+    {% endfor %}
+    
+    <!-- Main Section -->
+    {% for group in grouped_activities %}
+    <section class="section" id="{{group.category}}-category-section" data-url="{% url 'categorized_pages' group.category.id 1 %}" data-category="{{group.category}}" data-pg-count="{{group.pages.paginator.num_pages}}" data-page=1>
+        <div class="body_width" style="width: 85%;">
+            <div class="latest_news spacing_btm_l">
+                <h4>{{group.category}}</h4>
+                <h4 id="{{group.category}}-page">{{group.pages.paginator.count}} OF {{group.pages.paginator.count}}</h4> 
+            </div>
+
+            {% for activity in group.pages %}
+                <div class="card_section spacing_btm_s">
+                    <div id="{{group.category}}" style="column-gap: calc(25% - 300px); row-gap: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); padding-bottom: 20px; width: 100%;">
+                    </div>  
+                </div>
+            {% endfor %}
+
+            <nav class="paginator">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <h5> 
+                            <a class="page-link" href="javascript:prev('{{group.category}}')" id="btn_prev" style="border-width: 0px 2px 0px 0px; color: #2f3640; border-color: #2f3640;">
+                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                Prev 
+                            </a>
+                        </h5> 
+                    </li>
+                    <li class="page-item" >
+                        <h5> 
+                            <a class="page-link" href="javascript:next('{{group.category}}')" id="btn_next" style="border-width: 0px 0px 0px 2px; color: #2f3640; border-color: #2f3640;">
+                                Next
+                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            </a>
+                        </h5>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+    </section>
+    {% endfor %} 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+
+    function fetchdata(url, category){
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(res){
+                loaddata(res.data, category)
+            }
+        })
+    }
+
+    function loaddata(data, category){
+
+        const elem = document.querySelector(`[id$="${category}-category-section"]`)
+        let div = document.getElementById($(elem).data('category'));
+        let page = document.getElementById($(elem).data('category')+'-page');
+        div.innerHTML = ""
+        page.innerHTML = ""
+        
+        page.innerHTML = `${data.number} OF ${$(elem).data('pg-count')}`
+        for (const idx in data.activities){
+            let obj = data.activities[idx]
+            div.innerHTML += `
+                <div class="container">
+                    <div class="card_n" >
+                        <div class="card_head">
+                            <img style="width: 100%; height: 100%;" src="${obj.image}" alt="">
+                            <h5 class="category_3" style="background-color: #c0392b;">${category}</h5>
+                        </div>
+                        <div class="card_body text-box" data-title='${obj.headline}'>
+                            <h6 style="font-style: italic; font-size: x-small;">${obj.date? 'date: '+obj.date:''}</h6>
+                            <h5 class="title spacing_btm_s">${obj.headline}</h5>
+                            <a href="${obj.url}" class="green_button_card">Read More</a>
+                        </div>
+                    </div>
+                </div> 
+            `
+        }
+                
+    }
+
+    function next(category){
+        const elem = document.querySelector(`[id$="${category}-category-section"]`)
+        var page = $(elem).data('page')
+        var pg_count = $(elem).data('pg-count')
+        var url = $(elem).data('url')        
+        if ($(elem).data('page') < pg_count){
+            $(elem).data('page', page+1);
+            var ls = url.split('/')
+            var next_url = `/${ls[1]}/${ls[2]}/${$(elem).data('page')}/`
+            fetchdata(next_url, category)
+            window.scrollTo(0, $(elem).offset().top)
+        } else {
+            // do nothing
+            // update class of next element
+        }
+    }
+
+    function prev(category){
+        const elem = document.querySelector(`[id$="${category}-category-section"]`)
+        var page = $(elem).data('page')
+        var pg_count = $(elem).data('pg-count')
+        var url = $(elem).data('url')
+        if ($(elem).data('page') > 1){
+            $(elem).data('page', page-1);
+            var ls = url.split('/')
+            var next_url = `/${ls[1]}/${ls[2]}/${$(elem).data('page')}/`
+            fetchdata(next_url, category)
+            window.scrollTo(0, $(elem).offset().top)
+        } else {
+            // do nothing
+            // update class of prev element
+        }
+    }
+
+    function start(elem){
+        fetchdata($(elem).data('url'), $(elem).data('category'))
+    }
+
+    window.onload = function () {
+        const elems = document.querySelectorAll(`[id$="category-section"]`)
+        elems.forEach(start)
+    };
+
+</script>
+{% endblock %}

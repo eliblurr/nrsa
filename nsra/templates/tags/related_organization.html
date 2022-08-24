@@ -1,0 +1,25 @@
+{% load global_tags wagtailimages_tags wagtailcore_tags %}
+
+{% if related_organizations %}
+<section class="section">
+    <div class="body_section">
+        <div class="spacing_btm_xl">
+            <h3 class="title_heading spacing_btm_s">Related Organisations</h3>
+        </div>
+        
+        <div class="categories spacing_btm_l" style="row-gap: 50px;display: grid; grid-template-columns: repeat( auto-fit, minmax(255px, 1fr) ); width: 100%;">
+            {% for item in related_organizations %}
+                <a href="{{ item.url }}" target="_blank" style="cursor: pointer; color: inherit; text-decoration: none; margin: 20px;">
+                    <div class="rel_card">
+                        {% image item.image width-400 as tmp_photo %}
+                        <div class="rel_img">
+                            <img {{ tmp_photo.attrs }} class="my-custom-class" />
+                        </div>
+                        <h5 style="text-align: center; margin-top:15px">{{item.name}}</h5>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}

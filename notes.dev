@@ -1,0 +1,91 @@
+<!-- {% if logo.url|lower %}
+<img src="{{ tmp_photo.url }}" width="{{ tmp_photo.width }}"
+height="{{ tmp_photo.height }}" alt="{{ logo.url }}"/>
+{% endif %} -->
+
+    <!-- {% image settings.base.SiteLogo.logo original width="90" %} -->
+    
+    <!--  -->
+    <!-- <img src="{% static 'img/logo.png' %}" alt="Custom Project" width="80" /> -->
+    
+
+
+<!-- {% image settings.base.SiteLogo.favicon original as favicon %} -->
+
+<!-- {% block branding_favicon %} -->
+    <!-- <link rel="icon" href="{% if favicon.url != None %}{{favicon.url}}{% else %}{% static 'img/bread-favicon.ico' %}{% endif %}"> -->
+    <!-- <link rel="icon" href={{favicon.url}}> -->
+    <!-- <link rel="icon" href="{% static 'img/favicon.ico' %}"> -->
+    <!-- {% if favicon.url != None %}
+        <link rel="icon" href="{% static 'img/favicon.ico' %}">
+    {% else %}
+        <link rel="icon" href="{% static 'img/bread-favicon.ico' %}">
+    {% endif %} -->
+<!-- {% endblock %} -->
+
+<!-- {% image settings.base.SiteLogo.logo original width="20"%} -->
+<!-- <link rel="icon" href="{% static 'img/favicon.ico' %}"> -->
+
+
+{% extends "wagtailadmin/admin_base.html" %}
+{% load static %}
+
+{% block branding_favicon %}
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+{% endblock %}
+
+<!-- <link rel="icon" href="{% if favicon %}{{favicon.url}}{% else %}{% static 'img/favicon.ico' %}{% endif %}"> -->
+<!-- {% if favicon.url %}
+
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+{% else %}
+    <link rel="icon" href="{% static 'img/bread-favicon.ico' %}">
+{% endif %} -->
+
+{% if profile.user.first_name == None %}
+{% if not profile.user.first_name %}
+
+ <img src="{{ slideimagedata.url }}" style="width: 100%; min-height: {{ slideimagedata.height }}px;" alt="{{ slideimagedata.alt }}" />
+
+
+{% if settings.base.SiteLogo.favicon %}
+    <link rel="shortcut icon" href="{{ settings.base.SiteLogo.favicon|image_path }}" />
+{% else %}
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+{% endif %}
+
+# in template
+# {% load wagtailsettings_tags %}
+# {% get_settings %} or {% get_settings use_default_site=True %}
+# {{ settings.app_label.SocialMediaSettings.instagram }}
+# {{ settings.app_label.SocialMediaSettings.instagram }} -> {{ settings.base.SocialMediaSettings.instagram }}
+
+
+To Use custom css
+
+# from django.templatetags.static import static
+# from django.utils.html import format_html
+# from wagtail.core import hooks
+
+# @hooks.register('insert_global_admin_css')
+# def global_admin_css():
+#     return format_html('<link rel="stylesheet" href="{}">', static('css/wagtailadmin/custom.css'))
+
+
+# panels = [
+#         PageChooserPanel(
+#             "author", ["contact.Person", "contact.Organization"]
+#         )
+#     ]
+
+some notes
+
+{"model": "wagtailcore.page", "pk": 1, "fields": {"path": "0001", "depth": 1, "numchild": 1, "translation_key": "8081b3c2-572f-4e11-be57-6d738ed7422e", "locale": 1, "title": "Root", "draft_title": "Root", "slug": "root", "content_type": 1, "live": true, "has_unpublished_changes": false, "url_path": "/", "owner": null, "seo_title": "", "show_in_menus": false, "search_description": "", "go_live_at": null, "expire_at": null, "expired": false, "locked": false, "locked_at": null, "locked_by": null, "first_published_at": null, "last_published_at": null, "latest_revision_created_at": null, "live_revision": null, "alias_of": null}},
+
+{"model": "wagtailcore.site", "pk": 2, "fields": {"hostname": "localhost", "port": 80, "site_name": "NSRA", "root_page": 3, "is_default_site": true}},
+
+{"model": "wagtailcore.collection", "pk": 1, "fields": {"path": "0001", "depth": 1, "numchild": 0, "name": "Root"}},
+
+
+
+{"model": "home.homepage", "pk": 3, "fields": {"hero_title": "", "hero_sub_title": "", "hero_description": "", "hero_external_link": null, "hero_cta": "CTA", "hero_cta_link": null, "hero_external": "CTA", "hero_image": null, "body": "[]", "statistics_title": null, "statistics_sub_title": null, "statistics_description": null, "statistics_image": null, "statistics_cta_text": null, "statistics_cta_link": null, "functions_title": null, "functions_sub_title": null, "functions_description": null, "functions_cta_text": null, "functions_cta_link": null}},

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-corefunctionindexpage{% endblock %}
+
+{% block content %}
+
+    <h1>Page Data Option 1</h1>
+
+    {% for function in self.functions.all %}
+        {% with function=function.function %}
+    
+        <h2>Func: {{function.title}}</h2>
+
+        {% for sub_function in function.sub_functions.all %}
+            {% if sub_function.featured %}
+                <h3 style="color:#2c3e50;">Sub-Func: {{sub_function.title}}</h3>
+            {% else %}
+                <h3 style="color:#c0392b;">Sub-Func[Not featured]: {{sub_function.title}}</h3>
+            {% endif %}
+        {% endfor %}
+        
+        {% endwith %}
+        
+
+    {% endfor %}
+
+    <h1>Page Data Option 2 [for only live featured]</h1>
+
+    {% for function in featured_functions %}
+        {% with function=function.function %}
+    
+        <h2>Func: {{function.title}}</h2>
+        
+        {% for sub_function in function.sub_functions.all %}
+            {% if sub_function.featured %}
+                <h3 style="color:#2c3e50;">Sub-Func: {{sub_function.title}}</h3>
+            {% else %}
+                <h3 style="color:#c0392b;">Sub-Func[Not featured]: {{sub_function.title}}</h3>
+            {% endif %}
+        {% endfor %}
+        
+        {% endwith %}
+        
+
+    {% endfor %}
+
+
+{% endblock %}
+
+<!-- {% for block in page.body %}
+        {% if block.block_type == 'grid' %}
+            <div class="grid">
+                (rendering for grid block types)
+                <h2>{{ block.value.first_name }} {{ block.value.surname }}</h2>
+            </div>
+        {% else %}
+            (rendering for base block types)
+        {% endif %}
+    {% endfor %} -->

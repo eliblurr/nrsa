@@ -1,0 +1,46 @@
+<style>
+    .disabled-color {
+        color: #2d3436;
+    }
+
+    .no-margin {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+</style>
+
+<div class="navigation">
+    <nav class="nav_menu">
+        <li class="menu_item nav-link no-margin">
+            <a href="/about-us"> <span>About NRSA</span> </a>
+        </li>
+        <li class="menu_item nav-link no-margin">
+            <a href="/activities"> <span>Activities</span> </a>
+        </li>
+        <li class="menu_item nav-link no-margin">
+            <a href="/news-and-events"> <span>News & Events</span> </a>
+        </li>
+        <li class="nav-link no-margin {% if '/' not in urls %} disabled {% endif %}"><a href="/"><img src="{{ logo.url }}" class="logo"></a></li>
+        <li class="menu_item nav-link no-margin">
+            <a href="/publications-and-research"> <span>Publications & Research</span> </a>
+        </li>
+        <li class="menu_item nav-link no-margin">
+            <a href="/statistics"> <span>Statistics</span> </a>
+        </li>
+        <li class="menu_item nav-link no-margin">
+            <a href="/contact"> <span>Contact</span> </a>
+        </li>
+    </nav>
+</div>
+
+<!-- nav_menu_mobile -->
+<div class="navigation">
+    <nav class="nav_menu nav_menu_mobile">
+        <li class="menu_item nav-link"><a href="/about-us">About NRSC</a></li>
+        <li class="menu_item nav-link"><a href="/activities">Activities</a></li>
+        <li class="menu_item nav-link"><a href="/news-and-events">News & Events</a></li>
+        <li class="menu_item nav-link"><a href="/publications-and-research">Publications & Research</a></li>
+        <li class="menu_item nav-link"><a href="/statistics">Statistics</a></li>
+        <li class="menu_item nav-link"><a href="/contact"> Contact </a></li>
+    </nav>
+</div>

@@ -1,0 +1,106 @@
+{% load filters %}
+
+<style>
+    .disabled-color {
+        color: #2d3436;
+    }
+
+    .no-margin {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+</style>
+
+{% with urls=page.get_site.root_page.get_static_site_paths|to_list %}
+    <div class="navigation">
+        <nav class="nav_menu">
+            {% if '/about-us/' in urls %}
+                <li class="menu_item nav-link no-margin">
+                    <a href="/about-us"> <span>About NRSA</span> </a>
+                </li>
+            {% else %}
+                <li class="menu_item nav-link no-margin disabled">
+                    <a href="/about-us">
+                        <span class="disabled-color">About NRSA</span>
+                    </a>
+                </li>
+            {% endif %}
+            
+            {% if '/activities/' in urls %}
+                <li class="menu_item nav-link no-margin">
+                    <a href="/activities"> <span>Activities</span> </a>
+                </li>
+            {% else %}
+                <li class="menu_item nav-link no-margin disabled">
+                    <a href="/activities"> <span class="disabled-color">Activities</span> </a>
+                </li>
+            {% endif %}
+        
+            {% if '/news-and-events/' in urls %}
+                <li class="menu_item nav-link no-margin">
+                    <a href="/news-and-events"> <span>News & Events</span> </a>
+                </li>
+            {% else %}
+                <li class="menu_item nav-link no-margin disabled">
+                    <a href="/news-and-events"> <span class="disabled-color">News & Events</span></a>
+                </li>
+            {% endif %}
+            
+            <li class="nav-link no-margin {% if '/' not in urls %} disabled {% endif %}"><a href="/"><img src="{{ logo.url }}" class="logo"></a></li>
+        
+            {% if '/publications-and-research/' in urls %}
+                <li class="menu_item nav-link no-margin">
+                    <a href="/publications-and-research"> <span>Publications & Research</span> </a>
+                </li>
+            {% else %}
+                <li class="menu_item nav-link no-margin disabled">
+                    <a href="/publications-and-research"> <span class="disabled-color">Publications & Research</span> </a>
+                </li>
+            {% endif %}
+            
+            {% if '/statistics/' in urls %}
+                <li class="menu_item nav-link no-margin">
+                    <a href="/statistics"> <span>Statistics</span> </a>
+                </li>
+            {% else %}
+                <li class="menu_item nav-link no-margin disabled">
+                    <a href="/statistics"> <span class="disabled-color">Statistics</span> </a>
+                </li>
+            {% endif %}
+        
+            {% if '/contact/' in urls %}
+                <li class="menu_item nav-link no-margin">
+                    <a href="/contact"> <span>Contact</span> </a>
+                </li>
+            {% else %}
+                <li class="menu_item nav-link no-margin disabled">
+                    <a href="/contact"> <span class="disabled-color">Contact</span> </a>
+                </li>
+            {% endif %}
+        </nav>
+    </div>
+
+    <!-- nav_menu_mobile -->
+    <div class="navigation">
+        <nav class="nav_menu nav_menu_mobile">
+            {% if '/about-us/' in urls %}
+                <li class="menu_item nav-link"><a href="/about-us">About NRSC</a></li>
+            {% endif %}
+            {% if '/activities/' in urls %}
+                <li class="menu_item nav-link"><a href="/activities">Activities</a></li>
+            {% endif %}
+            {% if '/news-and-events/' in urls %}
+                <li class="menu_item nav-link"><a href="/news-and-events">News & Events</a></li>
+            {% endif %}
+            {% if '/publications-and-research/' in urls %}
+                <li class="menu_item nav-link"><a href="/publications-and-research">Publications & Research</a></li>
+            {% endif %}
+            {% if '/statistics/' in urls %}
+                <li class="menu_item nav-link"><a href="/statistics">Statistics</a></li>
+            {% endif %}
+            {% if '/contact/' in urls %}
+                <li class="menu_item nav-link"><a href="/contact"> Contact </a></li>
+            {% endif %}
+        </nav>
+    </div>
+{% endwith %}

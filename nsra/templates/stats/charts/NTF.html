@@ -1,0 +1,38 @@
+{%extends 'stats/charts/index.html'%}
+{% load static %}
+ 
+{%block content%}
+
+  <div class="dropdown">
+    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%;">
+      <h5 >Annual Distributions</h5>
+    </a>
+
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="width: 100%;">
+      <li><a class="active" href="{% url 'stats:NTF' %}">Changes in National Traffic Fatality Indices</a><hr></li>
+      <li><a href="{% url 'stats:NTCC' %}">National Trends in Traffic Casualties & Crashes</a><hr></li>
+      <li><a href="{% url 'stats:age_group'%}">Fatalities & Casualties (Age groups)</a><hr></li>
+      <li> <a href="{% url 'stats:FCE' %}">Fatalities & Casualties (Environment)</a><hr></li>
+      <li> <a href="{% url 'stats:gender' %}">Fatalities & Casualties (sex)</a><hr></li>
+      <li>  <a href="{% url 'stats:UNF' %}">Urban and nonUrban Fatalities</a><hr></li>
+      <li><a href="{% url 'stats:UNC' %}">Urban and nonUrban Casualties</a><hr></li>
+      <li><a href="{% url 'stats:vehicles' %}"> Vehicles Involved in Crashes</a><hr></li>
+      <li></li>
+    </ul>
+  
+  </div>
+
+
+  <div class="urban1 ntf" style="width: 100%; height:100%; margin-top: 40px;">
+    <h5>Changes in National Traffic Fatality Indices</h5>
+    <canvas id="byRoad" height="120vh"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{% static 'js/chartTime.js' %}"></script>
+{%endblock%}
+
+{% block extra_js %}
+<script>
+</script>
+{%endblock%}

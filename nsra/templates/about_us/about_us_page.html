@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% load global_tags static wagtailcore_tags menu_tags wagtailimages_tags executive_tags %}
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+{% endblock extra_css %}
+
+{% block content %}
+
+    <!-- Banner section -->
+    {% image page.hero_image original as bgimage %}
+    <div class="hero_section" style="background-image: url({{bgimage.url}}) ;">
+        <div class="hero_content vertical_flex" style="justify-content: center; align-items: center;">
+            <div>
+                {% if page.hero_title %}
+                    <h1 class="hero_heading">{{page.hero_title}}</h1>
+                {% endif %}
+
+                {% if page.hero_sub_title %}
+                    <h6 class="hero_heading">{{page.hero_sub_title}}</h6>
+                {% endif %}
+                
+                {% if page.hero_description %}
+                    <p class="hero_heading">{{page.hero_description|richtext}}</p>
+                {% endif %}
+
+                {% if page.hero_external_link %}
+                    <p class="hero_heading" style="font-style: italic;">
+                        <a href="{{page.hero_external_link}}" style="font-style: italic;font-size: 12px; color: aliceblue;">{{page.hero_external}}</a>
+                    </p>
+                {% endif %}
+
+                {% if page.hero_cta %}
+                    <p>
+                        <a class="button_lg" href="{{page.hero_cta_link}}">{{page.hero_cta}}</a>
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section --> 
+    {% for block in page.body %}
+        <section class="section">
+            <div class="section_one_grid">
+                {% if block.block_type == 'grid' %}
+                    <div style="column-gap: 20px; row-gap: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr)); padding-bottom: 20px;align-items:flex-start;">
+                        {% for block in block.value %}
+                            <section class="block-{{ block.block_type }}" style="width: 100%;" >
+                                {% include_block block %}
+                            </section>       
+                        {% endfor %}
+                    </div>
+                    
+                    
+                {% else %}
+                    {% for block in block.value %}
+                        <section class="block-{{ block.block_type }}">
+                            {% include_block block %}
+                        </section>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </section>
+    {% endfor %}
+
+    <!-- Mission Vision Section -->
+    {% if page.mission_title or page.vision_title or page.mandate_title %}
+    <section class="section section_dark">
+        <div class="function_section spacing_btm_l">
+            {% if page.mission_title %}
+                <div style="min-width: calc(100%/3); min-width: 300px;" class="column_one">
+                    {% image page.mission_icon original as icon %}
+                    <div style="display: flex; flex-direction:row; height: max-content;">
+                        <div class="icon" src="" alt="document icon" srcset="" style="background-image: url({{icon.url}});"></div>
+                        <div class="spacing_btm_m">
+                            <h4 >{{page.mission_title}}</h4>
+                            {% if page.mission_sub_title %}
+                                <h6 style="font-size: 9px;">{{page.mission_sub_title}}</h6>   
+                            {% endif %}
+                        </div>
+                    </div>
+                    <p class="spacing_btm_s">{{page.mission_description|richtext}}</p>
+                </div>
+            {% endif %}
+
+            {% if page.vision_title %}
+                <div style="min-width: calc(100%/3); min-width: 300px;" class="column_one">
+                    {% image page.vision_icon original as icon %}
+                    <div style="display: flex; flex-direction:row; height: max-content;">
+                        <div class="icon" src="" alt="document icon" srcset="" style="background-image: url({{icon.url}});"></div>
+                        <div class="spacing_btm_m">
+                            <h4 >{{page.vision_title}}</h4>
+                            {% if page.vision_sub_title %}
+                                <h6 style="font-size: 9px;">{{page.vision_sub_title}}</h6>   
+                            {% endif %}
+                        </div>
+                    </div>
+                    <p class="spacing_btm_s">{{page.vision_description|richtext}}</p>
+                </div>
+            {% endif %}
+
+            {% if page.mandate_title %}
+                <div style="min-width: calc(100%/3); min-width: 300px;" class="column_one">
+                    {% image page.mandate_icon original as icon %}
+                    <div style="display: flex; flex-direction:row; height: max-content;">
+                        <div class="icon" src="" alt="document icon" srcset="" style="background-image: url({{icon.url}});"></div>
+                        <div class="spacing_btm_m">
+                            <h4 >{{page.mandate_title}}</h4>
+                            {% if page.mandate_sub_title %}
+                                <h6 style="font-size: 9px;">{{page.mandate_sub_title}}</h6>   
+                            {% endif %}
+                        </div>
+                    </div>
+                    <p class="spacing_btm_s">{{page.mandate_description|richtext}}</p>
+                </div>
+            {% endif %}
+
+        </div>
+    </section>
+    {% endif %}
+
+   <!-- Core Functions Section -->
+    <section class="section_green">
+
+        {% if page.functions_title %}
+            <h3 class="heading_center spacing_btm_s">{{page.functions_title}}</h3>
+        {% endif %}
+
+        {% if page.functions_sub_title %}
+            <h6 class="heading_center spacing_btm_m" style="font-size: 12px;">{{page.functions_sub_title}}</h6>
+        {% endif %}
+
+        {% if page.functions_description %}
+            <p class="heading_center spacing_btm_xl">{{page.functions_description}}</p>
+        {% endif %}
+
+        {% if page.functions.all %}
+            <div class="function_section spacing_btm_l" style="display: flex; flex-flow:row wrap;">
+                {% for item in page.functions.all %}                    
+                    <div style="min-width: calc(100%/3); min-width: 300px;" class="column_one">
+                        {% image item.function.icon original as icon %}
+                        <div style="display: flex; flex-direction:row; height: max-content;">
+                            <div class="icon" src="" alt="document icon" srcset="" style="background-image: url({{icon.url}});"></div>
+                            <div class="spacing_btm_m">
+                                <h4 >{{item.function.title}}</h4>
+                                {% if item.function.subtitle %}
+                                    <h6 style="font-size: 9px;">{{item.function.subtitle}}</h6>   
+                                {% endif %}
+                            </div>
+                        </div>
+                        <p class="spacing_btm_s">{{item.function.body|richtext}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}      
+
+        {% if page.functions_cta_link %}
+            <div class="center_item">
+                <a href="{{ page.functions_cta_link }}" class="yellow_button_lg">{{page.functions_cta_text}}</a>
+            </div>
+        {% endif %}   
+    </section>
+
+    <!-- Executives Section -->
+    {% get_executives %}
+    
+    <!-- Related Organisations Section -->
+    {% get_related_organization %}    
+
+    {% include "includes/back_to_top.html" %}
+    
+    <!-- Regional Profiles Section -->
+    <!-- <div class="section_s">
+        <div class="body_section">
+            <div class="spacing_btm_xl">
+                <h3 class="heading_center spacing_btm_s">REGIONAL PROFILES</h3>
+                <P class="heading_center spacing_btm_m">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. </P>
+            </div>
+            <div class="categories spacing_btm_l">
+                <div class="reg_card">
+                    <div class="reg_detail">
+                        <h5 class="spacing_btm_l">GREATER ACCRA PROFILE</h5>
+                        <a href="#">View Details</a>
+                    </div>
+                </div>
+                <div class="reg_card">
+                    <div class="reg_detail">
+                        <h5 class="spacing_btm_l">CENTRAL REGION PROFILE</h5>
+                        <a href="#">View Details</a>
+                    </div>
+                </div>
+                <div class="reg_card">
+                    <div class="reg_detail">
+                        <h5 class="spacing_btm_l">BRONG AHAFO PROFILE</h5>
+                        <a href="#">View Details</a>
+                    </div>
+                </div>
+                <div class="reg_card">
+                    <div class="reg_detail">
+                        <h5 class="spacing_btm_l">WESTERN REGION PROFILE</h5>
+                        <a href="#">View Details</a>
+                    </div>
+                </div>
+                <div class="reg_card">
+                    <div class="reg_detail">
+                        <h5 class="spacing_btm_l">VOLTA REGION PROFILE</h5>
+                        <a href="#">View Details</a>
+                    </div>
+                </div>
+                <div class="reg_card">
+                    <div class="reg_detail">
+                        <h5 class="spacing_btm_l">EASTERN REGION PROFILE</h5>
+                        <a href="#">View Details</a>
+                    </div>
+                </div>
+                <div class="reg_card">
+                    <div class="reg_detail">
+                        <h5 class="spacing_btm_l">UPPER EAST PROFILE</h5>
+                        <a href="#">View Details</a>
+                    </div>
+                </div>
+                <div class="reg_card">
+                    <div class="reg_detail">
+                        <h5 class="spacing_btm_l">UPPER WEST PROFILE</h5>
+                        <a href="#">View Details</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="spacing_btm_xl">
+                <h6 class="title_heading spacing_btm_s">LOAD ALL REGIONS</h6>
+            </div>
+        </div>
+    </div> -->
+
+{% endblock content %}

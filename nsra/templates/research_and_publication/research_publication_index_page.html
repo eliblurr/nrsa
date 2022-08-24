@@ -1,0 +1,390 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags global_tags wagtailimages_tags static document_tags %}
+{% block body_class %}template-researchpublicationindecpage{% endblock %}
+
+<!-- Banner section -->
+{% block navigation %}
+    {% include "includes/nav-solid.html"  %}
+{% endblock navigation %}
+{% csrf_token %} 
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tooltip.css' %}" />
+{% endblock extra_css %}
+
+{% block content %}
+
+    <!-- Title & Breadcrumb section -->
+    {% image page.hero_image original as bgimage %}
+    <div class="title_section_pr" style="background-image: url({{bgimage.url}}); ">
+        <div class="title_content_pr">
+            <h4 class="title_heading" style="color: #ffffff ;">{{page.title}}</h4>
+            <p>{% breadcrumbs %}</p>
+        </div>
+    </div>
+
+    <!-- About Section --> 
+    {% for block in page.body %}
+        <section class="section section_dark">
+            <div class="section_one_grid">
+                {% if block.block_type == 'grid' %}
+                    <div style="column-gap: 20px; row-gap: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr)); padding-bottom: 20px;align-items:flex-start;">
+                        {% for block in block.value %}
+                            <section class="block-{{ block.block_type }}" style="width: 100%;" >
+                                {% include_block block %}
+                            </section>       
+                        {% endfor %}
+                    </div>
+                    
+                    
+                {% else %}
+                    {% for block in block.value %}
+                        <section class="block-{{ block.block_type }}">
+                            {% include_block block %}
+                        </section>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </section>
+    {% endfor %}
+    
+    <!-- skip to documents link -->
+    <div id="anchor" class="body_width" style="width: 85%; margin-top: 80px; border-top: 1px solid #bdc3c7; border-bottom: 1px solid #bdc3c7;padding-top: 11px;">
+        <ul>
+            <li>
+                <a href="javascript:jumpTo('documents')" style="text-decoration: none; font-style: italic; font-weight: 700; font-size: 14px;color: #2c3e50; text-decoration: underline;">skip to documents</a>
+            </li>
+            <li> 
+                <a href="javascript:jumpTo('research')" style="text-decoration: none; font-style: italic; font-weight: 700; font-size: 14px;color: #2c3e50; text-decoration: underline;">skip to research</a>
+            </li>
+            <li>
+                <a href="javascript:jumpTo('publications')" style="text-decoration: none; font-style: italic; font-weight: 700; font-size: 14px;color: #2c3e50; text-decoration: underline;">skip to publications</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Research Section --> 
+    {% if research.paginator.count %}
+        <section class="section" id="research" data-url="{% url 'categorized_research' category=0 parent=page.id page=1 sort='descending' %}" data-page=1 data-pages="{{research.paginator.num_pages}}" data-pg-size="{{page.research_pg_size}}">
+            <div class="body_width" style="width: 85%;">
+                <div class="latest_news">
+                    <div style="display: flex; flex-direction:row">
+                        <h4>Research </h4>
+                        <h6 id="research-counter"></h6>
+                    </div>
+                    
+                    <div class="btn-group" id="research-sort" data-sort="['descending', 'newer to older ']">
+                        <button id="research-sort-text" class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:sort(['ascending', 'older to newer '], 'research')">older to newer</a></li>
+                            <li><a class="dropdown-item" href="javascript:sort(['descending', 'newer to older '], 'research')">newer to older</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="padding: 20px 0px 20px 0px; background-color:#ffffff; border-top: 2px solid #ecf0f1; border-bottom: 2px solid #ecf0f1;margin-bottom: 20px;">
+                    showing results for:
+                    <div class="btn-group" id="research-category" data-category=0>
+                        <button id="research-category-text" class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            all categories
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:changeCategory([0, 'all categories '], 'research')">all categories </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% for category in research_categories %} 
+                                <li><a class="dropdown-item" href="javascript:changeCategory([ {{category.id}}, '{{category.name|lower}}' ], 'research')">{{ category.name|lower }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="research-container" style="column-gap: calc(25% - 300px); row-gap: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); padding-bottom: 20px;">
+                </div>
+
+                <!-- <div class="collapse" id="collapseEvent">
+                    <div id="research-collapse-container" style="column-gap: calc(25% - 300px); row-gap: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+                    </div>
+                </div> -->
+
+                <div class="latest_news" style="display: flex; justify-content: space-between; position: relative; align-content: center; padding-top: 20px;">
+                    <nav class="paginator" style="display: flex; ">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <h5> 
+                                    <a id="research-prev" class="page-link" href="javascript:prev('research')" id="btn_prev" style="border-width: 0px 2px 0px 0px; color: #2f3640; border-color: #2f3640;">
+                                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                        Prev 
+                                    </a>
+                                </h5> 
+                            </li>
+                            <li class="page-item">
+                                <h5> 
+                                    <a id="research-next" class="page-link" href="javascript:next('research')" id="btn_next" style="border-width: 0px 0px 0px 2px; color: #2f3640; border-color: #2f3640;">
+                                        Next
+                                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                    </a>
+                                </h5>
+                            </li>
+                        </ul>
+                    </nav>
+                    <a href="javascript:jumpTo('anchor')" style="text-decoration: none; font-style: italic; font-weight: 700; font-size: 14px;color: #2c3e50; text-decoration: underline;">jump to anchor</a>
+                    <!-- <button type="button" style="height: 40px;" class="btn btn-danger" data-bs-toggle="collapse" href="#collapseEvent" role="button" aria-expanded="false" aria-controls="collapseEvent">expand / collapse</button>                    -->
+                </div>
+            </div>
+        </section> 
+    {% endif %}
+
+    <!-- Publication Section --> 
+    {% if publications.paginator.count %}
+        <section class="section" id="publications" data-url="{% url 'categorized_publications' category=0 parent=page.id page=1 sort='descending' %}" data-page=1 data-pages="{{publications.paginator.num_pages}}" data-pg-size="{{page.publication_pg_size}}">
+            <div class="body_width" style="width: 85%;">
+                <div class="latest_news">
+                    <div style="display: flex; flex-direction:row">
+                        <h4>Publications </h4>
+                        <h6 id="publications-counter"></h6>
+                    </div>
+                    
+                    <div class="btn-group" id="publications-sort" data-sort="['descending', 'newer to older ']">
+                        <button id="publications-sort-text" class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:sort(['ascending', 'older to newer '], 'publications')">older to newer</a></li>
+                            <li><a class="dropdown-item" href="javascript:sort(['descending', 'newer to older '], 'publications')">newer to older</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="padding: 20px 0px 20px 0px; background-color:#ffffff; border-top: 2px solid #ecf0f1; border-bottom: 2px solid #ecf0f1;margin-bottom: 20px;">
+                    showing results for:
+                    <div class="btn-group" id="publications-category" data-category=0>
+                        <button id="publications-category-text" class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            all categories
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:changeCategory([0, 'all categories '], 'publications')">all categories </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% for category in publication_categories %} 
+                                <li><a class="dropdown-item" href="javascript:changeCategory([ {{category.id}}, '{{category.name|lower}}' ], 'publications')">{{ category.name|lower }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="publications-container" style="column-gap: calc(25% - 300px); row-gap: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); padding-bottom: 20px;">
+                </div>
+
+                <!-- <div class="collapse" id="collapsePublication">
+                    <div id="publications-collapse-container" style="column-gap: calc(25% - 300px); row-gap: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+                    </div>
+                </div> -->
+
+                <div class="latest_news" style="display: flex; justify-content: space-between; position: relative; align-content: center; padding-top: 20px;">
+                    <nav class="paginator" style="display: flex; ">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <h5> 
+                                    <a id="publications-prev" class="page-link" href="javascript:prev('publications')" id="btn_prev" style="border-width: 0px 2px 0px 0px; color: #2f3640; border-color: #2f3640;">
+                                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                        Prev 
+                                    </a>
+                                </h5> 
+                            </li>
+                            <li class="page-item">
+                                <h5> 
+                                    <a id="publications-next" class="page-link" href="javascript:next('publications')" id="btn_next" style="border-width: 0px 0px 0px 2px; color: #2f3640; border-color: #2f3640;">
+                                        Next
+                                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                    </a>
+                                </h5>
+                            </li>
+                        </ul>
+                    </nav>
+                    <a href="javascript:jumpTo('anchor')" style="text-decoration: none; font-style: italic; font-weight: 700; font-size: 14px;color: #2c3e50; text-decoration: underline;">jump to anchor</a>
+                    <!-- <button type="button" style="height: 40px;" class="btn btn-danger" data-bs-toggle="collapse" href="#collapsePublication" role="button" aria-expanded="false" aria-controls="collapsePublication">expand / collapse</button>                    -->
+                </div>
+            </div>
+        </section> 
+    {% endif %}
+
+    <!-- Documents -->
+    {% get_documents %}
+   
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script> 
+    function delay(delayInms) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+            resolve(2);
+            }, delayInms);
+        });
+    }
+
+    async function fetchdata(url, id){
+        await delay(1000)
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(res){
+                loaddata(res.data, id)
+            }
+        })
+    }
+
+    function loaddata(data, id){
+
+        let elem = document.getElementById(`${id}`);
+        let div = document.getElementById(`${id}-container`);
+        // let collapsible = document.getElementById(`${id}-collapse-container`);
+        let counter = document.getElementById(`${id}-counter`);
+        counter.innerHTML = `&nbsp&nbsp(${$(elem).data('page')}/${$(elem).data('pages')})`
+        // collapsible.innerHTML = ""
+        div.innerHTML = ""
+
+        var preview_data = data.objects
+        // .slice(0, 4)
+        // var collapsible_data = data.objects.slice(4)
+
+        for (const idx in preview_data){
+            let obj = preview_data[idx]
+            div.innerHTML += `
+                <div class="container">
+                    <div class="card_n" >
+                        <div class="card_head">
+                            <img style="width: 100%; height: 100%;" src="${obj.image}" alt="">
+                        </div>
+                        <div class="card_body text-box" data-title='${obj.headline}'>
+                            <h5 class="title spacing_btm_s text-box">${obj.headline}</h5>
+                            <a href="${obj.url}" class="green_button_card">Read More</a>
+                        </div>
+                    </div>
+                </div> 
+            `
+        }
+
+        // for (const idx in collapsible_data){
+        //     let obj = collapsible_data[idx]
+        //     collapsible.innerHTML += `
+        //          <div class="container">
+        //             <div class="card_n" >
+        //                 <div class="card_head">
+        //                     <img style="width: 100%; height: 100%;" src="${obj.image}" alt="">
+        //                 </div>
+        //                 <div class="card_body text-box" data-title='${obj.headline}'>
+        //                     <h5 class="title spacing_btm_s text-box">${obj.headline}</h5>
+        //                     <a href="${obj.url}" class="green_button_card">Read More</a>
+        //                 </div>
+        //             </div>
+        //         </div> 
+        //     `
+        // }
+    }
+
+    async function prev(id){
+        let elem = document.getElementById(`${id}`);
+        let sort_elem = document.getElementById(`${id}-sort`);
+        let category_elem = document.getElementById(`${id}-category`);
+        let button = document.getElementById(`${id}-prev`);
+        var url = $(elem).data('url') 
+       
+        var button_state = button.innerHTML
+        button.innerHTML = `<div class="spinner-grow spinner-grow-sm text-danger" role="status" style="margin-right:10px; size:5px"></div>`
+        
+        if ($(elem).data('page') > 1){
+            $(elem).data('page', $(elem).data('page')-1)
+            var ls = url.split('/')
+            var next_url = `/${ls[1]}/${ls[2]}/${ $(elem).data('page') }/${ $(category_elem).data('category') }/${ $(sort_elem).data('sort')[0] }`
+            await fetchdata(next_url, id)
+            window.scrollTo(0, $(sort_elem).offset().top)
+        }
+        button.innerHTML = button_state        
+    }
+
+    async function next(id){
+        let elem = document.getElementById(`${id}`);
+        let sort_elem = document.getElementById(`${id}-sort`);
+        let category_elem = document.getElementById(`${id}-category`);
+        let button = document.getElementById(`${id}-next`);
+        var url = $(elem).data('url') 
+       
+        var button_state = button.innerHTML
+        button.innerHTML = `<div class="spinner-grow spinner-grow-sm text-success" role="status" style="margin-left:10px"></div>`
+
+        if ($(elem).data('page') < $(elem).data('pages')){
+            $(elem).data('page', $(elem).data('page')+1)
+            var ls = url.split('/')
+            var next_url = `/${ls[1]}/${ls[2]}/${ $(elem).data('page') }/${ $(category_elem).data('category') }/${ $(sort_elem).data('sort')[0] }`
+            await fetchdata(next_url, id)
+            window.scrollTo(0, $(sort_elem).offset().top)
+        }
+        button.innerHTML = button_state
+    }
+
+    async function changeCategory(category, id){
+
+        let elem = document.getElementById(id);
+        let sort_elem = document.getElementById(`${id}-sort`);
+        let category_elem = document.getElementById(`${id}-category`);
+        let category_text = document.getElementById(`${id}-category-text`);
+
+        $(category_elem).data('category', `${category[0]}`)
+        category_text.innerHTML = `${category[1]}`
+
+        var url = $(elem).data('url')
+        var ls = url.split('/')
+        var next_url = `/${ls[1]}/${ls[2]}/${ls[3]}/${ $(category_elem).data('category') }/${ $(sort_elem).data('sort')[0] }`
+
+        await fetchdata(next_url, id)
+    }
+
+    async function sort(order, id){
+                
+        let elem = document.getElementById(id);
+        let sort_elem = document.getElementById(`${id}-sort`);
+        let sort_text = document.getElementById(`${id}-sort-text`);
+        let category_elem = document.getElementById(`${id}-category`);
+        
+        $(sort_elem).data('sort', order)
+        sort_text.innerHTML = `${order[1]}`
+
+        var url = $(elem).data('url')
+        var ls = url.split('/')
+        var next_url = `/${ls[1]}/${ls[2]}/${ls[3]}/${ $(category_elem).data('category') }/${ $(sort_elem).data('sort')[0] }`
+        
+        await fetchdata(next_url, id)
+    }
+    
+    async function start(){
+        let research = document.getElementById(`research`);
+        
+        if(research){
+            let elem = document.getElementById(`research-sort`);
+            let order = JSON.parse($(elem).data('sort').replace(/'/g, '"'))
+            await sort(order, 'research')
+        }
+
+        let publications = document.getElementById(`publications`);
+        if(publications){
+            let elem = document.getElementById(`publications-sort`);
+            let order = JSON.parse($(elem).data('sort').replace(/'/g, '"'))
+            await sort(order, 'publications')
+        }
+    }
+
+    window.onload = function () {
+        start()
+    };
+</script>
+
+<script>
+    function jumpTo(id){
+        let elem = document.getElementById(`${id}`);
+        window.scrollTo(0, $(elem).offset().top)
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load static wagtailsettings_tags wagtailimages_tags filters %}
+
+{% block branding_title %}NSRA Site CMS{% endblock %}
+
+{% get_settings %}
+
+{% block branding_favicon %}    
+    {% if settings.base.Settings.favicon %}
+        <link rel="shortcut icon" href="{{ settings.base.Settings.favicon|image_path }}" />
+    {% else %}
+        <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+    {% endif %}
+{% endblock %}

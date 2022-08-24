@@ -1,0 +1,91 @@
+{% load static wagtailcore_tags wagtailuserbar wagtailsettings_tags wagtailimages_tags global_tags %} 
+{% get_settings as settings %} 
+
+{% block extra_css %}
+<style>
+.vl {
+  border-style: solid;
+  border-width: 0px 0px 0px 0px;
+  border-left: 2px solid #00852c;
+  margin-left: 5px;
+  padding-left: 7px;
+  cursor:pointer
+}
+
+small {
+  background-color: transparent;
+  background: transparent;
+}
+
+</style>
+
+{% endblock extra_css %}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form class="modal-content" action="site-search-x01-csd-12">
+        <input type="search" id="search" name="query" placeholder="enter your search here" style="padding: 10px;">
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Top Bar with email, social media link and search -->
+    <div class="topbar_nav">
+        
+        <div class="email">
+          <a href="mailto:{{ settings.base.Settings.contact.email }}">
+            <i class="fa fa-envelope" aria-hidden="true"><span>{{ settings.base.Settings.contact.email|richtext }}</span></i>
+          </a>
+        </div>
+        <div class="social_icons">
+          
+          {% if settings.base.Settings.social.twitter %}
+            <a href='{{ settings.base.Settings.social.twitter }}' target="_blank" class="fa fa-twitter-square" aria-hidden="true"></a>
+          {% endif %} 
+
+          {% if settings.base.Settings.social.facebook %}
+            <a href='{{ settings.base.Settings.social.facebook }}' target="_blank" class="fa fa-facebook-square" aria-hidden="true"></a>
+          {% endif %} 
+
+          {% if settings.base.Settings.social.instagram %}
+            <a href={{ settings.base.Settings.social.instagram }} target="_blank" class="fa fa-instagram" aria-hidden="true"></a>
+          {% endif %} 
+
+          {% if settings.base.Settings.social.pinterest %}
+            <a href={{ settings.base.Settings.social.pinterest }} target="_blank" class="fa fa-pinterest-square" aria-hidden="true"></a>
+          {% endif %} 
+
+          {% if settings.base.Settings.social.tumblr %}
+            <a href={{ settings.base.Settings.social.tumblr }} target="_blank" class="fa fa-tumblr-square" aria-hidden="true"></a>
+          {% endif %} 
+
+          {% if settings.base.Settings.social.linkedin %}
+            <a href={{ settings.base.Settings.social.linkedin }} target="_blank" class="fa fa-linkedin-square" aria-hidden="true"></a>
+          {% endif %} 
+
+          {% if settings.base.Settings.social.youtube %}
+            <a href={{ settings.base.Settings.social.youtube }} target="_blank" class="fa fa-youtube-play " aria-hidden="true"></a>
+          {% endif %} 
+
+          {% if settings.base.Settings.social.reddit %}
+            <a href={{ settings.base.Settings.social.reddit }} target="_blank" class="fa fa-reddit-square" aria-hidden="true"></a>
+          {% endif %} 
+        
+          <a target="_blank" class="fa fa-search vl" style="color: white;" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#exampleModal"></a>          
+
+        </div>
+
+        <div class="mobile_menu_toggle" onclick="toggleMobileMenu()">
+            <i class="fa fa-bars fa-lg"></i>
+        </div>
+    </div>
+
+<script>
+  function toggleMobileMenu(){
+      const mobileMenu = document.querySelector('.nav_menu_mobile');
+      mobileMenu.classList.toggle('showMobileMenu');
+  }
+</script>

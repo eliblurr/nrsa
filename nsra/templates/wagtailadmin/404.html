@@ -1,0 +1,11 @@
+{% extends "wagtailadmin/404.html" %}
+{% load static wagtailimages_tags wagtailsettings_tags filters  %}
+{% get_settings %}
+
+{% block branding_logo %}
+    {% if settings.base.SiteLogo.logo %}
+        <img src="{{ settings.base.SiteLogo.logo|image_path }}" alt="Custom Project" width="80" />
+    {% else %}
+        <img src="{% static 'img/logo.png' %}" alt="Custom Project" width="80" />
+    {% endif %}
+{% endblock %}

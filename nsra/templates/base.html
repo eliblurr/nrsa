@@ -1,0 +1,116 @@
+{% load static wagtailcore_tags wagtailuserbar wagtailsettings_tags wagtailimages_tags global_tags %} 
+{% get_settings as settings %} 
+{% image settings.base.Settings.favicon original as favicon %}
+{% image settings.base.Settings.logo original as logo %}
+{% load static menu_tags %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="{{favicon.url}}" />
+    <title>
+      {% block title %} 
+        {% if page.seo_title %}
+          {{ page.seo_title }}
+        {% else %}
+          {{ page.title }}
+        {% endif %} 
+      {% endblock %} 
+      
+      {% block title_suffix %} 
+        {% wagtail_site as current_site %} {% if current_site and current_site.site_name %}- {{ current_site.site_name }}{% endif %} 
+      {% endblock %}
+    </title>
+    
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;700&family=Questrial&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/40c4011558.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+    {# Global stylesheets #}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+    
+    <!-- bootstrap.min.css -->
+
+    {% block extra_css %}{% endblock %}
+
+    <style>
+      @media screen and (max-width: 900px) {
+        .nav_menu {
+          display: none;
+        }
+        
+        .mobile_menu_toggle {
+          display: block;
+        }
+
+        .nav_menu_mobile {
+          transition: ease 4s;
+        }
+
+        .nav_menu_mobile > .menu_item {
+          margin: 10px 0;
+        }
+    }
+</style>
+
+  </head>
+
+  <body class="{% block body_class %}{% endblock %}">
+    
+    <!-- Top Bar with email, social media link and search -->
+    {% block topbar_nav %}
+    {% include "includes/top_bar.html" %}
+    {% endblock topbar_nav %} 
+   
+    <!-- Main Navigation with Logo -->
+    {% block navigation %}
+    {% include "includes/nav.html" %}
+    {% endblock navigation %} 
+
+    {% wagtailuserbar %} 
+    {% block content %}
+    {% endblock %} 
+    {% block extra_js %} 
+    {% endblock %}
+    
+    {# Global javascript #}
+    <script type="text/javascript" src="{% static 'js/nsra.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/nsra.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.3.0/d3.min.js" integrity="sha512-NMhzM2RHzbCRO0s5VPaRC+2bW6nmNXimzC9p5sp2x19M+zzuSJ2T50dEQ7hpHkNjnX1mt8nQg1NNthwRZgsoIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha512-4UKI/XKm3xrvJ6pZS5oTRvIQGIzZFoXR71rRBb1y2N+PbwAsKa5tPl2J6WvbEvwN3TxQCm8hMzsl/pO+82iRlg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static 'js/d3pie.min.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+
+    <!-- Newsletter Section -->
+    {% block newsletter %}
+    {% include "includes/newsletter-subscription.html" %}
+    {% endblock newsletter %} 
+
+    <!-- Pre-Footer Section -->
+    {% block pre_footer %}
+    {% include "includes/pre_footer.html" %}
+    {% endblock pre_footer %} 
+    
+  </body>
+
+  <!-- Footer Section -->
+  {% block footer %}
+  {% include "includes/footer.html" %}
+  {% endblock footer %} 
+
+</html>

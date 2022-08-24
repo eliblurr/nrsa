@@ -1,0 +1,17 @@
+{%extends 'stats/charts/index.html'%}
+{% load static %}
+{%block content%}
+<div class="container-3">
+  <div class="urban1">
+    <h5>Casualties by age Groups</h5>
+    <canvas id="ageGroup"></canvas>
+  </div>
+  <div class="urban1">
+    <h5>Fatalities by age Groups</h5>
+    <canvas id="ageGroup2"></canvas>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/age_group.js' %}"></script>
+{%endblock%}

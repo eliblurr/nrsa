@@ -1,0 +1,19 @@
+:root {
+    --color-primary-hue: 25;
+    --color-primary-hue: 25;
+    --color-primary-saturation: 100%;
+    --color-primary-lightness: 12%;
+    --color-primary-darker-hue: 24;
+    --color-primary-darker-saturation: 100%;
+    --color-primary-darker-lightness: 20%;
+    --color-primary-dark-hue: 23;
+    --color-primary-dark-saturation: 100%;
+    --color-primary-dark-lightness: 15%;
+    --color-primary: rgb(7, 182, 123);
+    --color-primary-darker: rebeccapurple;
+    --color-primary-dark: hsl(330, 100%, 70%);
+    --color-primary-lighter: azure;
+    --color-primary-light: aliceblue;
+    --color-input-focus: rgb(204, 0, 102);
+    --color-input-focus-border: #4d0026;
+}

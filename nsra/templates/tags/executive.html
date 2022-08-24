@@ -1,0 +1,50 @@
+{% load executive_tags wagtailimages_tags wagtailcore_tags %}
+
+{% if executives %}
+<section class="section">
+    <div class="body_section">
+        <div class="spacing_btm_xl">
+            <h6 class="title_heading spacing_btm_s">MEET THE</h6>
+            <h3 class="title_heading spacing_btm_m">BOARD EXECUTIVE</h3>
+        </div>
+
+        <div class="container">
+        <div class="categories spacing_btm_l" style="display: grid; grid-template-columns: repeat( auto-fill, minmax(250px, 1fr) ); width: 100%;">
+            {% for executive in executives %}
+            <div class="exec_card">
+                {% image executive.image original as tmp_photo %}
+                <div class="exec_img">
+                    <img {{ tmp_photo.attrs }} class="my-custom-class" />
+                    <div class="detail_o">
+                        <h5>{{executive.name}}</h5>
+                        <p>{{executive.position}}</p>
+                        <div class="social_icons">
+                            {% if executive.email %}
+                                <a href='mailto: {{ executive.email }}' target="_blank" class="fa fa-envelope" aria-hidden="true"></a>
+                            {% endif %}
+                            
+                            {% if executive.twitter %}
+                                <a href='{{ executive.twitter }}' target="_blank" class="fa fa-twitter-square" aria-hidden="true"></a>
+                            {% endif %}
+                            {% if executive.facebook %}
+                                <a href='{{ executive.facebook }}' target="_blank" class="fa fa-facebook-square" aria-hidden="true"></a>
+                            {% endif %}
+                            {% if executive.instagram %}
+                                <a href='{{ executive.instagram }}' target="_blank" class="fa fa-instagram" aria-hidden="true"></a>
+                            {% endif %}
+                            {% if executive.linked_in %}
+                                <a href='{{ executive.linked_in }}' target="_blank" class="fa fa-linkedin-square" aria-hidden="true"></a>
+                            {% endif %}
+                            {% if executive.pinterest %}
+                                <a href='{{ executive.pinterest }}' target="_blank" class="fa fa-pinterest-square" aria-hidden="true"></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+</section>
+{% endif %}

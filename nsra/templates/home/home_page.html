@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% load static menu_tags wagtailimages_tags %}
+{% load wagtailcore_tags %}
+{% include_block page.body %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tooltip.css' %}" />
+    <style>
+        .carousel_padding {
+            padding: 0px 80px 0px;
+        }
+        /* if screen is lesser than */
+        @media screen and (max-width: 900px) {
+            .carousel_padding {
+                padding: 0px 30px 0px;
+            }
+        }
+    </style>
+{% endblock extra_css %}
+
+{% block content %}
+<!-- {% include 'home/welcome_page.html' %} -->
+<!-- {% main_menu max_levels=3 template="menus/main_menu.html" %} -->
+<!-- {% flat_menu 'footer' max_levels=3 template="menus/main_menu.html" %} -->
+    {% include "includes/back_to_top.html" %}
+    <!-- Banner section -->
+    {% image page.hero_image original as bgimage %}
+    <div class="hero_section" style="background-image: url({{bgimage.url}}) ;">
+        <div class="hero_content vertical_flex" style="justify-content: center; align-items: center;">
+            <div>
+                {% if page.hero_title %}
+                    <h1 class="hero_heading">{{page.hero_title}}</h1>
+                {% endif %}
+
+                {% if page.hero_sub_title %}
+                    <h6 class="hero_heading">{{page.hero_sub_title}}</h6>
+                {% endif %}
+                
+                {% if page.hero_description %}
+                    <p class="hero_heading">{{page.hero_description|richtext}}</p>
+                {% endif %}
+
+                {% if page.hero_external_link %}
+                    <p class="hero_heading" style="font-style: italic;">
+                        <a href="{{page.hero_external_link}}" style="font-style: italic;font-size: 12px; color: aliceblue;">{{page.hero_external}}</a>
+                    </p>
+                {% endif %}
+
+                {% if page.hero_cta %}
+                    <p>
+                        <a class="button_lg" href="{{page.hero_cta_link}}">{{page.hero_cta}}</a>
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section --> 
+    {% for block in page.body %}
+        <section class="section">
+            <div class="section_one_grid">
+                {% if block.block_type == 'grid' %}
+                    <div style="column-gap: 20px; row-gap: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr)); padding-bottom: 20px;align-items:flex-start;">
+                        {% for block in block.value %}
+                            <section class="block-{{ block.block_type }}" style="width: 100%;" >
+                                {% include_block block %}
+                            </section>       
+                        {% endfor %}
+                    </div>
+                    
+                    
+                {% else %}
+                    {% for block in block.value %}
+                        <section class="block-{{ block.block_type }}">
+                            {% include_block block %}
+                        </section>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </section>
+    {% endfor %}
+
+    <!-- Core Functions Section -->
+    <section class="section_green">
+
+        {% if page.functions_title %}
+            <h3 class="heading_center spacing_btm_s">{{page.functions_title}}</h3>
+        {% endif %}
+
+        {% if page.functions_sub_title %}
+            <h6 class="heading_center spacing_btm_m" style="font-size: 12px;">{{page.functions_sub_title}}</h6>
+        {% endif %}
+
+        {% if page.functions_description %}
+            <p class="heading_center spacing_btm_xl">{{page.functions_description}}</p>
+        {% endif %}
+
+        {% if page.functions.all %}
+            <div class="function_section spacing_btm_l" style="display: flex; flex-flow:row wrap;">
+                {% for item in page.functions.all %}                    
+                    <div style="min-width: calc(100%/3); min-width: 300px;" class="column_one">
+                        {% image item.function.icon original as icon %}
+                        <div style="display: flex; flex-direction:row; height: max-content;">
+                            <div class="icon" src="" alt="document icon" srcset="" style="background-image: url({{icon.url}});"></div>
+                            <div class="spacing_btm_m">
+                                <h4 >{{item.function.title}}</h4>
+                                {% if item.function.subtitle %}
+                                    <h6 style="font-size: 9px;">{{item.function.subtitle}}</h6>   
+                                {% endif %}
+                            </div>
+                        </div>
+                        <p class="spacing_btm_s">{{item.function.body|richtext}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}      
+
+        {% if page.functions_cta_link %}
+            <div class="center_item">
+                <a href="{{ page.functions_cta_link }}" class="yellow_button_lg">{{page.functions_cta_text}}</a>
+            </div>
+        {% endif %}   
+    </section>
+  
+    <!-- Latest News -->
+    {% if latest_news.paginator.count %}
+    <section class="section" style="flex-direction: column;">
+        <div id="carouselExampleControls" class="carousel slide carousel_padding" data-bs-ride="carousel">
+             <!-- style="padding: 0px 80px 0px;"  -->
+            <div class="spacing_btm_m">
+                <div class="title">
+                    <h4>Latest News</h4>
+                </div>
+            </div>
+            <div class="carousel-inner" style="min-width: 300px;">    
+                {% for pg in latest_news.paginator %}
+                    <div class="carousel-item {% if pg.number == latest_news.number %} active {% endif %}" data-bs-interval="5000">
+                        <div id="slide-{{pg.number}}" style="column-gap: calc(25% - 300px); row-gap: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); grid-auto-flow: column;overflow-x: auto;" >
+                            {% for item in pg.object_list %}
+                                <div class="container">
+                                    <div class="card_n" >
+                                        <div class="card_head">
+                                            {% image item.main_image original as hldr %}
+                                            <img style="width: 100%; height: 100%;" src="{{hldr.url}}" alt="">
+                                            <h6 class="info" style="font-style: italic; font-size: x-small;">date: {{item.date}}</h6>  
+                                        </div>
+                                        <div class="card_body text-box" data-title='{{item.headline}}'>
+                                            <h5 class="title spacing_btm_s text-box">{{item.headline}}</h5>
+                                            <a href="{{item.url}}" class="green_button_card">Read More</a>
+                                        </div>
+                                    </div>
+                                </div> 
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev" style="background-color: #0099339a; margin: auto 0 auto 0; height:30px ; width:30px;" >
+                        <i class="fa fa-angle-left fa-lg"></i>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next" style="background-color: #0099339a; margin: auto 0 auto 0; height:30px ; width:30px;">
+                        <i class="fa fa-angle-right fa-lg"></i>
+                    </button>
+                {% endfor %} 
+            </div>         
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Activities & Publications Section -->
+    {% if page.activities.all or page.publication_and_research.all %}
+    <section class="section section_dark">
+        <div class="section_one_grid" style="column-gap: 20px; row-gap: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr)); padding-bottom: 20px;align-items:flex-start;">
+            
+            {% if page.activities.all %}
+                <div style="width: 100%; flex-direction: column; justify-content:flex-start; margin-right: 20px; border-right: 1px solid #333333c0; padding-right: 20px;">
+                    <h4 class="spacing_btm_m">Press Briefing</h4>
+                    {% for item in page.activities.all %}
+                        <div class="card mb-3" style="background-color: rgba(0, 0, 0, 0.5); max-width: 600px; border-radius: 10px; overflow: hidden; min-width: 150px;">
+                            <div class="row g-0">
+                                <div class="col-md-4" style="max-width: 100%;">
+                                    {% image item.activity.main_image original as temp %}
+                                    <img src="{{temp.url}}" class="img-fluid rounded-start" alt="..." style="height: 150px; width: 100%;">
+                                </div>
+                                <div class="col-md-8" style="align-content:space-around; display:flex; flex-direction:column; padding: 20px; min-width: none;">
+                                    <div class="activity_body text-box" style="height: 70%;" data-title='{{item.activity.headline}}'>
+                                        <h6 class="spacing_btm_s">{{item.activity.headline}}</h6>
+                                    </div>
+                                    <div class="activity_body" style="height: 20%; ">
+                                        <a href="{{item.activity.url}}" style="cursor: pointer; text-decoration:none;color: inherit;">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>   
+            {% endif %}
+
+            {% if page.publication_and_research.all %}
+                <div style="width: 100%; flex-direction: column; justify-content:flex-start; border-left: 1px solid #333333c0; padding-left: 20px;">
+                    <h4 class="spacing_btm_m">Press Briefing</h4>
+                    {% for item in page.publication_and_research.all %}
+                        <div class="card mb-3" style="background-color: rgba(0, 0, 0, 0.5); max-width: 600px; border-radius: 10px; overflow: hidden; min-height: 150px;">
+                            <div class="row g-0">
+                                <div class="col-md-4" style="max-width: 100%;">
+                                    {% image item.selection.main_image original as temp %}
+                                    <img src="{{temp.url}}" class="img-fluid rounded-start" alt="..." style="height: 150px; width: 100%;">
+                                </div>
+                                <div class="col-md-8" style="align-content:space-around; display:flex; flex-direction:column; padding: 20px; min-width: none;">
+                                    <div class="activity_body text-box" style="height: 70%;" data-title='{{item.selection.headline}}'>
+                                        <h6 class="spacing_btm_s">{{item.selection.headline}}</h6>
+                                    </div>
+                                    <div class="activity_body" style="height: 20%; ">
+                                        <a href="{{item.selection.url}}" style="cursor: pointer; text-decoration:none;color: inherit;">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Statistics Section -->
+    <section class="section">
+        <div class="section_one_grid" style="column-gap: 20px; row-gap: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr)); padding-bottom: 20px;align-items:center;" >
+            <div class="container">
+                {% if page.statistics_title %}
+                    <h4 class="spacing_btm_s">{{page.statistics_title}}</h4>
+                {% endif %}
+                {% if page.statistics_sub_title %}
+                    <h6 class="spacing_btm_m">{{page.statistics_sub_title}}</h6>
+                {% endif %}
+                {% if page.statistics_description %}
+                    <p class="spacing_btm_l">
+                        {{page.statistics_description}}
+                    </p>
+                {% endif %}
+                <a class="green_button_lg" href="./statistics.html" target="_blank" rel="noopener noreferrer"> View More Stats</a>
+            </div>
+            <div class="container">
+                {% image page.statistics_image original as hldr %}
+                <img style="width: 100%; height: inherit; margin-right: auto;margin-right: left;" src="{{hldr.url}}" alt="">
+                <h3 class="spacing_btm_m">&nbsp;</h3>  
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}
+
+
+

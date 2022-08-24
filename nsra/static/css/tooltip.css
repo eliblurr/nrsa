@@ -1,0 +1,31 @@
+.text-box {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.text-box:hover::before {
+  content: attr(data-title);
+  width: 300px;
+  background-color:#F79F1F;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 40%;
+  left: -2px;
+  white-space: normal;
+  overflow-wrap: break-word;
+
+}
+
+.text-box:hover::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 20px;
+}
