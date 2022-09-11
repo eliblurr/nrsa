@@ -50,7 +50,7 @@
 
                 {% if page.hero_cta %}
                     <p>
-                        <a class="button_lg" href="{{page.hero_cta_link}}">{{page.hero_cta}}</a>
+                        <a class="button_lg" href="{% pageurl page.hero_cta_link %}">{{page.hero_cta}}</a>
                     </p>
                 {% endif %}
             </div>
