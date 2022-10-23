@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags global_tags wagtailimages_tags static %}
+{% block body_class %}template-galleryindexpage{% endblock %}
+
+<!-- Banner section -->
+{% block navigation %}
+    {% include "includes/nav-solid.html"  %}
+{% endblock navigation %}
+{% csrf_token %} 
+
+{% block extra_css %}
+{% endblock extra_css %}
+
+{% block content %}
+    {% include "includes/back_to_top.html" %}
+    <!-- Title & Breadcrumb section -->
+    {% image page.hero_image original as bgimage %}
+    <div class="title_section_pr" style="background-image: url({{bgimage.url}}); ">
+        <div>
+            <h4 class="title_heading" style="color: #ffffff ;">{{page.title}}</h4>
+            {% breadcrumbs %}
+        </div>
+    </div>
+
+    <!-- Modal -->
+
+    <div class="modal fade" id="slideShowModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="slideShowModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-fullscreen-sm-down" style="margin: 0;padding: 0;">
+            <div class="modal-content" style="width: 100vw; height: 100vh; background: none;">
+                
+                <div class="modal-header" style="border: 0;">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div style="height: 100%; width:100%; padding: 0 50px 50px 50px;">
+                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="width:100%; height: 100%; justify-content: center;align-items: center; display: block;">
+                        <div class="carousel-inner" style="height: 100%; width: 100%;">
+                            <div class="carousel-item active" style="height: 100%; width: 100%;">
+                                <img src="{{bgimage.url}}" style="width:100%;height:100%;object-fit: contain;" alt="image">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    
+    <!-- About Section --> 
+    {% for block in page.body %}
+        <section class="section_s section_dark">
+            <div class="section_one_grid">
+                {% if block.block_type == 'grid' %}
+                    <div style="column-gap: 20px; row-gap: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr)); padding-bottom: 20px;align-items:flex-start;">
+                        {% for block in block.value %}
+                            <section class="block-{{ block.block_type }}" style="width: 100%;" >
+                                {% include_block block %}
+                            </section>       
+                        {% endfor %}
+                    </div>
+                    
+                    
+                {% else %}
+                    {% for block in block.value %}
+                        <section class="block-{{ block.block_type }}">
+                            {% include_block block %}
+                        </section>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </section>
+    {% endfor %}
+
+    <!-- Main Section --> 
+    <div class="section">
+        <div class="body_width">
+            
+            <!-- Galleries Section --> 
+            <a target="_blank" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#slideShowModal">
+                <div style="column-gap: calc(25% - 250px); row-gap: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); padding-bottom: 20px; width: 100%;">
+                    {% for gallery in galleries %}
+                        {% image gallery.main_image original as hldr %}
+                        <div class="gallery-container">
+                            <img src="{{hldr.url}}" alt="gallery image" class="gallery-image">
+                            <div class="gallery-overlay">
+                                <div class="gallery-text">
+                                    <p style="text-align: center;" >{{gallery.name}}</p>
+                                    <p style="text-align: center; font-size: small;">{{gallery.description}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </a>  
+
+        </div>
+    </div>
+
+{% endblock %}

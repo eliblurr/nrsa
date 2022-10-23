@@ -7,8 +7,12 @@ from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel, InlinePanel, FieldRowPanel, TabbedInterface, ObjectList
 from nsra.base.blocks import BaseStreamBlock, ParagraphStreamBlock, ImageBlock
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from wagtail.core.fields import RichTextField, StreamField
+from wagtail.admin.edit_handlers import InlinePanel as BaseInlinePanel
+from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from nsra.base.models import GalleryImageBase, StandardPage
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.snippets.models import register_snippet
+from modelcluster.models import ClusterableModel
 from wagtail.core.blocks import StreamBlock
 from wagtail.search import index
 from wagtail.api import APIField
@@ -16,13 +20,59 @@ from django import forms
 
 standard_page_content_panels = [item for item in StandardPage.content_panels if not(isinstance(item, FieldPanel) and item.field_name=='body')]
 
-# class Gallery(Orderable):
-#     pass
+class InlinePanel(BaseInlinePanel):
+    def widget_overrides(self):
+        widgets = {}
+        child_edit_handler = self.get_child_edit_handler()
+        for handler_class in child_edit_handler.children:
+            widgets.update(handler_class.widget_overrides())
+        widget_overrides = {self.relation_name: widgets}
+        return widget_overrides
+    
+class GalleryIndexPage(StandardPage):
 
-class GalleryPage(StandardPage):
+    body = StreamField(BaseStreamBlock(),null=True,blank=True)
+    content_panels =  [StreamFieldPanel('body'),]
+
+    galleries_panels = [
+        InlinePanel('galleries', classname="collapsed"),
+    ]
+
+    edit_handler = TabbedInterface([
+        ObjectList(standard_page_content_panels, heading='page & hero'),
+        ObjectList(galleries_panels, heading='Galleries'), 
+        ObjectList(content_panels, heading='content'), 
+        ObjectList(StandardPage.promote_panels, heading='promote'),
+        ObjectList(StandardPage.settings_panels, heading='settings'),
+    ])
+
+    def get_galleries(self):
+        return Gallery.objects.filter(page=self.id)
+
+    def children(self):
+        return self.get_children().specific().live()
+
+    def paginate(self, request, func, *args, **kwargs):
+        page = request.GET.get('page')
+        paginator = Paginator(func(**kwargs), 12)
+        try:
+            pages = paginator.page(page)
+        except PageNotAnInteger:
+            pages = paginator.page(1)
+        except EmptyPage:
+            pages = paginator.page(paginator.num_pages)
+        return pages
+
+    def get_context(self, request):
+        context = super(GalleryIndexPage, self).get_context(request)
+        # galleries = self.paginate(request, self.get_galleries)
+        context['galleries'] = self.get_galleries()
+        return context
+
+class Gallery(ClusterableModel, Orderable):
     name = models.CharField(max_length=255, blank=True, null=True)
-
-    subpage_types = []
+    description = models.CharField(max_length=10000, blank=True, null=True)
+    page = ParentalKey(GalleryIndexPage, on_delete=models.CASCADE, related_name='galleries', null=True)
 
     def main_image(self):
         gallery_item = self.gallery_images.first()
@@ -31,59 +81,19 @@ class GalleryPage(StandardPage):
         else:
             return None
 
-    search_fields = Page.search_fields + [
-        index.SearchField('name'),
-        index.SearchField('title'),
-    ]
-
-    content_panels = [
+    panels = [
         FieldPanel('name', classname="full"),
-        InlinePanel('gallery_images', label="Gallery images"),
+        FieldPanel('description', classname="full"),
+        InlinePanel('gallery_images', classname="collapsed"),
     ]
 
-    edit_handler = TabbedInterface([
-        ObjectList(standard_page_content_panels, heading='page & hero'),
-        ObjectList(content_panels, heading='content'), 
-        ObjectList(StandardPage.promote_panels, heading='promote'),
-        ObjectList(StandardPage.settings_panels, heading='settings'),
-    ])
+    class Meta:
+        verbose_name_plural = 'galleries'
+        verbose_name = 'gallery'
+
+    def __str__(self):
+        return self.name
 
 class GalleryImages(GalleryImageBase):
-    page = ParentalKey(GalleryPage, on_delete=models.CASCADE, related_name='gallery_images')
-
-class GalleryIndexPage(StandardPage):
-
-    body = StreamField(BaseStreamBlock(),null=True,blank=True)
-    content_panels =  [StreamFieldPanel('body'),]
-
-    # galleries [list of galleries]
-    # subpage_types = ['Gallery']
-    # edit_handler = TabbedInterface([
-    #     ObjectList(standard_page_content_panels, heading='page & hero'),
-    #     ObjectList(content_panels, heading='content'), 
-    #     ObjectList(StandardPage.promote_panels, heading='promote'),
-    #     ObjectList(StandardPage.settings_panels, heading='settings'),
-    # ])
-
-    # def get_galleries(self,**kwargs):
-    #     return Gallery.objects.filter(**kwargs).live().descendant_of(self).order_by('-first_published_at')
-
-    # def children(self):
-    #     return self.get_children().specific().live()
-
-    # def paginate(self, request, func, *args, **kwargs):
-    #     page = request.GET.get('page')
-    #     paginator = Paginator(func(**kwargs), 12)
-    #     try:
-    #         pages = paginator.page(page)
-    #     except PageNotAnInteger:
-    #         pages = paginator.page(1)
-    #     except EmptyPage:
-    #         pages = paginator.page(paginator.num_pages)
-    #     return pages
-
-    # def get_context(self, request):
-    #     context = super(GalleryIndexPage, self).get_context(request)
-    #     galleries = self.paginate(request, self.get_galleries)
-    #     context['galleries'] = galleries
-    #     return context
+    gallery = ParentalKey(Gallery, on_delete=models.CASCADE, related_name='gallery_images', null=True)
+    

@@ -5,6 +5,7 @@ from nsra.executive.wagtail_hooks import ExecutiveAdmin
 from nsra.core_functions.models import CoreFunction
 from nsra.activity.models import ActivityCategory
 from nsra.regional_profiles.models import Regions
+from nsra.galleries.models import Gallery
 
 class RegionAdmin(ModelAdmin):
     model = Regions
@@ -15,6 +16,11 @@ class CoreFunctionAdmin(ModelAdmin):
     model = CoreFunction
     search_fields = ('title', )
     list_filter = ('featured', )
+
+class GalleryAdmin(ModelAdmin):
+    model = Gallery
+    search_fields = ('name', )
+    # list_filter = ('featured', )
 
 class RelatedOrganizationAdmin(ModelAdmin):
     model = RelatedOrganization
