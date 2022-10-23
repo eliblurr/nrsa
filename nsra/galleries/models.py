@@ -87,11 +87,6 @@ class Gallery(ClusterableModel, Orderable):
 
     def get_images(self):
         a = [obj.image.get_rendition('original').url for obj in self.gallery_images.all()]
-        # obj.main_image().get_rendition('original').url,
-        # print(a[0])
-        # import json
-        a = json.dumps(a)
-        # print(a)
         return json.dumps(a)
 
     panels = [
