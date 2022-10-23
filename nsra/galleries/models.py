@@ -36,7 +36,7 @@ class GalleryIndexPage(StandardPage):
     content_panels =  [StreamFieldPanel('body'),]
 
     galleries_panels = [
-        InlinePanel('galleries', classname="collapsible collapsing collapsed"),
+        InlinePanel('galleries', classname="collapsible"),
     ]
 
     # class InlinePanel(relation_name, panels=None, heading='', label='', min_num=None, max_num=None, heading='', classname='', help_text='', /, *, classname='', help_text='')
