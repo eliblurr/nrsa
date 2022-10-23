@@ -1,0 +1,14 @@
+{% extends "wagtailadmin/userbar/base.html" %}
+
+{% load static wagtailimages_tags wagtailsettings_tags filters wagtailadmin_tags i18n %}
+
+{% get_settings %}
+
+{% block branding_logo %}
+  <!-- Update the icon -->
+    {% if settings.base.Settings.logo %}
+        <img src="{{ settings.base.Settings.logo|image_path }}" alt="Custom Project" width="60"/>
+    {% else %}
+        <img src="{% static 'img/logo.png' %}" alt="Custom Project" width="60" />
+    {% endif %}
+{% endblock %}

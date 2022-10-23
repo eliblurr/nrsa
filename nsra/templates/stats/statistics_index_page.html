@@ -11,9 +11,9 @@
   <!-- Title & Breadcrumb section -->
   {% image page.hero_image original as bgimage %}
   <div class="title_section_pr" style="background-image: url({{bgimage.url}}); ">
-      <div class="title_content_pr">
-          <h4 class="title_heading" style="color: #ffffff ;">{{page.title}}</h4>
-          <p>{% breadcrumbs %}</p>
+      <div>
+          <h4 class="title_heading" style="color: #fff ;">{{page.title}}</h4>
+          {% breadcrumbs %}
       </div>
   </div>
 

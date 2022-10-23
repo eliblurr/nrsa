@@ -44,7 +44,7 @@
         <section class="section">
             <div class="section_one_grid">
                 {% if block.block_type == 'grid' %}
-                    <div style="column-gap: 20px; row-gap: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr)); padding-bottom: 20px;align-items:flex-start;">
+                    <div class="grid-content">
                         {% for block in block.value %}
                             <section class="block-{{ block.block_type }}" style="width: 100%;" >
                                 {% include_block block %}
@@ -67,9 +67,9 @@
     <!-- Mission Vision Section -->
     {% if page.mission_title or page.vision_title or page.mandate_title %}
     <section class="section section_dark">
-        <div class="function_section spacing_btm_l">
+        <div class="function_section spacing_btm_l"style="display: flex; flex-flow:row wrap;justify-content:space-around;" >
             {% if page.mission_title %}
-                <div style="min-width: calc(100%/3); min-width: 300px;" class="column_one">
+                <div style="min-width: 300px; max-width: 450px;" class="column_one">
                     {% image page.mission_icon original as icon %}
                     <div style="display: flex; flex-direction:row; height: max-content;">
                         <div class="icon" src="" alt="document icon" srcset="" style="background-image: url({{icon.url}});"></div>
@@ -85,7 +85,7 @@
             {% endif %}
 
             {% if page.vision_title %}
-                <div style="min-width: calc(100%/3); min-width: 300px;" class="column_one">
+                <div style="min-width: 300px; max-width: 450px;" class="column_one">
                     {% image page.vision_icon original as icon %}
                     <div style="display: flex; flex-direction:row; height: max-content;">
                         <div class="icon" src="" alt="document icon" srcset="" style="background-image: url({{icon.url}});"></div>
@@ -101,7 +101,7 @@
             {% endif %}
 
             {% if page.mandate_title %}
-                <div style="min-width: calc(100%/3); min-width: 300px;" class="column_one">
+                <div style="min-width: 300px; max-width: 450px;" class="column_one">
                     {% image page.mandate_icon original as icon %}
                     <div style="display: flex; flex-direction:row; height: max-content;">
                         <div class="icon" src="" alt="document icon" srcset="" style="background-image: url({{icon.url}});"></div>
@@ -136,9 +136,9 @@
         {% endif %}
 
         {% if page.functions.all %}
-            <div class="function_section spacing_btm_l" style="display: flex; flex-flow:row wrap;">
+            <div class="function_section spacing_btm_l" style="display: flex; flex-flow:row wrap;justify-content:space-around;">
                 {% for item in page.functions.all %}                    
-                    <div style="min-width: calc(100%/3); min-width: 300px;" class="column_one">
+                    <div style="min-width: 300px; max-width: 450px;" class="column_one">
                         {% image item.function.icon original as icon %}
                         <div style="display: flex; flex-direction:row; height: max-content;">
                             <div class="icon" src="" alt="document icon" srcset="" style="background-image: url({{icon.url}});"></div>

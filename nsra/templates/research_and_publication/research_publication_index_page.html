@@ -17,18 +17,18 @@
     <!-- Title & Breadcrumb section -->
     {% image page.hero_image original as bgimage %}
     <div class="title_section_pr" style="background-image: url({{bgimage.url}}); ">
-        <div class="title_content_pr">
+        <div>
             <h4 class="title_heading" style="color: #ffffff ;">{{page.title}}</h4>
-            <p>{% breadcrumbs %}</p>
+            {% breadcrumbs %}
         </div>
     </div>
 
     <!-- About Section --> 
     {% for block in page.body %}
-        <section class="section section_dark">
+        <section class="section_s section_dark">
             <div class="section_one_grid">
                 {% if block.block_type == 'grid' %}
-                    <div style="column-gap: 20px; row-gap: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr)); padding-bottom: 20px;align-items:flex-start;">
+                    <div style="column-gap: 50px; row-gap: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr)); padding-bottom: 20px;align-items:flex-start; ">
                         {% for block in block.value %}
                             <section class="block-{{ block.block_type }}" style="width: 100%;" >
                                 {% include_block block %}
@@ -50,15 +50,15 @@
     
     <!-- skip to documents link -->
     <div id="anchor" class="body_width" style="width: 85%; margin-top: 80px; border-top: 1px solid #bdc3c7; border-bottom: 1px solid #bdc3c7;padding-top: 11px;">
-        <ul>
+        <ul style="list-style-type:circle">
             <li>
-                <a href="javascript:jumpTo('documents')" style="text-decoration: none; font-style: italic; font-weight: 700; font-size: 14px;color: #2c3e50; text-decoration: underline;">skip to documents</a>
+                <a href="javascript:jumpTo('documents')" class="anchor_links">skip to documents</a>
             </li>
             <li> 
-                <a href="javascript:jumpTo('research')" style="text-decoration: none; font-style: italic; font-weight: 700; font-size: 14px;color: #2c3e50; text-decoration: underline;">skip to research</a>
+                <a href="javascript:jumpTo('research')" class="anchor_links">skip to research</a>
             </li>
             <li>
-                <a href="javascript:jumpTo('publications')" style="text-decoration: none; font-style: italic; font-weight: 700; font-size: 14px;color: #2c3e50; text-decoration: underline;">skip to publications</a>
+                <a href="javascript:jumpTo('publications')" class="anchor_links">skip to publications</a>
             </li>
         </ul>
     </div>
@@ -99,7 +99,7 @@
                     </div>
                 </div>
 
-                <div id="research-container" style="column-gap: calc(25% - 300px); row-gap: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); padding-bottom: 20px;">
+                <div id="research-container" style="column-gap: calc(25% - 300px); row-gap: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); padding-bottom: 20px;">
                 </div>
 
                 <!-- <div class="collapse" id="collapseEvent">
@@ -128,7 +128,7 @@
                             </li>
                         </ul>
                     </nav>
-                    <a href="javascript:jumpTo('anchor')" style="text-decoration: none; font-style: italic; font-weight: 700; font-size: 14px;color: #2c3e50; text-decoration: underline;">jump to anchor</a>
+                    <a href="javascript:jumpTo('anchor')" style="text-decoration: none; font-style: italic; font-weight: 400; font-size: 14px;color: #2c3e50; text-decoration: underline;">jump to anchor</a>
                     <!-- <button type="button" style="height: 40px;" class="btn btn-danger" data-bs-toggle="collapse" href="#collapseEvent" role="button" aria-expanded="false" aria-controls="collapseEvent">expand / collapse</button>                    -->
                 </div>
             </div>
@@ -200,7 +200,7 @@
                             </li>
                         </ul>
                     </nav>
-                    <a href="javascript:jumpTo('anchor')" style="text-decoration: none; font-style: italic; font-weight: 700; font-size: 14px;color: #2c3e50; text-decoration: underline;">jump to anchor</a>
+                    <a href="javascript:jumpTo('anchor')" style="text-decoration: none; font-style: italic; font-weight: 400; font-size: 14px;color: #2c3e50; text-decoration: underline;">jump to anchor</a>
                     <!-- <button type="button" style="height: 40px;" class="btn btn-danger" data-bs-toggle="collapse" href="#collapsePublication" role="button" aria-expanded="false" aria-controls="collapsePublication">expand / collapse</button>                    -->
                 </div>
             </div>

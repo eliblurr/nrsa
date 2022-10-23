@@ -39,7 +39,7 @@
                 {% endif %}
                 
                 {% if page.hero_description %}
-                    <p class="hero_heading">{{page.hero_description|richtext}}</p>
+                    <p class="hero_heading"><em>{{page.hero_description|richtext}}</em></p>
                 {% endif %}
 
                 {% if page.hero_external_link %}
@@ -62,7 +62,7 @@
         <section class="section">
             <div class="section_one_grid">
                 {% if block.block_type == 'grid' %}
-                    <div style="column-gap: 20px; row-gap: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr)); padding-bottom: 20px;align-items:flex-start;">
+                    <div class="grid-content">
                         {% for block in block.value %}
                             <section class="block-{{ block.block_type }}" style="width: 100%;" >
                                 {% include_block block %}
@@ -98,9 +98,9 @@
         {% endif %}
 
         {% if page.functions.all %}
-            <div class="function_section spacing_btm_l" style="display: flex; flex-flow:row wrap;">
+            <div class="function_section spacing_btm_l" style="display: flex; flex-flow:row wrap;justify-content:space-around;" >
                 {% for item in page.functions.all %}                    
-                    <div style="min-width: calc(100%/3); min-width: 300px;" class="column_one">
+                    <div style="min-width: 300px; max-width: 450px;" class="column_one">
                         {% image item.function.icon original as icon %}
                         <div style="display: flex; flex-direction:row; height: max-content;">
                             <div class="icon" src="" alt="document icon" srcset="" style="background-image: url({{icon.url}});"></div>

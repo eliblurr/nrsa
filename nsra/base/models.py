@@ -258,13 +258,25 @@ class FormPage(AbstractEmailForm):
     body = StreamField(BaseStreamBlock())
     thank_you_text = RichTextField(blank=True)
 
+    hero_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Landscape mode only; horizontal width between 1000px and 3000px.'
+    )
+
+
     # Note how we include the FormField object via an InlinePanel using the
     # related_name value
     content_panels = AbstractEmailForm.content_panels + [
         ImageChooserPanel('image'),
+        ImageChooserPanel('hero_image'),
         StreamFieldPanel('body'),
         InlinePanel('form_fields', label="Form fields"),
         FieldPanel('thank_you_text', classname="full"),
+
         MultiFieldPanel([
             FieldRowPanel([
                 FieldPanel('from_address', classname="col6"),

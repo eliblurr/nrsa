@@ -22,10 +22,11 @@
 
 {% block content %}
     <!-- Title & Breadcrumb section -->
-    <div class="title_section_pr" style="background-color: #2d3436;">
-        <div class="title_content_pr">
+    {% image page.hero_image original as bgimage %}
+    <div class="title_section_pr" style="background-color: #2d3436;background-image: url({{bgimage.url}});">
+        <div>
             <h4 class="title_heading" style="color: #fff ;">{{page.title}}</h4>
-            <p>{% breadcrumbs %}</p>
+            {% breadcrumbs %}
         </div>
     </div>
 

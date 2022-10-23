@@ -5,7 +5,7 @@
 
 body {
     font-family: 'Impact', 'Textabook','Raleway','Questrial', sans-serif , ;
-    font-size: 24px;
+    font-size: 16px;
     color: #707070;
     line-height: 28px;
 }
@@ -56,6 +56,21 @@ h6 {
     text-transform: capitalize;
 }
 
+.anchor_links {
+    text-decoration: none; 
+    font-style: italic; 
+    font-weight: 400; 
+    font-size: 14px;
+    color: #2c3e50; 
+    text-decoration: underline;
+}
+
+.grid-image{
+    width: 1200px;
+    height: 300px;
+    object-fit: contain;
+}
+
 .topbar_nav {
     display: flex;
     padding: 10px 7.5%;
@@ -74,6 +89,10 @@ h6 {
 }
 
 .topbar_nav i {
+    color: #fff;
+}
+
+.social_icons_color {
     color: #fff;
 }
 
@@ -228,13 +247,15 @@ h6 {
 .title_section_pr {
     position: relative;
     display: flex;
-    height: 120px;
+    /* height: 120px; */
     background-image: url("./media/photos/tamara-gak-GWbIHT51VT4-unsplash.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     justify-content: center;
     align-items: center;
     isolation: isolate;
+    padding-top: 30px;
+    padding-bottom: 15px;
 }
 
 .title_content, .title_content_pr {
@@ -481,7 +502,7 @@ h6 {
     width: 240px;
     height: 240px;
     background-color: #fff;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
 }
 
 .exec_img {
@@ -532,7 +553,16 @@ h6 {
     top: 140px;
     padding: 10px 20px;
     width: 100%;
-    height: 100%;
+    height: 100px;
+}
+
+.grid-content {
+    column-gap: 50px; 
+    row-gap: 50px; 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(min(300px), 1fr));
+    padding-bottom: 20px; 
+    align-items:flex-start;
 }
 
 .detail_o::after{
@@ -813,6 +843,15 @@ h6 {
     z-index: 1;
 }
 
+.grid_img_desc {
+    background-color: #009933; 
+    border-radius: 0 0 5px 5px;
+    padding: 0 10px;
+    padding-top: 5px;
+    z-index: 1;
+    color: #fff;
+}
+
 .form-inline {
     display: flex;
     flex-flow: row wrap;
@@ -849,6 +888,12 @@ h6 {
 
 } **/
 
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-auto-flow: row dense;
+}
+
 .ql_split {
     display: flex;
 }
@@ -861,7 +906,6 @@ h6 {
     flex-flow: column;
     flex-wrap: wrap;
     text-decoration: none;
-    /*border-bottom: 1px solid #333333; */
     padding: 5px 20px 5px 0;
     margin-right: 30px;
 }
