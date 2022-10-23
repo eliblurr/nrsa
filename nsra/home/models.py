@@ -165,6 +165,20 @@ class HomePageSectionOrderable(ClusterableModel, Orderable):
         #     # ],
         ),
     ]
+
+class HomePageCarouselImages(Orderable):
+    """Between 1 and 5 images for the home page carousel."""
+
+    page = ParentalKey("home.HomePage", related_name="carousel_images")
+    carousel_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    panels = [ImageChooserPanel("carousel_image")]
   
 class HomePage(StandardPage):
 
@@ -270,9 +284,16 @@ class HomePage(StandardPage):
         InlinePanel('publication_and_research', min_num=0),
     ]
 
+    carousel_panel = [
+        MultiFieldPanel(
+             [InlinePanel("carousel_images", max_num=5, min_num=1, label="Image")],
+             heading="Carousel Images",
+         ),
+    ]
 
     edit_handler = TabbedInterface([
         ObjectList(standard_page_content_panels, heading='page & hero'),
+        ObjectList(carousel_panel, heading='carousel images'),
         ObjectList(content_panels, heading='body'),         
         ObjectList(core_function_panel, heading='core functions'), 
         ObjectList(activity_panel, heading='press briefings'), 

@@ -9,6 +9,84 @@
 
     <!-- Banner section -->
     {% image page.hero_image original as bgimage %}
+    {% if self.carousel_images.count %}
+        <div id="carouselExampleControls" class="carousel slide hero_carousel_h" data-interval="3000" data-ride="carousel">
+            <div class="carousel-inner" style="height: 100%;">
+                {% for loop_cycle in self.carousel_images.all %}
+                    {% image loop_cycle.carousel_image fill-900x400 as img %}
+                    <div class="carousel-item{% if forloop.counter == 1 %} active{% endif %}" style="height: 100%;" >
+                        <img src="{{ img.url }}" class="d-block w-100" alt="{{ img.alt }}" height="100%">
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="overlay"></div>
+
+            <div class="overlay-no-bg">
+                <div class="hero_carousel_padding">
+                    {% if page.hero_title %}
+                    <h1 class="hero_heading">{{page.hero_title}}</h1>
+                    {% endif %}
+                    {% if page.hero_sub_title %}
+                        <h6 class="hero_heading">{{page.hero_sub_title}}</h6>
+                    {% endif %}
+                    {% if page.hero_description %}
+                        <p class="hero_heading"><em>{{page.hero_description|richtext}}</em></p>
+                    {% endif %}
+                    {% if page.hero_external_link %}
+                        <p class="hero_heading" style="font-style: italic;">
+                            <a href="{{page.hero_external_link}}" style="font-style: italic;font-size: 12px; color: aliceblue;">{{page.hero_external}}</a>
+                        </p>
+                    {% endif %}
+                    {% if page.hero_cta_link %}
+                        <p>
+                            <a class="button_lg" href="{% pageurl page.hero_cta_link %}">{{page.hero_cta}}</a>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <a class="carousel-control-prev hero_carousel_z" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next hero_carousel_z" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    {% else %}
+        <div class="hero_section" style="background-image: url({{bgimage.url}}) ;">
+            <div class="hero_content vertical_flex" style="justify-content: center; align-items: center;">
+                <div>
+                    {% if page.hero_title %}
+                        <h1 class="hero_heading">{{page.hero_title}}</h1>
+                    {% endif %}
+
+                    {% if page.hero_sub_title %}
+                        <h6 class="hero_heading">{{page.hero_sub_title}}</h6>
+                    {% endif %}
+                    
+                    {% if page.hero_description %}
+                        <p class="hero_heading"><em>{{page.hero_description|richtext}}</em></p>
+                    {% endif %}
+
+                    {% if page.hero_external_link %}
+                        <p class="hero_heading" style="font-style: italic;">
+                            <a href="{{page.hero_external_link}}" style="font-style: italic;font-size: 12px; color: aliceblue;">{{page.hero_external}}</a>
+                        </p>
+                    {% endif %}
+
+                    {% if page.hero_cta_link %}
+                        <p>
+                            <a class="button_lg" href="{% pageurl page.hero_cta_link %}">{{page.hero_cta}}</a>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <!-- {% image page.hero_image original as bgimage %}
     <div class="hero_section" style="background-image: url({{bgimage.url}}) ;">
         <div class="hero_content vertical_flex" style="justify-content: center; align-items: center;">
             <div>
@@ -37,7 +115,7 @@
                 {% endif %}
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- About Section --> 
     {% for block in page.body %}

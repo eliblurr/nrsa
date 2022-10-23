@@ -39,6 +39,21 @@ class AboutUsPageCoreFunctionOrderable(Orderable):
         SnippetChooserPanel('function'),
     ]
 
+
+class AboutUsPageCarouselImages(Orderable):
+    """Between 1 and 5 images for the home page carousel."""
+
+    page = ParentalKey("about_us.AboutUsPage", related_name="carousel_images")
+    carousel_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    panels = [ImageChooserPanel("carousel_image")]
+
 # REGIONAL PROFILES
   
 class AboutUsPage(StandardPage):
@@ -169,8 +184,16 @@ class AboutUsPage(StandardPage):
         ], heading="mandate"),
     ]
 
+    carousel_panel = [
+        MultiFieldPanel(
+            [InlinePanel("carousel_images", max_num=5, min_num=1, label="Image")],
+            heading="Carousel Images",
+        ),
+    ]
+
     edit_handler = TabbedInterface([
         ObjectList(standard_page_content_panels, heading='page & hero'),
+        ObjectList(carousel_panel, heading='carousel images'),
         ObjectList(content_panels, heading='body'),         
         ObjectList(core_function_panel, heading='core functions'), 
         ObjectList(mvm_panels, heading='mvm'), 
