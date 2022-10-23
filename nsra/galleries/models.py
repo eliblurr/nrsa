@@ -17,6 +17,7 @@ from wagtail.core.blocks import StreamBlock
 from wagtail.search import index
 from wagtail.api import APIField
 from django import forms
+import json
 
 standard_page_content_panels = [item for item in StandardPage.content_panels if not(isinstance(item, FieldPanel) and item.field_name=='body')]
 
@@ -80,6 +81,18 @@ class Gallery(ClusterableModel, Orderable):
             return gallery_item.image
         else:
             return None
+
+    def get_image_count(self):
+        return self.gallery_images.count()
+
+    def get_images(self):
+        a = [obj.image.get_rendition('original').url for obj in self.gallery_images.all()]
+        # obj.main_image().get_rendition('original').url,
+        # print(a[0])
+        # import json
+        a = json.dumps(a)
+        # print(a)
+        return json.dumps(a)
 
     panels = [
         FieldPanel('name', classname="full"),
