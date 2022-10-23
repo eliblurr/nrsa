@@ -36,8 +36,10 @@ class GalleryIndexPage(StandardPage):
     content_panels =  [StreamFieldPanel('body'),]
 
     galleries_panels = [
-        InlinePanel('galleries', classname="collapsed"),
+        InlinePanel('galleries', classname="collapse"),
     ]
+
+    # class InlinePanel(relation_name, panels=None, heading='', label='', min_num=None, max_num=None, heading='', classname='', help_text='', /, *, classname='', help_text='')
 
     edit_handler = TabbedInterface([
         ObjectList(standard_page_content_panels, heading='page & hero'),
@@ -87,6 +89,7 @@ class Gallery(ClusterableModel, Orderable):
 
     def get_images(self):
         a = [obj.image.get_rendition('original').url for obj in self.gallery_images.all()]
+        print(json.dumps(a))
         return json.dumps(a)
 
     panels = [
