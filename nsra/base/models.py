@@ -113,8 +113,8 @@ class GalleryImageBase(Orderable):
     image = models.ForeignKey(
         'wagtailimages.Image', on_delete=models.CASCADE, related_name='+'
     )
-    name = models.CharField(max_length=255)
-    caption = models.CharField(blank=True, max_length=250)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    caption = models.CharField(blank=True, null=True, max_length=250)
 
     panels = [
         ImageChooserPanel('image'),

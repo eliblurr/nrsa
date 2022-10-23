@@ -36,7 +36,7 @@ class GalleryIndexPage(StandardPage):
     content_panels =  [StreamFieldPanel('body'),]
 
     galleries_panels = [
-        InlinePanel('galleries', classname="collapse"),
+        InlinePanel('galleries', classname="collapsible collapsing collapsed"),
     ]
 
     # class InlinePanel(relation_name, panels=None, heading='', label='', min_num=None, max_num=None, heading='', classname='', help_text='', /, *, classname='', help_text='')
@@ -95,7 +95,7 @@ class Gallery(ClusterableModel, Orderable):
     panels = [
         FieldPanel('name', classname="full"),
         FieldPanel('description', classname="full"),
-        InlinePanel('gallery_images', classname="collapsed"),
+        InlinePanel('gallery_images'),
     ]
 
     class Meta:
