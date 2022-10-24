@@ -50,7 +50,7 @@ class GalleryIndexPage(StandardPage):
     ])
 
     def get_galleries(self):
-        return Gallery.objects.filter(page=self.id)
+        return [obj.gallery for obj in self.galleries.all().filter(page=self.id)] 
 
     def children(self):
         return self.get_children().specific().live()
@@ -70,12 +70,23 @@ class GalleryIndexPage(StandardPage):
         context = super(GalleryIndexPage, self).get_context(request)
         # galleries = self.paginate(request, self.get_galleries)
         context['galleries'] = self.get_galleries()
+        a = context['galleries'][0].get_images()
+        print(a)
         return context
 
+class GalleryChooserOrderable(Orderable):
+    page = ParentalKey(GalleryIndexPage, on_delete=models.CASCADE, related_name='galleries', null=True)
+    gallery = models.ForeignKey('galleries.Gallery', on_delete=models.DO_NOTHING)
+
+    panels = [
+        SnippetChooserPanel('gallery'),
+    ]
+
+@register_snippet
 class Gallery(ClusterableModel, Orderable):
     name = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=10000, blank=True, null=True)
-    page = ParentalKey(GalleryIndexPage, on_delete=models.CASCADE, related_name='galleries', null=True)
+    # page = ParentalKey(GalleryIndexPage, on_delete=models.CASCADE, related_name='galleries', null=True)
 
     def main_image(self):
         gallery_item = self.gallery_images.first()
@@ -89,12 +100,17 @@ class Gallery(ClusterableModel, Orderable):
 
     def get_images(self):
         a = [obj.image.get_rendition('original').url for obj in self.gallery_images.all()]
-        print(json.dumps(a))
+        # print(json.dumps(a))
         return json.dumps(a)
 
     panels = [
-        FieldPanel('name', classname="full"),
-        FieldPanel('description', classname="full"),
+        # MultiFieldPanel([
+        #     FieldPanel('name', classname="collapsible"),
+        #     FieldPanel('description', classname="collapsible"),
+        #     InlinePanel('gallery_images'),
+        # ], heading="Contant Information",classname="collapsible"),
+        FieldPanel('name', classname="collapsible"),
+        FieldPanel('description', classname="collapsible"),
         InlinePanel('gallery_images'),
     ]
 

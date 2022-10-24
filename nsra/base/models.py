@@ -117,8 +117,8 @@ class GalleryImageBase(Orderable):
     caption = models.CharField(blank=True, null=True, max_length=250)
 
     panels = [
-        ImageChooserPanel('image'),
-        FieldPanel('caption'),
+        ImageChooserPanel('image', classname="collapsible collapsed"),
+        FieldPanel('caption', classname="collapsible"),
     ]
 
     class Meta:
@@ -178,20 +178,20 @@ class StandardPage(SeoMixin, Page):
     
     content_panels = Page.content_panels + [
         MultiFieldPanel([
-            FieldPanel('hero_title'),
-            FieldPanel('hero_sub_title'),
-            FieldPanel('hero_description'),
+            FieldPanel('hero_title', classname="collapsible"),
+            FieldPanel('hero_sub_title', classname="collapsible"),
+            FieldPanel('hero_description', classname="collapsible"),
             MultiFieldPanel([
-                FieldPanel('hero_external'),
-                FieldPanel('hero_external_link'),
+                FieldPanel('hero_external', classname="collapsible"),
+                FieldPanel('hero_external_link', classname="collapsible"),
             ], heading=""),
             MultiFieldPanel([
                 FieldPanel('hero_cta'),
                 PageChooserPanel('hero_cta_link'),
             ], heading="")
         ], heading=""),
-        ImageChooserPanel('hero_image'),
-        FieldPanel('body'),
+        ImageChooserPanel('hero_image', classname="collapsible"),
+        FieldPanel('body', classname="collapsible"),
     ]
 
     def children(self):

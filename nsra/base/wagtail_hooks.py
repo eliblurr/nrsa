@@ -59,7 +59,7 @@ class SiteThemeAdminGroup(ModelAdminGroup):
     menu_label = 'Page Data'
     menu_icon = 'placeholder'  # change as required
     menu_order = 200  # will put in 1st place (004 being 4th, 100 2nd)
-    items = (RelatedOrganizationAdmin, CoreFunctionAdmin, ExecutiveAdmin, RegionAdmin)
+    items = (RelatedOrganizationAdmin, CoreFunctionAdmin, ExecutiveAdmin, RegionAdmin, GalleryAdmin)
 
 class CategoryAdminGroup(ModelAdminGroup):
     menu_label = 'Categories'
