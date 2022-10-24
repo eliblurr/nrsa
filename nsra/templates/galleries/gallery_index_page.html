@@ -88,12 +88,13 @@
                 <div style="column-gap: calc(25% - 250px); row-gap: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); padding-bottom: 20px; width: 100%;">            
                     {% for gallery in galleries %}
                         {% image gallery.main_image original as hldr %}
-                        <div class="gallery-container" id="link-{{gallery.name}}" data-images="{{gallery.get_images}}" onclick="loadImages('link-{{gallery.name}}')">
+                        <div class="gallery-container" id="link-{{gallery.name}}" data-images="{{gallery.get_images}}" onclick="loadImages('link-{{gallery.name}}')" data-image-count="{{gallery.get_image_count}}">
                             <img src="{{hldr.url}}" alt="gallery image" class="gallery-image">
                             <div class="gallery-overlay">
                                 <div class="gallery-text">
                                     <p style="text-align: center;" >{{gallery.name}}</p>
                                     <p style="text-align: center; font-size: small;">{{gallery.description}}</p>
+                                    <p style="text-align: center; font-size:x-small;"><em>{{gallery.get_image_count}} images</em></p>
                                 </div>
                             </div>
                         </div>
@@ -126,6 +127,7 @@
     function loadImages(id){
         // reset();
         const gallery= document.getElementById(id)
+        const image_count = gallery.getAttribute("data-image-count")
         const images = JSON.parse(gallery.getAttribute("data-images"))
         let div = document.getElementById("gallery-images-container");
 
@@ -134,7 +136,8 @@
             let url = images[idx]
             div.innerHTML +=`
                 <div class="carousel-item ${idx == 0 ? 'active':''} " style="height: 100%; width: 100%;" id="sub-link-xxx-${idx}">
-                    <img src="${url}" style="width:100%;height:100%;object-fit: contain;" alt="image">
+                    <img src="${url}" style="width:100%;height:90%;object-fit: contain;" alt="image">
+                    <p style="color:#fff; text-align:center; font-weight: 700;"> ${parseInt(idx)+1} out of ${image_count}</p>
                 </div>
             `
         }
