@@ -99,9 +99,13 @@ class Gallery(ClusterableModel, Orderable):
         return self.gallery_images.count()
 
     def get_images(self):
-        a = [obj.image.get_rendition('original').url for obj in self.gallery_images.all()]
-        # print(json.dumps(a))
-        return json.dumps(a)
+        b = [
+            [
+                obj.image.get_rendition('original').url,
+                obj.caption
+            ] for obj in self.gallery_images.all()
+        ]
+        return json.dumps(b)
 
     panels = [
         # MultiFieldPanel([
