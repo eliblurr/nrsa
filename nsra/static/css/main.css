@@ -15,7 +15,7 @@ h1, h2, h3, h4 {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: -1px;
-    color: #009933;
+    color: #006633;
 }
 
 h5 {
@@ -116,7 +116,7 @@ h6 {
     padding: 10px 7.5%;
     justify-content: space-between;
     align-items: center;
-    background-color: #009933;
+    background-color: #006633;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -201,7 +201,7 @@ h6 {
 
 .nav_menu li {
     list-style: none;
-    color: #009933;
+    color: #006633;
 }
 
 .logo {
@@ -211,27 +211,27 @@ h6 {
 
 .menu_item a:link {
     cursor: pointer;
-    color: #009933;
+    color: #006633;
     text-decoration: none;
     padding-bottom: 10px;
 }
 
 .menu_item a:active {
-    color: #009933;
+    color: #006633;
     font-weight: bold;
-    border-bottom: 3px solid #009933;
+    border-bottom: 3px solid #006633;
 }
 
 .menu_item a:visited {
-    color: #009933;
+    color: #006633;
     text-decoration: none;
 }
 
 .menu_item a:hover {
-    color: #009933;
+    color: #006633;
     text-decoration: none;
     font-weight: bold;
-    border-bottom: 3px solid #009933;
+    border-bottom: 3px solid #006633;
 }
 
 .overlay {
@@ -440,7 +440,7 @@ h6 {
     display: block;
     padding-top: 80px;
     padding-bottom: 80px;
-    background-color: #009933;
+    background-color: #006633;
     color: #fff;
 }
 
@@ -448,7 +448,7 @@ h6 {
     display: block;
     padding-top: 30px;
     padding-bottom: 30px;
-    background-color: #009933;
+    background-color: #006633;
     color: #fff;
 }
 
@@ -456,7 +456,7 @@ h6 {
     display: block;
     padding-top: 30px;
     padding-bottom: 30px;
-    background-color: #F4E726;
+    background-color: #FFCC00;
     color: #3b3b3b;
 }
 
@@ -477,7 +477,7 @@ h6 {
 }
 
 .section_dark {
-    background-color: #232323;
+    background-color: #201E1E;
     color: #fff;
 }
 
@@ -654,7 +654,7 @@ h6 {
     position: relative;
     width: 240px;
     height: 180px;
-    background-color: #EB3438;
+    background-color: #EB3232;
     margin-bottom: 40px;
     border-radius: 5px;
     transition: 0.3s;
@@ -699,7 +699,7 @@ h6 {
 
 .category_1 {
     position: absolute;
-    background-color: #F4E726;
+    background-color: #FFCC00;
     color: #fff;
     right: 0;
     top: 120px;
@@ -708,7 +708,7 @@ h6 {
 
 .category_2 {
     position: absolute;
-    background-color: #009933;
+    background-color: #006633;
     color: #fff;
     right: 0;
     top: 120px;
@@ -717,7 +717,7 @@ h6 {
 
 .category_3 {
     position: absolute;
-    background-color: #EB3438;
+    background-color: #EB3232;
     color: #fff;
     right: 0;
     top: 120px;
@@ -911,7 +911,7 @@ h6 {
 
 .img_desc {
     position: absolute;
-    background-color: #009933;
+    background-color: #006633;
     color: #fff;
     width: 300px;
     padding: 10px;
@@ -921,7 +921,7 @@ h6 {
 }
 
 .grid_img_desc {
-    background-color: #009933; 
+    background-color: #006633; 
     border-radius: 0 0 5px 5px;
     padding: 0 10px;
     padding-top: 5px;
@@ -949,7 +949,7 @@ h6 {
 
 .form-inline button {
     padding: 15px 20px;
-    background-color: #EB3438;
+    background-color: #EB3232;
     border: none;
     color: white;
     border-radius: 0 5px 5px 0;
@@ -1010,11 +1010,15 @@ h6 {
 }
 
 .quick_links a:hover {
-    color: #009933;
+    color: #006633;
 }
 
 .spacing_btm_s {
     margin-bottom: 10px;
+}
+
+.spacing_btm_xs {
+    margin-bottom: 5px;
 }
 
 .spacing_btm_m {
@@ -1033,7 +1037,7 @@ h6 {
     position: absolute;
     padding: 15px 40px;
     color: #fff;
-    background-color: #EB3438;
+    background-color: #EB3232;
     border-radius: 5px;
     border: none;
     left: 50%;
@@ -1049,7 +1053,7 @@ h6 {
 .red_button_lg {
     padding: 15px 40px;
     color: #fff;
-    background-color: #EB3438;
+    background-color: #EB3232;
     border-radius: 5px;
     border: none;
     text-transform: uppercase;
@@ -1073,8 +1077,8 @@ h6 {
 
 .yellow_button_lg {
     padding: 15px 40px;
-    color: #009933;
-    background-color: #F4E726;
+    color: #006633;
+    background-color: #FFCC00;
     border-radius: 5px;
     border: none;
     text-transform: uppercase;
@@ -1099,7 +1103,7 @@ h6 {
 .green_button_lg {
     padding: 15px 40px;
     color: #fff;
-    background-color: #009933;
+    background-color: #006633;
     border-radius: 5px;
     border: none;
     text-transform: uppercase;
@@ -1123,7 +1127,7 @@ h6 {
     width: 90%;
     padding: 15px 0;
     color: #fff;
-    background-color: #009933;
+    background-color: #006633;
     border-radius: 5px;
     border: none;
     text-transform: uppercase;

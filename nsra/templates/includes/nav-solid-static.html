@@ -11,6 +11,7 @@
 
 <div class="navigation">
     <nav class="nav_menu">
+        <li class="nav-link no-margin {% if '/' not in urls %} disabled {% endif %}"><a href="/"><img src="{{ logo.url }}" class="logo"></a></li>
         <li class="menu_item nav-link no-margin">
             <a href="/about-us"> <span>About NRSA</span> </a>
         </li>
@@ -20,7 +21,6 @@
         <li class="menu_item nav-link no-margin">
             <a href="/news-and-events"> <span>News & Events</span> </a>
         </li>
-        <li class="nav-link no-margin {% if '/' not in urls %} disabled {% endif %}"><a href="/"><img src="{{ logo.url }}" class="logo"></a></li>
         <li class="menu_item nav-link no-margin">
             <a href="/publications-and-research"> <span>Publications & Research</span> </a>
         </li>

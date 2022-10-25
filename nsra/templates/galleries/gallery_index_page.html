@@ -92,8 +92,8 @@
                             <img src="{{hldr.url}}" alt="gallery image" class="gallery-image">
                             <div class="gallery-overlay">
                                 <div class="gallery-text">
-                                    <p style="text-align: center;" >{{gallery.name}}</p>
-                                    <p style="text-align: center; font-size: small;">{{gallery.description}}</p>
+                                    <p style="text-align: center;" >{{gallery.name|slice:":10"}}</p>
+                                    <p style="text-align: center; font-size: small;">{{gallery.description|slice:":30"}}...</p>
                                     <p style="text-align: center; font-size:x-small;"><em>{{gallery.get_image_count}} images</em></p>
                                 </div>
                             </div>

@@ -17,7 +17,7 @@
                     {% for result in search_results %}
                         <li class="list-group-item">
                             <h4><a href="{% pageurl result %}" style="text-decoration: underline; color: #009933;">{{ result }}</a></h4>
-                            <h6 style="color: #EB3438;">{{ result.content_type | content_type_name }}</h6>
+                            <h6 style="color: #EB3232;">{{ result.content_type | content_type_name }}</h6>
                             {% if result.search_description %}
                                 {{ result.search_description }}
                             {% endif %}
