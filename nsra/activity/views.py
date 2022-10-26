@@ -33,7 +33,7 @@ def categorized_page(request, category=None, page=1):
                 'headline': obj.headline,
                 # 'summary_title': obj.summary_title
                 'summary': '',
-                'image':  obj.main_image().get_rendition('original').url,
+                'image': obj.main_image().get_rendition('original').url if obj.main_image() else '',
             } for obj in page
         ]
     }
