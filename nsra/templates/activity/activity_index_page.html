@@ -50,6 +50,7 @@
     
     <!-- Main Section -->
     {% for group in grouped_activities %}
+    {% if  group.pages.paginator.count > 0 %}
     <section class="section" id="{{group.category}}-category-section" data-url="{% url 'categorized_pages' group.category.id 1 %}" data-category="{{group.category}}" data-pg-count="{{group.pages.paginator.num_pages}}" data-page=1>
         <div class="body_width" style="width: 85%;">
             <div class="latest_news spacing_btm_l">
@@ -87,6 +88,7 @@
 
         </div>
     </section>
+    {% endif %} 
     {% endfor %} 
 {% endblock %}
 
