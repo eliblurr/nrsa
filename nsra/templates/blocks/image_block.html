@@ -10,8 +10,8 @@
 
 <div style="max-width:100%; max-height: 500px; display: flex; flex-direction: column;border-radius: 0 0 5px 5px;">
 
-    {% image self.image fill-400x400 as hldr %}
-    <img src="{{hldr.url}}" alt="image" width="100%"
+    {% image self.image fill-400x400-c100 as hldr %}
+    <img src="{{hldr.url}}" alt="image" width="100%" height:auto
         {% if hldr.focal_point %}
             data-focus-x="{{ hldr.focal_point.centroid.x }}"
             data-focus-y="{{ hldr.focal_point.centroid.y }}"
