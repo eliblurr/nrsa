@@ -259,7 +259,7 @@
                             <img style="width: 100%; height: 100%;" src="${obj.image}" alt="">
                         </div>
                         <div class="card_body text-box" data-title='${obj.headline}'>
-                            <h5 class="title spacing_btm_s text-box">${obj.headline}</h5>
+                            <h5 class="title spacing_btm_s text-box">${obj.headline.slice(0,70)}${obj.headline.length > 70 ? '...': ''}</h5>
                             <a href="${obj.url}" class="green_button_card">Read More</a>
                         </div>
                     </div>

@@ -7,21 +7,7 @@ register = template.Library()
 
 @register.inclusion_tag('tags/related_organization.html', takes_context=True)
 def get_related_organization(context):
-    page = context['request'].GET.get('page')
-    qs = RelatedOrganization.objects.filter(featured=True).all()
-
-    paginator = Paginator(qs, 4) 
-    try:
-        pages = paginator.page(page)
-    except PageNotAnInteger:
-        pages = paginator.page(1)
-    except EmptyPage:
-        pages = paginator.page(paginator.num_pages)
-    
-    return {
-        'related_organizations': qs,
-        'request': context['request'],
-    }
+    return context
 
 @register.inclusion_tag('tags/breadcrumbs.html', takes_context=True)
 def breadcrumbs(context):

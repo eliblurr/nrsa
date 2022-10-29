@@ -1,8 +1,10 @@
 from django.db import models
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.snippets.models import register_snippet
 from nsra.base.models import BaseModel
 
+@register_snippet
 class Executive(BaseModel):
     name = models.CharField(max_length=1000)
     position = models.CharField(max_length=255)

@@ -54,6 +54,22 @@ class AboutUsPageCarouselImages(Orderable):
 
     panels = [ImageChooserPanel("carousel_image")]
 
+class ExecutiveOrderable(Orderable):
+    page = ParentalKey('about_us.AboutUsPage', on_delete=models.CASCADE, related_name='executives')
+    executive = models.ForeignKey('executive.Executive', on_delete=models.CASCADE)
+
+    panels = [
+        SnippetChooserPanel('executive'),
+    ]
+
+class RelatedOrganizationOrderable(Orderable):
+    page = ParentalKey('about_us.AboutUsPage', on_delete=models.CASCADE, related_name='related_organizations')
+    organization = models.ForeignKey('base.RelatedOrganization', on_delete=models.CASCADE)
+
+    panels = [
+        SnippetChooserPanel('organization'),
+    ]
+
 # REGIONAL PROFILES
   
 class AboutUsPage(StandardPage):
@@ -74,6 +90,14 @@ class AboutUsPage(StandardPage):
         null=True,
         blank=True
     )
+
+    executive_panels = [
+        InlinePanel('executives', min_num=0),
+    ]
+
+    organization_panels = [
+        InlinePanel('related_organizations', min_num=0),
+    ]
 
     # mission
     # add validation here for when there is title description required
@@ -186,7 +210,7 @@ class AboutUsPage(StandardPage):
 
     carousel_panel = [
         MultiFieldPanel(
-            [InlinePanel("carousel_images", max_num=5, min_num=1, label="Image")],
+            [InlinePanel("carousel_images", min_num=0, label="Image")],
             heading="Carousel Images",
         ),
     ]
@@ -196,8 +220,21 @@ class AboutUsPage(StandardPage):
         ObjectList(carousel_panel, heading='carousel images'),
         ObjectList(content_panels, heading='body'),         
         ObjectList(core_function_panel, heading='core functions'), 
+        ObjectList(executive_panels, heading='Executives'), 
+        ObjectList(organization_panels, heading='Related Organizations'), 
         ObjectList(mvm_panels, heading='mvm'), 
         ObjectList(StandardPage.promote_panels, heading='promote'),
         ObjectList(StandardPage.settings_panels, heading='settings'),
     ])
+
+    def get_executives(self):
+        return self.executives.filter(executive__featured=True).all()
+
+    def get_related_organizations(self):
+        return self.related_organizations.filter(organization__featured=True).all()
     
+    def get_context(self, request):
+        context = super(AboutUsPage, self).get_context(request)
+        context['executives'] = self.get_executives()
+        context['related_organizations'] = self.get_related_organizations()
+        return context

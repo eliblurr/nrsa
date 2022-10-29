@@ -303,6 +303,7 @@ class RelatedOrganisationCategories(BaseModel):
         verbose_name = 'Related Organisation Category'
         verbose_name_plural = 'Related Organisation Categories'
 
+@register_snippet
 class RelatedOrganization(BaseModel):
     name = models.CharField(max_length=255)
     url = models.URLField(max_length=10000)
@@ -321,6 +322,8 @@ class RelatedOrganization(BaseModel):
         ImageChooserPanel('image'),
         FieldPanel('categories', widget=forms.CheckboxSelectMultiple)
     ]
+
+    # objects = FeaturedManager()
 
     def __str__(self):
         return self.name

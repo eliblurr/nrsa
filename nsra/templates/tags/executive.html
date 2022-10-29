@@ -10,7 +10,8 @@
 
         <div class="container">
         <div class="categories spacing_btm_l" style="display: grid; grid-template-columns: repeat( auto-fill, minmax(250px, 1fr) ); width: 100%; row-gap: 40px;">
-            {% for executive in executives %}
+            {% for obj in executives %}
+            {% with executive=obj.executive %}
             <div class="exec_card">
                 {% image executive.image original as tmp_photo %}
                 <div class="exec_img">
@@ -42,6 +43,7 @@
                     </div>
                 </div>
             </div>
+            {% endwith %}
             {% endfor %}
         </div>
         </div>

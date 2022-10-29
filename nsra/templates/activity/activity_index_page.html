@@ -125,7 +125,7 @@
                         </div>
                         <div class="card_body text-box" data-title='${obj.headline}'>
                             <h6 style="font-style: italic; font-size: x-small;">${obj.date? 'date: '+obj.date:''}</h6>
-                            <h5 class="title spacing_btm_s">${obj.headline}</h5>
+                            <h5 class="title spacing_btm_s">${obj.headline.slice(0,80)}${obj.headline.length > 80 ? '...': ''}</h5>
                             <a href="${obj.url}" class="green_button_card">Read More</a>
                         </div>
                     </div>

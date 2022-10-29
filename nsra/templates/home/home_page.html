@@ -237,7 +237,7 @@
                                             <h6 class="info" style="font-style: italic; font-size: x-small;">date: {{item.date}}</h6>  
                                         </div>
                                         <div class="card_body text-box" data-title='{{item.headline}}'>
-                                            <h5 class="title spacing_btm_s text-box">{{item.headline}}</h5>
+                                            <h5 class="title spacing_btm_s text-box">{{item.headline|slice:":80"}}{% if item.headline|length > 80 %}...{%endif%}</h5>
                                             <a href="{{item.url}}" class="green_button_card">Read More</a>
                                         </div>
                                     </div>
@@ -267,15 +267,15 @@
                 <div style="width: 100%; flex-direction: column; justify-content:flex-start; margin-right: 20px; border-right: 1px solid #333333c0; padding-right: 20px;">
                     <h4 class="spacing_btm_m">Press Briefing</h4>
                     {% for item in page.activities.all %}
-                        <div class="card mb-3" style="background-color: rgba(0, 0, 0, 0.5); max-width: 600px; border-radius: 10px; overflow: hidden; min-width: 150px;">
+                        <div class="card mb-3" style="background:none; max-width: 600px; border-radius: 10px; min-width: 150px;">
                             <div class="row g-0">
                                 <div class="col-md-4" style="max-width: 100%;">
                                     {% image item.activity.main_image original as temp %}
                                     <img src="{{temp.url}}" class="img-fluid rounded-start" alt="..." style="height: 150px; width: 100%;">
                                 </div>
-                                <div class="col-md-8" style="align-content:space-around; display:flex; flex-direction:column; padding: 20px; min-width: none;">
+                                <div class="col-md-8" style="align-content:space-around; display:flex; flex-direction:column; min-width: none;">
                                     <div class="activity_body text-box" style="height: 70%;" data-title='{{item.activity.headline}}'>
-                                        <h6 class="spacing_btm_s">{{item.activity.headline}}</h6>
+                                        <h5 class="spacing_btm_s">{{item.activity.headline|slice:":100"}}{% if item.activity.headline|length > 100 %}...{%endif%}</h5>
                                     </div>
                                     <div class="activity_body" style="height: 20%; ">
                                         <a href="{{item.activity.url}}" style="cursor: pointer; text-decoration:none;color: inherit;">Read More</a>
@@ -289,17 +289,17 @@
 
             {% if page.publication_and_research.all %}
                 <div style="width: 100%; flex-direction: column; justify-content:flex-start; border-left: 1px solid #333333c0; padding-left: 20px;">
-                    <h4 class="spacing_btm_m">Press Briefing</h4>
+                    <h4 class="spacing_btm_m">PUBLICATIONS & RESEARCH</h4>
                     {% for item in page.publication_and_research.all %}
-                        <div class="card mb-3" style="background-color: rgba(0, 0, 0, 0.5); max-width: 600px; border-radius: 10px; overflow: hidden; min-height: 150px;">
+                        <div class="card mb-3" style="background: none; max-width: 600px; border-radius: 10px; min-height: 150px;">
                             <div class="row g-0">
                                 <div class="col-md-4" style="max-width: 100%;">
                                     {% image item.selection.main_image original as temp %}
                                     <img src="{{temp.url}}" class="img-fluid rounded-start" alt="..." style="height: 150px; width: 100%;">
                                 </div>
-                                <div class="col-md-8" style="align-content:space-around; display:flex; flex-direction:column; padding: 20px; min-width: none;">
+                                <div class="col-md-8" style="align-content:space-around; display:flex; flex-direction:column; min-width: none;">
                                     <div class="activity_body text-box" style="height: 70%;" data-title='{{item.selection.headline}}'>
-                                        <h6 class="spacing_btm_s">{{item.selection.headline}}</h6>
+                                        <h5 class="spacing_btm_s">{{item.selection.headline|slice:":100"}}{% if item.selection.headline|length > 100 %}...{%endif%}</h5>
                                     </div>
                                     <div class="activity_body" style="height: 20%; ">
                                         <a href="{{item.selection.url}}" style="cursor: pointer; text-decoration:none;color: inherit;">Read More</a>

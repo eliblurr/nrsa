@@ -286,7 +286,7 @@ class HomePage(StandardPage):
 
     carousel_panel = [
         MultiFieldPanel(
-             [InlinePanel("carousel_images", max_num=5, min_num=1, label="Image")],
+             [InlinePanel("carousel_images", min_num=0, label="Image")],
              heading="Carousel Images",
          ),
     ]

@@ -81,7 +81,7 @@
                                             <h6 class="info" style="font-style: italic; font-size: x-small;">date: {{item.date}}</h6>                                  
                                         </div>
                                         <div class="card_body text-box" data-title='{{item.headline}}'>
-                                            <h5 class="title spacing_btm_s text-box">{{item.headline}}</h5>
+                                            <h5 class="title spacing_btm_s text-box">{{item.headline|slice:":80"}}{% if item.headline|length > 80 %}...{%endif%}</h5>
                                             <a href="{{item.url}}" class="green_button_card">Read More</a>
                                         </div>
                                     </div>
@@ -174,7 +174,7 @@
                                             <h6 class="info" style="font-style: italic; font-size: x-small;">date: {{item.date}}</h6>  
                                         </div>
                                         <div class="card_body text-box" data-title='{{item.headline}}'>
-                                            <h5 class="title spacing_btm_s text-box">{{item.headline}}</h5>
+                                            <h5 class="title spacing_btm_s text-box">{{item.headline|slice:":80"}}{% if item.headline|length > 80 %}...{%endif%}</h5>
                                             <a href="{{item.url}}" class="green_button_card">Read More</a>
                                         </div>
                                     </div>
@@ -288,7 +288,7 @@
                         </div>
                         <div class="col-md-8" style="display:flex; align-content:center; flex-direction:column; padding: auto; min-width: none;">
                             <div class="activity_body text-box" style="height: 60%;" data-title='${obj.headline}'>
-                                <h5 class="spacing_btm_s">${obj.headline}</h5>
+                                <h5 class="spacing_btm_s">${obj.headline.slice(0,80)}${obj.headline.length > 80 ? '...': ''}</h5>
                             </div>
                             <div class="activity_body" style="height: 20%; ">
                                 <h6 style="font-style: italic; font-size: x-small;">${obj.date? 'date: '+obj.date:''}</h6>
