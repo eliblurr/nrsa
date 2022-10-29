@@ -20,5 +20,6 @@ __pycache__
 !.gitignore
 /node_modules
 *.sqlite3
-/migrations/
+*/migrations
+/media
 x64js/
