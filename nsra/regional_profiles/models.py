@@ -23,7 +23,16 @@ class Regions(BaseModel):
     class Meta:
         verbose_name_plural = 'Regions'
 
+from nsra.base.blocks import BaseStreamBlock, ParagraphStreamBlock, ImageBlock
+from wagtail.core.blocks import StreamBlock
+from nsra.base.blocks import BaseStreamBlock
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.admin.edit_handlers import StreamFieldPanel
+
 class RegionalProfilePage(StandardPage):
+
+    templates = "regional_profiles/regional_profile_page.html"
+
     headline = models.CharField(blank=False, null=False, max_length=250)
     description = models.CharField(blank=True, null=True, max_length=5000)
     region = models.OneToOneField('Regions', on_delete=models.PROTECT, related_name='+')
@@ -38,18 +47,11 @@ class RegionalProfilePage(StandardPage):
     ]
 
     content_panels = [
-
         MultiFieldPanel([
             FieldPanel('headline'),
             FieldPanel('description'),
-            FieldPanel('body'),
             FieldPanel('region'),
         ], heading="content"),
-
-        MultiFieldPanel([
-            ImageChooserPanel('map_image'),
-            ImageChooserPanel('director_image'),
-        ], heading="images"),
     ]
 
     page_links = [
@@ -63,12 +65,10 @@ class RegionalProfilePage(StandardPage):
     edit_handler = TabbedInterface([
         ObjectList(standard_page_content_panels, heading='page & hero'),
         ObjectList(content_panels, heading='content'), 
-        
+        ObjectList([FieldPanel('body', heading='body')], heading='body'), 
         ObjectList(page_links, heading='page links'),
-
         ObjectList(StandardPage.promote_panels, heading='promote'),
         ObjectList(StandardPage.settings_panels, heading='settings'),
-
     ])
 
     def get_context(self, request):

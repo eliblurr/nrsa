@@ -247,69 +247,29 @@
     {% get_related_organization %}    
 
     {% include "includes/back_to_top.html" %}
-    
-    <!-- Regional Profiles Section -->
-    <!-- <div class="section_s">
-        <div class="body_section">
-            <div class="spacing_btm_xl">
-                <h3 class="heading_center spacing_btm_s">REGIONAL PROFILES</h3>
-                <P class="heading_center spacing_btm_m">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. </P>
-            </div>
-            <div class="categories spacing_btm_l">
-                <div class="reg_card">
-                    <div class="reg_detail">
-                        <h5 class="spacing_btm_l">GREATER ACCRA PROFILE</h5>
-                        <a href="#">View Details</a>
-                    </div>
-                </div>
-                <div class="reg_card">
-                    <div class="reg_detail">
-                        <h5 class="spacing_btm_l">CENTRAL REGION PROFILE</h5>
-                        <a href="#">View Details</a>
-                    </div>
-                </div>
-                <div class="reg_card">
-                    <div class="reg_detail">
-                        <h5 class="spacing_btm_l">BRONG AHAFO PROFILE</h5>
-                        <a href="#">View Details</a>
-                    </div>
-                </div>
-                <div class="reg_card">
-                    <div class="reg_detail">
-                        <h5 class="spacing_btm_l">WESTERN REGION PROFILE</h5>
-                        <a href="#">View Details</a>
-                    </div>
-                </div>
-                <div class="reg_card">
-                    <div class="reg_detail">
-                        <h5 class="spacing_btm_l">VOLTA REGION PROFILE</h5>
-                        <a href="#">View Details</a>
-                    </div>
-                </div>
-                <div class="reg_card">
-                    <div class="reg_detail">
-                        <h5 class="spacing_btm_l">EASTERN REGION PROFILE</h5>
-                        <a href="#">View Details</a>
-                    </div>
-                </div>
-                <div class="reg_card">
-                    <div class="reg_detail">
-                        <h5 class="spacing_btm_l">UPPER EAST PROFILE</h5>
-                        <a href="#">View Details</a>
-                    </div>
-                </div>
-                <div class="reg_card">
-                    <div class="reg_detail">
-                        <h5 class="spacing_btm_l">UPPER WEST PROFILE</h5>
-                        <a href="#">View Details</a>
-                    </div>
-                </div>
 
-            </div>
-            <div class="spacing_btm_xl">
-                <h6 class="title_heading spacing_btm_s">LOAD ALL REGIONS</h6>
+    <!-- Regional Profiles Section -->
+    {% if regional_profiles.count %}
+        <div class="section_s">
+            <div class="body_section">
+                <div class="spacing_btm_s">
+                    <h3 class="heading_center spacing_btm_s">REGIONAL PROFILES</h3>
+                    <P class="heading_center spacing_btm_m">See what we are up to in our regions</P>
+                </div>
+                <div class="categories" style="row-gap: 10px;display: grid; grid-template-columns: repeat( auto-fill, minmax(240px, 1fr) ); width: 100%;">
+                    {% for profile in regional_profiles %}
+                        {% with profile=profile.specific %}
+                            <div class="reg_card">
+                                <div class="reg_detail">
+                                    <h5 class="spacing_btm_l">{{profile.region.name}}</h5>
+                                    <a href="{% pageurl profile %}">View Details</a>
+                                </div>
+                            </div>
+                        {% endwith %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div> -->
+    {% endif %}
 
 {% endblock content %}

@@ -657,6 +657,15 @@ h6 {
     background-color: #02020200;
     z-index: 5;
 }
+img.left {
+    float: left;
+    margin: 10px 50px 10px 0;
+}
+img.right {
+    float: right;
+    margin: 10px 0 10px 50px;
+}
+img.fullwidth {width: 100%}
 
 /* regional Cards */
 .reg_card {
@@ -664,8 +673,29 @@ h6 {
     width: 240px;
     height: 180px;
     background-color: #EB3232;
-    margin-bottom: 40px;
+    /* margin-bottom: 40px; */
     border-radius: 5px;
+    transition: 0.3s;
+}
+
+div.scrollmenu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content:flex-start;
+    gap:50px;
+    overflow: auto;
+}
+
+div.scrollmenu a:hover {
+  /* background-color: #777; */
+  box-shadow: 0 4px 8px 4px rgba(0, 0, 0, 0.2);
+}
+
+.reg_card_text {
+    position: relative;
+    width: 200px;
+    height: 150px;
     transition: 0.3s;
 }
 

@@ -31,6 +31,8 @@ from wagtail.admin.edit_handlers import (
     FieldPanel,
 )
 
+from nsra.regional_profiles.models import RegionalProfilePage
+
 class AboutUsPageCoreFunctionOrderable(Orderable):
     page = ParentalKey('about_us.AboutUsPage', on_delete=models.CASCADE, related_name='functions')
     function = models.ForeignKey('core_functions.CoreFunction', on_delete=models.CASCADE)
@@ -237,4 +239,5 @@ class AboutUsPage(StandardPage):
         context = super(AboutUsPage, self).get_context(request)
         context['executives'] = self.get_executives()
         context['related_organizations'] = self.get_related_organizations()
+        context['regional_profiles'] = self.get_children().type(RegionalProfilePage).live()
         return context

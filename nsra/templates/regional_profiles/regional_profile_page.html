@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags global_tags wagtailimages_tags static %}
+{% block body_class %}template-galleryindexpage{% endblock %}
+
+<!-- Banner section -->
+{% block navigation %}
+    {% include "includes/nav-solid.html"  %}
+{% endblock navigation %}
+{% csrf_token %} 
+
+{% block content %}
+    {% include "includes/back_to_top.html" %}
+    <!-- Title & Breadcrumb section -->
+    {% image page.hero_image original as bgimage %}
+    <div class="title_section_pr" style="background-image: url({{bgimage.url}}); ">
+        <div>
+            <h4 class="title_heading" style="color: #ffffff ;">{{page.title}}</h4>
+            {% breadcrumbs %}
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="body_width" style="width: 85%;">
+            {{page.body|richtext}}
+        
+            {% if page.news.count %}
+                <br/><hr/>
+                <h4 class="spacing_btm_s">news</h4>
+                <div class="scrollmenu">
+                    {% for news in page.news.all %}
+                        {% with news=news.news.specific %}
+                            {% image news.main_image original as temp %}
+                            
+                            <a href="{% pageurl news %}" style="cursor: pointer; text-decoration: none;color:#393939" data-container="body" data-toggle="tooltip" data-placement="top" title="{{news.headline}}">
+                                <div class="card_head" style="width: 200px;height: 100px;">
+                                    <img style="width: 100%;" src="{{temp.url}}" alt="">
+                                </div>
+                                <div class="card_body reg_card_text text-box" data-title='{{news.headline}}' >
+                                    <h6 style="font-size: 14px;text-align: center;">{{news.headline|slice:":97"}}{% if news.headline|length > 97 %}...{%endif%}</h6>
+                                </div>
+                            </a>
+                
+                        {% endwith %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if page.activities.count %}
+                <br/><hr/>
+                <h4 class="spacing_btm_s">activities</h4>
+                <div class="scrollmenu">
+                    {% for activity in page.activities.all %}
+                        {% with activity=activity.activity.specific %}
+                            {% image activity.main_image original as temp %}
+                            <a href="{% pageurl activity %}" style="cursor: pointer; text-decoration: none;color:#393939" data-container="body" data-toggle="tooltip" data-placement="top" title="{{activity.headline}}">
+                                <div class="card_head" style="width: 200px;height: 100px;">
+                                    <img style="width: 100%;" src="{{temp.url}}" alt="">
+                                </div>
+                                <div class="card_body reg_card_text text-box" data-title='{{activity.headline}}' >
+                                    <h6 style="font-size: 14px;text-align: center;">{{activity.headline|slice:":97"}}{% if activity.headline|length > 97 %}...{%endif%}</h6>
+                                </div>
+                            </a>
+                        {% endwith %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if page.events.count %}
+                <br/><hr/>
+                <h4 class="spacing_btm_s">events</h4>
+                <div class="scrollmenu">
+                    {% for event in page.events.all %}
+                        {% with event=event.event.specific %}
+                            {% image event.main_image original as temp %}
+                            <a href="{% pageurl event %}" style="cursor: pointer; text-decoration: none;color:#393939" data-container="body" data-toggle="tooltip" data-placement="top" title="{{event.headline}}">
+                                <div class="card_head" style="width: 200px;height: 100px;">
+                                    <img style="width: 100%;" src="{{temp.url}}" alt="">
+                                </div>
+                                <div class="card_body reg_card_text text-box" data-title='{{event.headline}}' >
+                                    <h6 style="font-size: 14px;text-align: center;">{{event.headline|slice:":97"}}{% if event.headline|length > 97 %}...{%endif%}</h6>
+                                </div>
+                            </a>
+                        {% endwith %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
