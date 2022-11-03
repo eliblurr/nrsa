@@ -19,10 +19,90 @@
         </div>
     </div>
 
+    <section class="section" style="background-color: #e9ac06;padding: 30px 50px">
+        <div class="body_width" style="width: 80%;">
+            <div style="display:flex; flex-direction: row; width: 100%; gap: 30px; align-items: center;">
+                <div style="width: 100%; color: black; text-align: justify;">
+                    {{page.body|richtext}}
+                </div>
+                <div style="width: 100%;display: flex; justify-content: center; align-items: center;">
+                    {% image page.director_image fill-400x400-c100 as hldr %}
+                    <img src="{{hldr.url}}" alt="image" height="100%"
+                        {% if hldr.focal_point %}
+                            data-focus-x="{{ hldr.focal_point.centroid.x }}"
+                            data-focus-y="{{ hldr.focal_point.centroid.y }}"
+                            data-focus-width="{{ hldr.focal_point.width }}"
+                            data-focus-height="{{ hldr.focal_point.height }}"
+                        {% endif %}
+                    >
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- 006633 e9ac06 -->
+    <section class="section" style="background-color: #006633; padding: 20px 50px;margin-bottom: 0;">
+        <div class="body_width" style="display:flex; flex-direction: row; align-items: center;width: 85%;">
+                
+                <div style="width: 100%;display: flex; justify-content: center; align-items: center; height: 300px; background-color: violet;">
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        style="border:0"
+                        loading="lazy"
+                        allowfullscreen
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps/embed/v1/place?key=API_KEY
+                            &q=Space+Needle,Seattle+WA">
+                    </iframe>
+
+                </div>
+
+                <div style="width: 100%; display: flex; flex-direction: column; padding: 0 20px 0 50px;">
+                    <h6 style="color: #EB3232; text-decoration: underline; font-weight: bold;">Address</h6>
+                    {% for block in page.address %}
+                        {% include_block block %}
+                    {% endfor %}
+                </div>
+                
+            </div>
+    </section>
+
+    <!-- <div style="display:flex; flex-direction: row; width: 100%; gap: 50px; align-items: center;">
+                <div style="width: 50%;">
+                    {{page.body|richtext}}
+                </div>
+                <div style="width: 50%;display: flex; justify-content: center; align-items: center;">
+                    {% image page.director_image fill-400x400-c100 as hldr %}
+                    <img src="{{hldr.url}}" alt="image" height="100%"
+                        {% if hldr.focal_point %}
+                            data-focus-x="{{ hldr.focal_point.centroid.x }}"
+                            data-focus-y="{{ hldr.focal_point.centroid.y }}"
+                            data-focus-width="{{ hldr.focal_point.width }}"
+                            data-focus-height="{{ hldr.focal_point.height }}"
+                        {% endif %}
+                    >
+                </div>
+            </div>
+
+            <hr/>
+
+            <div style="display:flex; flex-direction: row; width: 100%; gap: 50px; align-items: center;">
+                
+                <div style="width: 50%;display: flex; justify-content: center; align-items: center; height: 300px; background-color: violet;">
+
+                </div>
+
+                <div style="width: 50%; display: flex; flex-direction: column; padding: 0 20px 0 20px;">
+                    {% for block in page.address %}
+                        {% include_block block %}
+                    {% endfor %}
+                </div>
+                
+            </div>
+             -->
+
     <section class="section">
         <div class="body_width" style="width: 85%;">
-            {{page.body|richtext}}
-        
             {% if page.news.count %}
                 <br/><hr/>
                 <h4 class="spacing_btm_s">news</h4>

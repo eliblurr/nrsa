@@ -4,6 +4,7 @@ from wagtail.admin.edit_handlers import TabbedInterface, ObjectList
 from nsra.base.models import GalleryImageBase, StandardPage
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.core.models import Page, Orderable
+from wagtail.core.blocks import CharBlock
 from nsra.base.models import BaseModel
 from wagtail.core.models import Page
 from wagtail.search import index
@@ -40,6 +41,19 @@ class RegionalProfilePage(StandardPage):
     map_image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
     director_image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 
+    # map_data
+
+    address = StreamField(
+        [
+            ('address_line', CharBlock(
+                icon="form",
+                template="blocks/address_line.html"
+            )), 
+        ],
+        null=True,
+        blank=True
+    )
+
     search_fields = Page.search_fields + [
         index.SearchField('headline'),
         index.SearchField('body'),
@@ -51,7 +65,15 @@ class RegionalProfilePage(StandardPage):
             FieldPanel('headline'),
             FieldPanel('description'),
             FieldPanel('region'),
+            ImageChooserPanel('map_image'),
+            ImageChooserPanel('director_image'),
         ], heading="content"),
+    ]
+
+    map_data_panels = [
+        MultiFieldPanel([
+            StreamFieldPanel('address'),
+        ], heading="map data"),
     ]
 
     page_links = [
@@ -66,6 +88,7 @@ class RegionalProfilePage(StandardPage):
         ObjectList(standard_page_content_panels, heading='page & hero'),
         ObjectList(content_panels, heading='content'), 
         ObjectList([FieldPanel('body', heading='body')], heading='body'), 
+        ObjectList(map_data_panels, heading='map data'),
         ObjectList(page_links, heading='page links'),
         ObjectList(StandardPage.promote_panels, heading='promote'),
         ObjectList(StandardPage.settings_panels, heading='settings'),
