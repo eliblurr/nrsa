@@ -8,6 +8,37 @@
 {% endblock navigation %}
 {% csrf_token %} 
 
+{% block extra_css %}
+<style>
+    .single-grid {
+        display:flex; 
+        flex-direction: row; 
+        width: 100%; 
+        gap: 30px; 
+        align-items: center;
+    }
+
+    .single-grid-2 {
+        display:flex; 
+        flex-direction: row; 
+        width: 100%; 
+        gap: 30px; 
+        align-items: center;
+    }
+
+    @media screen and (max-width: 900px) {
+        .single-grid {
+        display:flex; 
+        flex-direction: column; 
+        width: 100%; 
+        gap: 30px; 
+        align-items: center;
+    }
+    }
+
+</style>
+{% endblock extra_css %}
+
 {% block content %}
     {% include "includes/back_to_top.html" %}
     <!-- Title & Breadcrumb section -->
@@ -19,12 +50,16 @@
         </div>
     </div>
 
-    <section class="section" style="background-color: #e9ac06;padding: 30px 50px">
+    {% if page.body or page.director_image %}
+    <section class="section" style="background-color: #e9ac06;padding: 50px">
         <div class="body_width" style="width: 80%;">
-            <div style="display:flex; flex-direction: row; width: 100%; gap: 30px; align-items: center;">
+            <div class="single-grid">
+                {% if page.body %}
                 <div style="width: 100%; color: black; text-align: justify;">
                     {{page.body|richtext}}
                 </div>
+                {% endif %}
+                {% if page.director_image %}
                 <div style="width: 100%;display: flex; justify-content: center; align-items: center;">
                     {% image page.director_image fill-400x400-c100 as hldr %}
                     <img src="{{hldr.url}}" alt="image" height="100%"
@@ -36,70 +71,43 @@
                         {% endif %}
                     >
                 </div>
+                {% endif %}
             </div>
         </div>
     </section>
-    <!-- 006633 e9ac06 -->
-    <section class="section" style="background-color: #006633; padding: 20px 50px;margin-bottom: 0;">
+    {% endif %}
+
+    {% if page.address or page.map_long_lat and page.map_zoom and page.map_type %}
+    <section class="section" style="background-color: #006633; padding: 50px;margin-bottom: 0;">
         <div class="body_width" style="display:flex; flex-direction: row; align-items: center;width: 85%;">
-                
-                <div style="width: 100%;display: flex; justify-content: center; align-items: center; height: 300px; background-color: violet;">
-                    <iframe
+            
+            <div class="single-grid">
+
+                {% if page.map_long_lat and page.map_zoom and page.map_type %}
+                <div style="width: 100%;display: flex; justify-content: center; align-items: center; height: 300px; background-color: #014f28;">
+                    <img
                         width="100%"
                         height="100%"
-                        style="border:0"
-                        loading="lazy"
-                        allowfullscreen
-                        referrerpolicy="no-referrer-when-downgrade"
-                        src="https://www.google.com/maps/embed/v1/place?key=API_KEY
-                            &q=Space+Needle,Seattle+WA">
-                    </iframe>
-
+                        src='https://maps.googleapis.com/maps/api/staticmap?center={{page.map_long_lat}}&zoom={{page.map_zoom}}&size=700x400&key={{page.MAP_API_KEY}}
+                        &markers=red%7C{{page.map_long_lat}}
+                        &maptype={{page.map_type}}'
+                    />
                 </div>
+                {% endif %}
 
+                {% if page.address %}
                 <div style="width: 100%; display: flex; flex-direction: column; padding: 0 20px 0 50px;">
                     <h6 style="color: #EB3232; text-decoration: underline; font-weight: bold;">Address</h6>
                     {% for block in page.address %}
                         {% include_block block %}
                     {% endfor %}
                 </div>
+                {% endif %}
+            </div> 
                 
-            </div>
+        </div>
     </section>
-
-    <!-- <div style="display:flex; flex-direction: row; width: 100%; gap: 50px; align-items: center;">
-                <div style="width: 50%;">
-                    {{page.body|richtext}}
-                </div>
-                <div style="width: 50%;display: flex; justify-content: center; align-items: center;">
-                    {% image page.director_image fill-400x400-c100 as hldr %}
-                    <img src="{{hldr.url}}" alt="image" height="100%"
-                        {% if hldr.focal_point %}
-                            data-focus-x="{{ hldr.focal_point.centroid.x }}"
-                            data-focus-y="{{ hldr.focal_point.centroid.y }}"
-                            data-focus-width="{{ hldr.focal_point.width }}"
-                            data-focus-height="{{ hldr.focal_point.height }}"
-                        {% endif %}
-                    >
-                </div>
-            </div>
-
-            <hr/>
-
-            <div style="display:flex; flex-direction: row; width: 100%; gap: 50px; align-items: center;">
-                
-                <div style="width: 50%;display: flex; justify-content: center; align-items: center; height: 300px; background-color: violet;">
-
-                </div>
-
-                <div style="width: 50%; display: flex; flex-direction: column; padding: 0 20px 0 20px;">
-                    {% for block in page.address %}
-                        {% include_block block %}
-                    {% endfor %}
-                </div>
-                
-            </div>
-             -->
+    {% endif %}
 
     <section class="section">
         <div class="body_width" style="width: 85%;">

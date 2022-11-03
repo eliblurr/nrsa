@@ -10,6 +10,9 @@ from wagtail.core.models import Page
 from wagtail.search import index
 from django.db import models
 from django import forms
+import os
+
+from nsra.base.choices import MAP_TYPES
 
 standard_page_content_panels = [item for item in StandardPage.content_panels if not(isinstance(item, FieldPanel) and item.field_name=='body')]
 
@@ -41,7 +44,10 @@ class RegionalProfilePage(StandardPage):
     map_image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
     director_image = models.ForeignKey('wagtailimages.Image', null=True, blank=True, on_delete=models.SET_NULL, related_name='+')
 
-    # map_data
+    map_long_lat = models.CharField(blank=True, null=True, max_length=250, verbose_name='longitude, latitude')
+    map_zoom = models.IntegerField(blank=True, null=True, default=10)
+    map_type = models.CharField(blank=True, null=True,max_length=50, choices=MAP_TYPES, default='roadmap')
+    MAP_API_KEY = os.getenv('GOOGLE_MAP_API_KEY', None)
 
     address = StreamField(
         [
@@ -65,13 +71,15 @@ class RegionalProfilePage(StandardPage):
             FieldPanel('headline'),
             FieldPanel('description'),
             FieldPanel('region'),
-            ImageChooserPanel('map_image'),
             ImageChooserPanel('director_image'),
         ], heading="content"),
     ]
 
     map_data_panels = [
         MultiFieldPanel([
+            FieldPanel('map_long_lat'),
+            FieldPanel('map_zoom'),
+            FieldPanel('map_type'),
             StreamFieldPanel('address'),
         ], heading="map data"),
     ]

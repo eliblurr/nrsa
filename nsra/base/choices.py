@@ -9,3 +9,10 @@ COLORS=[
         ('#006633', 'green'),
         ('#201E1E', 'black'),
     ]
+
+MAP_TYPES=[
+    ('roadmap', 'roadmap'),
+    ('satellite', 'satellite'),
+    ('hybrid', 'hybrid'),
+    ('terrain', 'terrain'),
+]
