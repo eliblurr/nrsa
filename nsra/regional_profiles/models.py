@@ -49,6 +49,9 @@ class RegionalProfilePage(StandardPage):
     map_type = models.CharField(blank=True, null=True,max_length=50, choices=MAP_TYPES, default='roadmap')
     MAP_API_KEY = os.getenv('GOOGLE_MAP_API_KEY', None)
 
+    map_uri = models.URLField(null=True, blank=True, max_length=10000)
+    is_interactive = models.BooleanField(null=False, blank=False, default=True)
+
     address = StreamField(
         [
             ('address_line', CharBlock(
@@ -76,12 +79,14 @@ class RegionalProfilePage(StandardPage):
     ]
 
     map_data_panels = [
-        MultiFieldPanel([
-            FieldPanel('map_long_lat'),
-            FieldPanel('map_zoom'),
-            FieldPanel('map_type'),
-            StreamFieldPanel('address'),
-        ], heading="map data"),
+        # MultiFieldPanel([
+        #     FieldPanel('map_long_lat'),
+        #     FieldPanel('map_zoom'),
+        #     FieldPanel('map_type'),
+        #     StreamFieldPanel('address'),
+        # ], heading="map data"),
+        FieldPanel('map_uri'),
+        FieldPanel('is_interactive'),
     ]
 
     page_links = [

@@ -83,16 +83,12 @@
             
             <div class="single-grid">
 
-                {% if page.map_long_lat and page.map_zoom and page.map_type %}
-                <div style="width: 100%;display: flex; justify-content: center; align-items: center; height: 300px; background-color: #014f28;">
-                    <img
-                        width="100%"
-                        height="100%"
-                        src='https://maps.googleapis.com/maps/api/staticmap?center={{page.map_long_lat}}&zoom={{page.map_zoom}}&size=700x400&key={{page.MAP_API_KEY}}
-                        &markers=red%7C{{page.map_long_lat}}
-                        &maptype={{page.map_type}}'
-                    />
-                </div>
+                {% if page.map_uri %}
+                    {% if page.is_interactive%}
+                        <iframe width="100%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src='{{page.map_uri}}' style="border: 1px solid black;background-color: #014f28;"></iframe>
+                    {% else %}
+                        <iframe width="100%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src='{{page.map_uri}}' style="border: 1px solid black;background-color: #014f28;pointer-events: none;"></iframe>
+                    {% endif %}
                 {% endif %}
 
                 {% if page.address %}
