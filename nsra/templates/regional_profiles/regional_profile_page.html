@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags global_tags wagtailimages_tags static %}
+{% load wagtailcore_tags global_tags wagtailimages_tags static filters %}
 {% block body_class %}template-galleryindexpage{% endblock %}
 
 <!-- Banner section -->
@@ -85,9 +85,9 @@
 
                 {% if page.map_uri %}
                     {% if page.is_interactive%}
-                        <iframe width="100%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src='{{page.map_uri}}' style="border: 1px solid black;background-color: #014f28;"></iframe>
+                        <iframe width="100%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="{{page.map_uri|parse_map_uri}}" style="border: 1px solid black;background-color: #014f28;"></iframe>
                     {% else %}
-                        <iframe width="100%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src='{{page.map_uri}}' style="border: 1px solid black;background-color: #014f28;pointer-events: none;"></iframe>
+                        <iframe width="100%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="{{page.map_uri|parse_map_uri}}" style="border: 1px solid black;background-color: #014f28;pointer-events: none;"></iframe>
                     {% endif %}
                 {% endif %}
 

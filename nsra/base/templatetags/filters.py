@@ -19,3 +19,7 @@ def to_list(val):
 @register.filter
 def content_type_name(val):
     return val.name.replace('_', ' ')
+
+@register.filter
+def parse_map_uri(val):
+    return val.replace('&amp;', '&')
