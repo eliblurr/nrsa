@@ -79,14 +79,9 @@ class RegionalProfilePage(StandardPage):
     ]
 
     map_data_panels = [
-        # MultiFieldPanel([
-        #     FieldPanel('map_long_lat'),
-        #     FieldPanel('map_zoom'),
-        #     FieldPanel('map_type'),
-        #     StreamFieldPanel('address'),
-        # ], heading="map data"),
         FieldPanel('map_uri'),
         FieldPanel('is_interactive'),
+        StreamFieldPanel('address'),
     ]
 
     page_links = [

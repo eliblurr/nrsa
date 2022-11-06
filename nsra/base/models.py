@@ -267,6 +267,8 @@ class FormPage(AbstractEmailForm):
         help_text='Landscape mode only; horizontal width between 1000px and 3000px.'
     )
 
+    map_uri = models.URLField(null=True, blank=True, max_length=10000)
+    is_interactive = models.BooleanField(null=False, blank=False, default=True)
 
     # Note how we include the FormField object via an InlinePanel using the
     # related_name value
@@ -284,6 +286,12 @@ class FormPage(AbstractEmailForm):
             ]),
             FieldPanel('subject'),
         ], "Email"),
+
+        MultiFieldPanel([
+            FieldPanel('map_uri'),
+            FieldPanel('is_interactive'),
+        ], heading="map data"),
+        
     ]
 
 @register_snippet
