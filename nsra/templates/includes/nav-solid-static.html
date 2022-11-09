@@ -1,4 +1,6 @@
+{% load static %}
 <style>
+    
     .disabled-color {
         color: #2d3436;
     }
@@ -7,16 +9,30 @@
         padding-left: 0px;
         padding-right: 0px;
     }
+    
+    .sticky {
+        position: sticky;
+        top: 0px;
+        z-index: 5;
+    }
+
+    @media
+        (prefers-reduced-motion: no-preference) {
+        html {
+            scroll-behavior: smooth;
+        }
+    }
+    
 </style>
 
-<div class="navigation">
+<div class="navigation sticky">
     <nav class="nav_menu">
         <li class="nav-link no-margin {% if '/' not in urls %} disabled {% endif %}"><a href="/"><img src="{{ logo.url }}" class="logo"></a></li>
         <li class="menu_item nav-link no-margin">
             <a href="/"> <span>Home</span> </a>
         </li>
         <li class="menu_item nav-link no-margin">
-            <a href="/about-us"> <span>About NRSC</span> </a>
+            <a href="/about-us"> <span>About NRSA</span> </a>
         </li>
         <li class="menu_item nav-link no-margin">
             <a href="/activities"> <span>Activities</span> </a>
@@ -37,9 +53,10 @@
 </div>
 
 <!-- nav_menu_mobile -->
-<div class="navigation">
+<div class="navigation sticky">
     <nav class="nav_menu nav_menu_mobile">
-        <li class="menu_item nav-link"><a href="/about-us">About NRSC</a></li>
+        <li class="menu_item nav-link"><a href="/">Home</a></li>
+        <li class="menu_item nav-link"><a href="/about-us">About NRSA</a></li>
         <li class="menu_item nav-link"><a href="/activities">Activities</a></li>
         <li class="menu_item nav-link"><a href="/news-and-events">News & Events</a></li>
         <li class="menu_item nav-link"><a href="/publications-and-research">Publications & Research</a></li>

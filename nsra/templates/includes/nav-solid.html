@@ -9,10 +9,24 @@
         padding-left: 0px;
         padding-right: 0px;
     }
+
+    .sticky {
+        position: sticky;
+        top: 0px;
+        z-index: 6;
+    }
+
+    @media
+        (prefers-reduced-motion: no-preference) {
+        html {
+            scroll-behavior: smooth;
+        }
+    }
+
 </style>
 
 {% with urls=page.get_site.root_page.get_static_site_paths|to_list %}
-    <div class="navigation">
+    <div class="navigation sticky">
         <nav class="nav_menu" style="margin-top: 10px;">
 
             <li class="nav-link no-margin {% if '/' not in urls %} disabled {% endif %}"><a href="/"><img src="{{ logo.url }}" class="logo"></a></li>
@@ -24,7 +38,7 @@
 
             <li class="menu_item nav-link no-margin {% if '/about-us/' not in urls %} disabled {% endif %}">
                 <a href="/about-us"> 
-                    <span class="{% if '/about-us/' not in urls %} disabled-color {% endif %}">About NRSC</span> 
+                    <span class="{% if '/about-us/' not in urls %} disabled-color {% endif %}">About NRSA</span> 
                 </a>
             </li>
             
@@ -61,10 +75,11 @@
     </div>
 
     <!-- nav_menu_mobile -->
-    <div class="navigation">
+    <div class="navigation sticky">
         <nav class="nav_menu nav_menu_mobile">
+            <li class="menu_item nav-link"><a href="/">Home</a></li>
             {% if '/about-us/' in urls %}
-                <li class="menu_item nav-link"><a href="/about-us">About NRSC</a></li>
+                <li class="menu_item nav-link"><a href="/about-us">About NRSA</a></li>
             {% endif %}
             {% if '/activities/' in urls %}
                 <li class="menu_item nav-link"><a href="/activities">Activities</a></li>
