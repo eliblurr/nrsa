@@ -151,7 +151,8 @@
                     <div style="min-width: 300px; max-width: 450px;" class="column_one">
                         {% image item.function.icon original as icon %}
                         <div style="display: flex; flex-direction:row; height: max-content;">
-                            <div class="icon" src="" alt="document icon" srcset="" style="background-image: url({{icon.url}});"></div>
+                            <!-- <div class="icon" src="" alt="document icon" srcset="" style="background-image: url({{icon.url}});"></div> -->
+                            <img src="{{icon.url}}" alt="Avatar" class="icon">
                             <div class="spacing_btm_m">
                                 <h4 >{{item.function.title}}</h4>
                                 {% if item.function.subtitle %}
