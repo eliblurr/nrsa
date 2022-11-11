@@ -9,6 +9,7 @@ body {
     font-size: 16px;
     color: #707070;
     line-height: 28px;
+    transition: 0.1ms all;
 }
 
 h1, h2, h3, h4 {

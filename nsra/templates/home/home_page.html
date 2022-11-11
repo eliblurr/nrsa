@@ -341,5 +341,38 @@
 
 {% endblock content %}
 
+{% block extra_js %}
+<script>
+    var navbar = document.getElementById("navTransparentHeader");
+    var mybutton = document.getElementById("floatingButton");
+    var sticky = navbar.offsetTop;
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.display = "flex";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+    function stickyNav(){
+        $('.trans-nav-header-bg').css("background", `rgba(255, 255, 255, ${$(window).scrollTop() / 700})`)
+        console.log(window.pageYOffset, sticky)
+        if (window.pageYOffset >= sticky) {
+            $( "#navTransparentHeader" ).addClass( "sticky trans-nav-header-bg" );
+            $( "#navTransparentHeader" ).removeClass( "nav_transparent" );
+        } else {
+            $( "#navTransparentHeader" ).removeClass( "sticky trans-nav-header-bg" );
+            $( "#navTransparentHeader" ).addClass( "nav_transparent" );
+        }
+    }
+
+    window.onscroll = function () {
+        scrollFunction()
+        stickyNav()
+    };
+</script>
+{% endblock extra_js %}
+
 
 

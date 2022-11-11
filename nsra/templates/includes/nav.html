@@ -9,11 +9,31 @@
         padding-left: 0px;
         padding-right: 0px;
     }
+
+    .sticky {
+        position: fixed;
+        top: 0px;
+        z-index: 6;
+    }
+
+    @media
+        (prefers-reduced-motion: no-preference) {
+        html {
+            scroll-behavior: smooth;
+        }
+    }
+
+    .trans-nav-header-bg {
+        background: rgba(255, 255, 255, 0);
+    }
+
 </style>
 
 <!-- Main Navigation with Logo -->
 {% with urls=page.get_site.root_page.get_static_site_paths|to_list %}
-    <div class="navigation nav_transparent">
+<!-- nav_transparent -->
+<!-- sticky -->
+    <div class="navigation nav_transparent" id="navTransparentHeader">
         <nav class="nav_menu" style="margin-top: 10px;">
 
             <li class="nav-link no-margin {% if '/' not in urls %} disabled {% endif %}"><a href="/"><img src="{{ logo.url }}" class="logo"></a></li>
