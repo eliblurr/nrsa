@@ -358,7 +358,6 @@
 
     function stickyNav(){
         $('.trans-nav-header-bg').css("background", `rgba(255, 255, 255, ${$(window).scrollTop() / 700})`)
-        console.log(window.pageYOffset, sticky)
         if (window.pageYOffset >= sticky) {
             $( "#navTransparentHeader" ).addClass( "sticky trans-nav-header-bg" );
             $( "#navTransparentHeader" ).removeClass( "nav_transparent" );
