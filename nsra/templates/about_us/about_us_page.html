@@ -15,7 +15,7 @@
                 {% for loop_cycle in self.carousel_images.all %}
                     {% image loop_cycle.carousel_image original as img %}
                     <div class="carousel-item{% if forloop.counter == 1 %} active{% endif %}" style="height: 100%;" >
-                        <img src="{{ img.url }}" class="d-block w-100" alt="{{ img.alt }}" height="100%" width="100%">
+                        <img src="{{ img.url }}" class="d-block w-100" alt="{{ img.alt }}" height="100%" width="100%" style="object-fit: fill;">
                     </div>
                 {% endfor %}
             </div>
