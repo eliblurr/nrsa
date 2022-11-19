@@ -19,6 +19,7 @@
         <div style="margin-top: 40px;">
             <div style="display: grid; grid-template-columns: repeat( auto-fill, minmax(200px, 1fr) ); width: 100%; row-gap: 15px; column-gap: 10px;">
                 {% for document in documents%}
+                    {% if document.file %}
                     <div style="width: 200px; height:140px">
                         <div style="display: flex; flex-direction:row; width: 200px; height:70px;">
                             <div style="width: 30%; height:70px;">
@@ -36,6 +37,7 @@
                                 </button>
                         </div>
                     </div>
+                    {% endif %}
                 {% endfor %}
             </div> 
         </div>

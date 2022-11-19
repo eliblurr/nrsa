@@ -33,7 +33,7 @@ def get_news(request, parent, sort='descending', page=1):
             {
                 'url':obj.url,
                 'headline': obj.headline,
-                'image':  obj.main_image().get_rendition('original').url,
+                'image':  obj.main_image().get_rendition('original').url if obj.main_image() else "",
                 'date': obj.date
             } for obj in page
         ]
@@ -55,7 +55,7 @@ def get_past_events(request, parent, sort='descending', page=1):
             {
                 'url':obj.url,
                 'headline': obj.headline,
-                'image':  obj.main_image().get_rendition('original').url,
+                'image':  obj.main_image().get_rendition('original').url if obj.main_image() else "",
                 'date': obj.date_time
             } for obj in page
         ]

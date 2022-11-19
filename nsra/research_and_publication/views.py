@@ -36,7 +36,7 @@ def get_research(request, parent, category=0, sort='descending', page=1):
             {
                 'url':obj.url,
                 'headline': obj.headline,
-                'image':  obj.main_image().get_rendition('original').url,
+                'image':  obj.main_image().get_rendition('original').url if obj.main_image() else "",
             } for obj in page
         ]
     }
@@ -61,7 +61,7 @@ def get_publication(request, parent, category=0, sort='descending', page=1):
             {
                 'url':obj.url,
                 'headline': obj.headline,
-                'image':  obj.main_image().get_rendition('original').url,
+                'image':  obj.main_image().get_rendition('original').url if obj.main_image() else "",
             } for obj in page
         ]
     }
