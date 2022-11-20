@@ -114,18 +114,3 @@ class ParagraphStreamBlock(StreamBlock):
     link_block = LinkBlock()
     cta_block = CTABlock()
     block_quote = BlockQuote()
-
-    # section_background_color = ChoiceBlock(choices=[
-    #     ('', 'Select a section background color'),
-    #     ('#f5f6fa', '#f5f6fa'),
-    #     ('#dcdde1', '#dcdde1'),
-    #     ('#dfe4ea', '#dfe4ea'),
-    #     ('#ced6e0', '#ced6e0'),
-    #     ('#ecf0f1', '#ecf0f1'),
-    # ], blank=True, required=False)
-
-    # section_text_color = ChoiceBlock(choices=[
-    #     ('', 'Select a section text color'),
-    #     ('white', 'white'),
-    #     ('black', 'black'),
-    # ], blank=True, required=False)
