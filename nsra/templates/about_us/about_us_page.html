@@ -14,7 +14,7 @@
             <div class="carousel-inner" style="height: 100%;">
                 {% for loop_cycle in self.carousel_images.all %}
                     {% image loop_cycle.carousel_image original as img %}
-                    <div class="carousel-item{% if forloop.counter == 1 %} active{% endif %}" style="height: 100%;" >
+                    <div class="carousel-item{% if forloop.counter == 1 %} active{% endif %}" style="height: 100%; overflow: hidden;" >
                         <img src="{{ img.url }}" class="d-block w-100" alt="{{ img.alt }}" height="100%" width="100%" style="object-fit: fill;">
                     </div>
                 {% endfor %}
@@ -56,8 +56,8 @@
             </a>
         </div>
     {% else %}
-        <div class="hero_section" style="background-image: url({{bgimage.url}}) ;">
-            <div class="hero_content vertical_flex" style="justify-content: center; align-items: center;">
+        <div class="hero_section hero_section_height" style="background-image: url({{bgimage.url}}) ;">
+            <div class="hero_content" style="justify-content: center; align-items: center;">
                 <div>
                     {% if page.hero_title %}
                         <h1 class="hero_heading">{{page.hero_title}}</h1>
@@ -118,9 +118,10 @@
     </div> -->
 
     <!-- About Section --> 
+    <!-- <div class="section_elevation section_wrapper"> -->
     {% for block in page.body %}
         <section class="section">
-            <div class="section_one_grid">
+            <div class="section_one_grid section_elevation">
                 {% if block.block_type == 'grid' %}
                     <div class="grid-content">
                         {% for block in block.value %}
@@ -141,6 +142,7 @@
             </div>
         </section>
     {% endfor %}
+    <!-- </div> -->
 
     <!-- Mission Vision Section -->
     {% if page.mission_title or page.vision_title or page.mandate_title %}
