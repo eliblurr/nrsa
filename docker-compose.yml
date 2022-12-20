@@ -90,7 +90,7 @@ services:
       SECRET_KEY: ${SECRET_KEY:-$nsra-sdfdfnisdfkklsdfgsdflsdf983ro23lrym8xqu*&NFING*^F*#I}
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-changeme}@db/${DB_NAME:-nsra}
       # CACHE_URL: redis://redis
-      ENVIRONMENT: dev
+      ENVIRONMENT: ${ENVIRONMENT:-dev}
       # ELASTICSEARCH_ENDPOINT: ${ELASTICSEARCH_ENDPOINT:-elasticsearch}
     env_file: 
       - .env
